@@ -10,36 +10,45 @@ import javax.management.relation.Role;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-@Table(name = "users")
 @NoArgsConstructor
 
 public class User {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private UUID userId;
 
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
 
-    @OneToOne
-    @JoinColumn(name = "user_name")
+    @Column(name = "user_name")
     private String userName;
 
+    @Transient
     private String password;
 
     @Column(name = "email")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Roles> roles;
 
     @Override
     public boolean equals(Object o) {

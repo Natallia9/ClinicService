@@ -9,13 +9,13 @@ import org.example.clinicservice.entity.enums.Status;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
-
 @Entity
 @Table(name = "appointments")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "appointment_id")
@@ -32,12 +32,11 @@ public class Appointment {
     @JoinColumn(name = "patient")
     private Patient patient;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

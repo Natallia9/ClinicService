@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.entity.enums.Diagnoses;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,7 @@ public class MedicalRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "record_id")
+    @Column(name = "medical_record_id")
     private UUID recordId;
 
     @ManyToOne
@@ -28,16 +27,22 @@ public class MedicalRecord {
     @ManyToOne
     private Specialist doctor;
 
-    @Enumerated(EnumType.STRING)
-    private Diagnoses diagnoses;
+    @Column(name = "diagnoses")
+    private String diagnose;
+
+    @Column(name = "doctor_conclusion")
+    private String doctorConclusion;
 
     @Column(name = "prescription")
     private String prescription;
 
     @ElementCollection
-    @CollectionTable(name = "lab_reports", joinColumns = @JoinColumn(name = "record_id"))
-    @Column(name = "lab_report")
-    private List<String> labReports;
+    @CollectionTable(name = "medical_procedures", joinColumns = @JoinColumn(name = "record_id"))
+    @Column(name = "procedures")
+    private List<String> medicalProcedure;
+
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private List<LabReport> labReports;
 
     @Override
     public boolean equals(Object o) {

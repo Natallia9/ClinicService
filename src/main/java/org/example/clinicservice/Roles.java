@@ -10,7 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-
 @Entity
 @Table(name = "roles")
 @Getter
@@ -27,8 +26,7 @@ public class Roles {
     @Column(name = "role_name")
     private RoleName roleName;
 
-    @ManyToMany(mappedBy = "roles",
-    fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JoinTable(name = "roles_authorities",
     joinColumns = @JoinColumn(name = "role_id"),
     inverseJoinColumns = @JoinColumn(name = "authority_id"))

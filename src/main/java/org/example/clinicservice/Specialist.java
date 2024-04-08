@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.clinicservice.entity.enums.Department;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -23,19 +22,13 @@ public class Specialist {
     @Column(name = "specialist_id")
     private UUID specialistId;
 
-    @Column(name = "field")
-    private String field;
-
-    @Column(name = "qualification")
-    private String qualification;
+    @Column(name = "area_of_specialization")
+    private String areaOfSpecialization;
 
     @Column(name = "experience")
     private String experience;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date workingHours;
-
-    @Column(name = "contact_inform")
+    @Column(name = "contact_information")
     private String contactInformation;
 
     @Column(name = "availability")
@@ -50,16 +43,19 @@ public class Specialist {
     @OneToMany
     private List<Appointment> appointments;
 
+    @ManyToMany(mappedBy = "specialists")
+    private List<Patient> patients;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Specialist that = (Specialist) o;
-        return Objects.equals(specialistId, that.specialistId) && Objects.equals(field, that.field);
+        return Objects.equals(specialistId, that.specialistId) && Objects.equals(areaOfSpecialization, that.areaOfSpecialization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(specialistId, field);
+        return Objects.hash(specialistId, areaOfSpecialization);
     }
 }

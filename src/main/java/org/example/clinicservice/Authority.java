@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.util.Objects;
 import java.util.UUID;
-
 @Entity
 @Table(name = "authorities")
 @Getter
@@ -22,7 +21,6 @@ public class Authority {
 
     @Column(name = "authority")
     private String authority;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,7 +28,6 @@ public class Authority {
         Authority authority1 = (Authority) o;
         return Objects.equals(authorityId, authority1.authorityId) && Objects.equals(authority, authority1.authority);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(authorityId, authority);

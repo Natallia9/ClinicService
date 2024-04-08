@@ -1,0 +1,218 @@
+@startuml
+
+enum Department {
+    CARDIOLOGY
+    DERMATOLOGY
+    GASTROENTEROLOGY
+    NEUROLOGY
+    ORTHOPEDICS
+    PEDIATRICS
+    PSYCHIATRY
+    UROLOGY
+    ENDOCRINOLOGY
+    ONCOLOGY
+    RADIOLOGY
+    OPHTHALMOLOGY
+    OTOLARYNGOLOGY
+    INFECTIOUS_DISEASES
+    ALLERGY_AND_IMMUNOLOGY
+    HEMATOLOGY
+    PULMONOLOGY
+    RHEUMATOLOGY
+    GYNECOLOGY
+    NEPHROLOGY
+    GENERAL_SURGERY
+    PLASTIC_SURGERY
+    VASCULAR_SURGERY
+    NEUROSURGERY
+    DENTISTRY
+    ORAL_AND_MAXILLOFACIAL_SURGERY
+    PHYSICAL_THERAPY
+    OCCUPATIONAL_THERAPY
+    SPEECH_THERAPY
+    NUTRITION_AND_DIETETICS
+    PHARMACY
+    LABORATORY
+    IMAGING
+    EMERGENCY_MEDICINE
+    ANESTHESIOLOGY
+    PATHOLOGY
+    PSYCHOLOGY
+    PSYCHOTHERAPY
+    SOCIAL_WORK
+    PAIN_MANAGEMENT
+    REHABILITATION_MEDICINE
+    SPORTS_MEDICINE
+    TRAUMA_SURGERY
+    BARIATRIC_SURGERY
+    GERIATRICS
+    INTENSIVE_CARE
+    OBSTETRICS
+    FORENSIC_MEDICINE
+    REPRODUCTIVE_MEDICINE
+    RESEARCH_MEDICINE
+    COMMUNITY_HEALTH
+}
+
+enum PaymentMethod {
+    CASH
+    CARD
+    BANK_TRANSFER
+}
+
+enum RoleName {
+    SPECIALIST
+    PATIENT
+}
+
+enum ServiceName {
+    CONSULTATION
+    XRAY
+    MRI
+    BLOOD_TEST
+    ULTRASOUND
+    PHYSIOTHERAPY
+    ECG
+    VACCINATION
+    MEDICAL_MASSAGE
+    DIAGNOSTIC_COLONOSCOPY
+    ECHOCARDIOGRAPHY
+    GASTROSCOPY
+    THERAPEUTIC_HYPNOTHERAPY
+    DIAGNOSTIC_MAMMOGRAPHY
+    JOINT_ASPIRATION
+    REHABILITATION_THERAPY
+}
+
+enum Status {
+    SCHEDULED
+    CONFIRMED
+    COMPLETED
+    CANCELLED
+}
+
+enum TransactionType {
+    SERVICE_PAYMENT
+    REFUND
+}
+
+enum UserType {
+    PATIENT
+    DOCTOR
+    ADMINISTRATOR
+}
+
+entity Appointment {
+    appointmentId : UUID
+    nameAppointment : String
+    dateTime : LocalDateTime
+    status : Status
+}
+
+entity Authority {
+    authorityId : UUID
+    authority : String
+}
+
+entity FinancialTransaction {
+    id : Long
+    transactionDate : LocalDateTime
+    amount : double
+    description : String
+    paymentMethod : PaymentMethod
+    transactionType : TransactionType
+}
+
+entity LabReport {
+    reportId : UUID
+    reportName : String
+    reportContent : String
+    reportDate : LocalDateTime
+    result : String
+}
+
+entity MedicalRecord {
+    recordId : UUID
+    diagnose : String
+    doctorConclusion : String
+    prescription : String
+    medicalProcedure : List<String>
+}
+
+entity PaidService {
+    serviceId : UUID
+    serviceName : ServiceName
+    price : double
+}
+
+entity Patient {
+    patientId : UUID
+    phoneNumber : String
+    age : String
+    sex : String
+    address : String
+    emerg : String
+}
+
+entity PatientVisitHistory {
+    visitId : UUID
+    visitType : String
+    patientCondition : String
+    visitDateTime : LocalDateTime
+    purpose : String
+}
+
+entity Roles {
+    roleId : UUID
+    roleName : RoleName
+}
+
+entity Schedule {
+    id : Long
+    startTime : LocalTime
+    endTime : LocalTime
+}
+
+entity Specialist {
+    specialistId : UUID
+    areaOfSpecialization : String
+    experience : String
+    contactInformation : String
+    availability : boolean
+    languagesSpoken : String
+}
+
+entity SystemOwner {
+    ownerId : UUID
+    firstName : String
+    lastName : String
+    email : String
+    phoneNumber : String
+}
+
+entity User {
+    userId : UUID
+    lastName : String
+    firstName : String
+    userName : String
+    email : String
+    userType : UserType
+}
+
+User --|> Specialist
+User --|> Patient
+User --|> SystemOwner
+Appointment --|> Specialist
+Appointment --|> Patient
+FinancialTransaction --|> Patient
+LabReport --|> MedicalRecord
+MedicalRecord --|> Patient
+MedicalRecord --|> Specialist
+PaidService --|> Patient
+PatientVisitHistory --|> Patient
+PatientVisitHistory --|> Specialist
+Roles --|> Authority
+Roles --|> User
+Schedule --|> Specialist
+
+@enduml

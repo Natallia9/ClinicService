@@ -36,6 +36,14 @@ public class Patient {
     @Column(name = "emergency_contact")
     private String emerg;
 
+    @ManyToMany
+    @JoinTable(
+            name = "patient_specialist",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialist_id")
+    )
+    private List<Specialist> specialists;
+
     @OneToMany(mappedBy = "patient")
     private List<MedicalRecord> medicalRecords;
 

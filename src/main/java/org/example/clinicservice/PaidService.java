@@ -4,36 +4,36 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.clinicservice.entity.enums.ServiceName;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 @Entity
-@Table(name = "patients_repository")
+@Table(name = "paid_services")
 @Getter
 @Setter
 @NoArgsConstructor
-public class PatientsRepository {
-
+public class PaidService extends Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "repository_id")
-    private UUID repositoryId;
+    @Column(name = "service_id")
+    private UUID serviceId;
 
-    @ManyToMany(mappedBy = "patient_repository")
-    private List<Patient> patients;
+    @Enumerated(EnumType.STRING)
+    private ServiceName serviceName;
+
+    @Column(name = "price")
+    private double price;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PatientsRepository that = (PatientsRepository) o;
-        return Objects.equals(repositoryId, that.repositoryId);
+        PaidService that = (PaidService) o;
+        return Objects.equals(serviceId, that.serviceId) && serviceName == that.serviceName;
     }
-
     @Override
     public int hashCode() {
-        return Objects.hash(repositoryId);
+        return Objects.hash(serviceId, serviceName);
     }
 }

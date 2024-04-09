@@ -12,7 +12,16 @@ spring:
     hibernate:
       ddl-auto: none
 
-  liquibase:
-    change-log: classpath:/db/changelog/schema.sql
+
+  sql:
+    init:
+      data-locations:
+        classpath: db/changelog/data.sql
+      schema-locations:
+        classpath: db/changelog/schema.sql
+      mode: always
+
+
+
 
 

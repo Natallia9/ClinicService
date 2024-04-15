@@ -1,11 +1,10 @@
-package org.example.clinicservice;
+package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.entity.enums.RoleName;
-import org.hibernate.annotations.GenericGenerator;
+import org.example.clinicservice.enums.RoleName;
 
 import java.util.Objects;
 import java.util.Set;

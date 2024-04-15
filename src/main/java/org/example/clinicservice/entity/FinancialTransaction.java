@@ -1,11 +1,11 @@
-package org.example.clinicservice;
+package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.entity.enums.PaymentMethod;
-import org.example.clinicservice.entity.enums.TransactionType;
+import org.example.clinicservice.enums.PaymentMethod;
+import org.example.clinicservice.enums.TransactionType;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

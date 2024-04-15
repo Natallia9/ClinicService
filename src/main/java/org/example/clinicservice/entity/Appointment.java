@@ -1,10 +1,10 @@
-package org.example.clinicservice;
+package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.entity.enums.Status;
+import org.example.clinicservice.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

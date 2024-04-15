@@ -1,4 +1,4 @@
-package org.example.clinicservice;
+package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

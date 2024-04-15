@@ -1,11 +1,11 @@
-package org.example.clinicservice;
+package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.entity.enums.Department;
-import java.util.Date;
+import org.example.clinicservice.enums.Department;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

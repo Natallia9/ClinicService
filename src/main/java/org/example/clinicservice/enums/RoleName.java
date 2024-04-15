@@ -1,4 +1,4 @@
-package org.example.clinicservice.entity.enums;
+package org.example.clinicservice.enums;
 
 public enum RoleName {
     SPECIALIST,

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PaidService extends Patient {
+public class PaidService {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "service_id")
@@ -24,6 +24,10 @@ public class PaidService extends Patient {
 
     @Column(name = "price")
     private double price;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
     @Override
     public boolean equals(Object o) {

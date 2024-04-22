@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,14 +18,20 @@ import java.util.UUID;
 public class MedicalRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "medical_record_id")
     private UUID recordId;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Specialist doctor;
 
     @Column(name = "diagnoses")
@@ -43,7 +50,6 @@ public class MedicalRecord {
 
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     private List<LabReport> labReports;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

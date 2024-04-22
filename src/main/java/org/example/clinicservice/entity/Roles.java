@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.enums.RoleName;
+import org.example.clinicservice.entity.enums.RoleName;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+
 @Entity
 @Table(name = "roles")
 @Getter
@@ -17,7 +19,11 @@ import java.util.UUID;
 public class Roles {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "role_id")
     private UUID roleId;
 
@@ -26,9 +32,6 @@ public class Roles {
     private RoleName roleName;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    @JoinTable(name = "roles_authorities",
-    joinColumns = @JoinColumn(name = "role_id"),
-    inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities;
 
     @ManyToMany(mappedBy = "roles")
@@ -47,3 +50,4 @@ public class Roles {
         return Objects.hash(roleId, roleName);
     }
 }
+

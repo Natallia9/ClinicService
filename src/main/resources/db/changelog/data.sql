@@ -18,7 +18,7 @@ VALUES
     ('14cd67fc-0873-424d-946f-f513d5efeeb8', '+3456789123', '42', 'Male', '789 Elm Street, City, Country', 'Emergency Contact Name: Sarah Johnson, Phone: +2345678912')
     ON DUPLICATE KEY UPDATE phone_number = VALUES(phone_number), age = VALUES(age), sex = VALUES(sex), address = VALUES(address), emergency_contact = VALUES(emergency_contact);
 
-INSERT INTO system_owner (owner_id, first_name, last_name, email, phone_number)
+INSERT IGNORE INTO system_owner (owner_id, first_name, last_name, email, phone_number)
 VALUES
     ('0d41e87e-8a9c-4b56-bd16-89c58349175a', 'John', 'Doe', 'john.doe@example.com', '+1234567890');
 
@@ -26,35 +26,44 @@ INSERT INTO authorities (authority_id, authority)
 VALUES
     ('8f8b1254-dcb9-4e91-b0d5-19e9151d0b3e', 'SPECIALIST'),
     ('caeb2d32-eeb2-4c65-91a0-6273e7bb49a5', 'PATIENT'),
-    ('bd3b14bf-9496-4d81-9fc3-c8e61fb6ed58', 'SPECIALIST');
+    ('bd3b14bf-9496-4d81-9fc3-c8e61fb6ed58', 'SPECIALIST')
+ON DUPLICATE KEY UPDATE authority_id = authority_id;
 
 INSERT INTO roles (role_id, role_name)
 VALUES
     ('ff35e180-819f-4b45-9b6b-0624e60ac208', 'SPECIALIST'),
-    ('c3d3c59f-0c5e-48b1-a5c7-1e72fc0d1b6a', 'PATIENT');
+    ('c3d3c59f-0c5e-48b1-a5c7-1e72fc0d1b6a', 'PATIENT')
+    ON DUPLICATE KEY UPDATE role_id = role_id;
 
 INSERT INTO appointments (appointment_id, name_of_the_doctors_appointment, specialist, patient, date_time, status)
 VALUES
     ('3d257a9a-132c-4263-8eb4-06f84a8622e9', 'Checkup', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', '26d017dc-7eae-47e2-bad7-65bb6a91819d', '2024-04-09 10:00:00', 'SCHEDULED'),
     ('598d6e20-38d0-438f-9f0b-5a8c12fbf87e', 'Consultation', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '2024-04-10 14:30:00', 'CONFIRMED'),
-    ('5d4dbf61-72e5-44fb-95f7-027b39b8dd4d', 'Follow-up', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', '14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 11:00:00', 'COMPLETED');
+    ('5d4dbf61-72e5-44fb-95f7-027b39b8dd4d', 'Follow-up', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', '14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 11:00:00', 'COMPLETED')
+    ON DUPLICATE KEY UPDATE appointment_id = appointment_id;
 
 INSERT INTO lab_reports (report_id, report_name, report_content, report_date, results)
 VALUES
     ('1f3d4a63-6f15-4a02-b6b6-7b17fc9b89cc', 'BLOOD_TEST', 'Hematology report for patient X.', '2024-04-09 09:00:00', 'Normal'),
     ('ab68583f-6b0f-4f87-8a86-c3db19cbf20a', 'MRI', 'MRI imaging report for patient Y.', '2024-04-10 13:30:00', 'No abnormalities detected'),
-    ('7b75cfdf-6283-4b6f-982f-8a21dfab12bc', 'XRAY', 'X-ray report for patient Z.', '2024-04-11 10:45:00', 'Fracture detected');
+    ('7b75cfdf-6283-4b6f-982f-8a21dfab12bc', 'XRAY', 'X-ray report for patient Z.', '2024-04-11 10:45:00', 'Fracture detected')
+    ON DUPLICATE KEY UPDATE report_id = report_id;
 
-INSERT INTO financial_transactions (patient_id, transaction_date, amount, description, payment_method, transaction_type)
+INSERT INTO financial_transactions (transaction_id, patient_id, transaction_date, amount, description, payment_method, transaction_type)
 VALUES
-    ('26d017dc-7eae-47e2-bad7-65bb6a91819d', '2024-04-09 10:15:00', 150.00, 'Consultation fee', 'CARD', 'SERVICE_PAYMENT'),
-    ('32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '2024-04-10 15:00:00', 200.00, 'MRI Scan payment', 'CASH', 'SERVICE_PAYMENT'),
-    ('14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 12:30:00', 100.00, 'Blood Test payment', 'BANK_TRANSFER', 'SERVICE_PAYMENT');
+    ('26d017dc-7eae-47e2-bad7-65bb6a91819d', '26d017dc-7eae-47e2-bad7-65bb6a91819d', '2024-04-09 10:15:00', 150.00, 'Consultation fee', 'CARD', 'SERVICE_PAYMENT'),
+    ('32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '2024-04-10 15:00:00', 200.00, 'MRI Scan payment', 'CASH', 'SERVICE_PAYMENT'),
+    ('14cd67fc-0873-424d-946f-f513c5efeeb9', '14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 12:30:00', 100.00, 'Blood Test payment', 'BANK_TRANSFER', 'SERVICE_PAYMENT')
+    ON DUPLICATE KEY UPDATE
+                         transaction_id = transaction_id;
 
-INSERT INTO medical_records (medical_record_id, patient_id, doctor_id, diagnoses, doctor_conclusion, prescription, medical_procedures) VALUES
-                                                                                                                                           ('3e1f1f59-24ff-4b53-a8dc-635f2ed1f7e9', '26d017dc-7eae-47e2-bad7-65bb6a91819d', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', 'Hypertension', 'Stable condition, continue medication and monitor blood pressure regularly.', 'Medication A, 1 tablet daily', 'Blood Pressure Measurement'),
-                                                                                                                                           ('89cbf2a2-c4d2-45de-859b-0b7e3df31769', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', 'Dermatitis', 'Improvement noted, continue treatment as prescribed.', 'Topical cream B, apply twice daily', 'Skin Examination'),
-                                                                                                                                           ('d3c34d89-1293-421d-b587-f5a7c2e0cf49', '14cd67fc-0873-424d-946f-f513c5efeeb9', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', 'Fractured Arm', 'Healing progressing well, follow up in 2 weeks for re-evaluation.', 'Rest and immobilization, pain medication as needed', 'X-ray Examination');
+
+
+INSERT INTO medical_records (medical_record_id, patient_id, doctor_id, diagnoses, doctor_conclusion, prescription, medical_procedures)
+VALUES
+    ('3e1f1f59-24ff-4b53-a8dc-635f2ed1f7e9', '26d017dc-7eae-47e2-bad7-65bb6a91819d', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', 'Hypertension', 'Stable condition, continue medication and monitor blood pressure regularly.', 'Medication A, 1 tablet daily', 'Blood Pressure Measurement'),
+    ('89cbf2a2-c4d2-45de-859b-0b7e3df31769', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', 'Dermatitis', 'Improvement noted, continue treatment as prescribed.', 'Topical cream B, apply twice daily', 'Skin Examination'),
+    ('d3c34d89-1293-421d-b587-f5a7c2e0cf49', '14cd67fc-0873-424d-946f-f513c5efeeb9', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', 'Fractured Arm', 'Healing progressing well, follow up in 2 weeks for re-evaluation.', 'Rest and immobilization, pain medication as needed', 'X-ray Examination');
 
 INSERT INTO paid_services (service_id, service_name, price)
 VALUES

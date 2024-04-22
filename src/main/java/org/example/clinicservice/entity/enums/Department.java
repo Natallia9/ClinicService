@@ -1,4 +1,4 @@
-package org.example.clinicservice.enums;
+package org.example.clinicservice.entity.enums;
 
 public enum Department {
     CARDIOLOGY,
@@ -52,5 +52,4 @@ public enum Department {
     REPRODUCTIVE_MEDICINE,
     RESEARCH_MEDICINE,
     COMMUNITY_HEALTH
-
 }

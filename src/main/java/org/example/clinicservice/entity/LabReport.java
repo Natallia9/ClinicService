@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,7 +18,11 @@ import java.util.UUID;
 public class LabReport {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "report_id")
     private UUID reportId;
 
@@ -33,6 +38,10 @@ public class LabReport {
 
     @Column(name = "result")
     private String results;
+
+    @ManyToOne
+    @JoinColumn(name = "medical_record_id")
+    private MedicalRecord medicalRecord;
 
     @Override
     public boolean equals(Object o) {

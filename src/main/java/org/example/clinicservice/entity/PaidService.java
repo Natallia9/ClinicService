@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.enums.ServiceName;
+import org.example.clinicservice.entity.enums.ServiceName;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +16,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PaidService {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "service_id")
     private UUID serviceId;
 

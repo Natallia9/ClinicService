@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.enums.Status;
+import org.example.clinicservice.entity.enums.Status;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,19 +18,23 @@ import java.util.UUID;
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "appointment_id")
     private UUID appointmentId;
 
     @Column(name = "name_of_the_doctor's_appointment")
     private String nameAppointment;
 
-    @OneToOne
-    @JoinColumn(name = "specialist")
+    @ManyToOne
+    @JoinColumn(name = "specialist_id")
     private Specialist specialist;
 
-    @OneToOne
-    @JoinColumn(name = "patient")
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @Column(name = "date_time")

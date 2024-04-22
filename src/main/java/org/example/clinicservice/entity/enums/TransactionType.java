@@ -1,4 +1,4 @@
-package org.example.clinicservice.enums;
+package org.example.clinicservice.entity.enums;
 
 public enum TransactionType {
     SERVICE_PAYMENT,

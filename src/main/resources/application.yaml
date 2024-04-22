@@ -14,12 +14,39 @@ spring:
         ddl-auto: none
         temp:
           use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.MySQLDialect
 
   sql:
     init:
       schema-locations: classpath:db/changelog/schema.sql
-      data-locations: classpath:db/changelog/data.sql
-      mode: always
+      mode: embedded
+
+
+
+
+
+#spring:
+#  main:
+#    banner-mode: off
+#
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/clinic_service
+#    username: root
+#    password: Natka-19923
+#
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        ddl-auto: none
+#        temp:
+#          use_jdbc_metadata_defaults: false
+#
+#  sql:
+#    init:
+#      schema-locations: classpath:db/changelog/schema.sql
+#      data-locations: classpath:db/changelog/data.sql
+#      mode: always
 
 
 

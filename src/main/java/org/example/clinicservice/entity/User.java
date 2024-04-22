@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.clinicservice.enums.UserType;
+import org.example.clinicservice.entity.enums.UserType;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 import java.util.Set;
@@ -18,7 +19,11 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(name = "user_id")
     private UUID userId;
 
@@ -31,7 +36,7 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @Transient
+    @Column(name = "password")
     private String password;
 
     @Column(name = "email")
@@ -40,7 +45,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -41,7 +41,7 @@ public class Patient {
     @Column(name = "emergency_contact")
     private String emerg;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "patient_specialist",
             joinColumns = @JoinColumn(name = "patient_id"),
@@ -49,7 +49,9 @@ public class Patient {
     )
     private List<Specialist> specialists;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = MedicalRecord.class)
     private List<MedicalRecord> medicalRecords;
 
     @Override

@@ -26,11 +26,11 @@ public class MedicalRecord {
     @Column(name = "medical_record_id")
     private UUID recordId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private Specialist doctor;
 
@@ -49,6 +49,7 @@ public class MedicalRecord {
     private List<String> medicalProcedure;
 
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    @Column(name = "lab_reports")
     private List<LabReport> labReports;
     @Override
     public boolean equals(Object o) {

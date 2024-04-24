@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "schedules")
@@ -25,9 +26,9 @@ public class Schedule {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "schedule_id")
-    private Long id;
+    private UUID scheduleId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private Specialist doctor;
 
@@ -48,11 +49,11 @@ public class Schedule {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Schedule schedule = (Schedule) o;
-        return Objects.equals(id, schedule.id);
+        return Objects.equals(scheduleId, schedule.scheduleId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(scheduleId);
     }
 }

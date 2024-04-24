@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "financial_transactions")
@@ -25,9 +26,9 @@ public class FinancialTransaction {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "transaction_id")
-    private Long id;
+    private UUID transactionId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
@@ -53,11 +54,11 @@ public class FinancialTransaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FinancialTransaction that = (FinancialTransaction) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(transactionId, that.transactionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(transactionId);
     }
 }

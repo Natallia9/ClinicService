@@ -7,9 +7,8 @@ import lombok.Setter;
 import org.example.clinicservice.entity.enums.UserType;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -43,6 +42,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
     private UserType userType;
 
     @ManyToMany
@@ -51,7 +51,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Roles> roles;
+    private Set<Roles> roles = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

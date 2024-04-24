@@ -26,11 +26,11 @@ public class PatientVisitHistory {
     @Column(name = "visit_id")
     private UUID visitId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_id")
     private Specialist specialist;
 
@@ -47,7 +47,7 @@ public class PatientVisitHistory {
     @Column(name = "purpose")
     private String purpose;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 

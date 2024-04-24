@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.example.clinicservice.entity.enums.RoleName;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -32,10 +33,10 @@ public class Roles {
     private RoleName roleName;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

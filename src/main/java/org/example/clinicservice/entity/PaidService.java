@@ -25,12 +25,13 @@ public class PaidService {
     private UUID serviceId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "service_name")
     private ServiceName serviceName;
 
     @Column(name = "price")
     private double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 

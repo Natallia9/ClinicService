@@ -105,6 +105,8 @@ enum UserType {
 entity Appointment {
     appointmentId : UUID
     nameAppointment : String
+    specialist : Specialist
+    patient: Patient
     dateTime : LocalDateTime
     status : Status
 }
@@ -112,10 +114,12 @@ entity Appointment {
 entity Authority {
     authorityId : UUID
     authority : String
+    roles : Set<Roles>
 }
 
 entity FinancialTransaction {
-    id : Long
+    transactionId : Long
+    patient: Patient
     transactionDate : LocalDateTime
     amount : double
     description : String
@@ -133,16 +137,20 @@ entity LabReport {
 
 entity MedicalRecord {
     recordId : UUID
+    patient : Patient
+    doctor : Specialist
     diagnose : String
     doctorConclusion : String
     prescription : String
     medicalProcedure : List<String>
+    labReports : List<LabReport>
 }
 
 entity PaidService {
     serviceId : UUID
     serviceName : ServiceName
     price : double
+    patient : Patient
 }
 
 entity Patient {
@@ -152,23 +160,32 @@ entity Patient {
     sex : String
     address : String
     emerg : String
+    specialists : List<Specialist>
+    medicalRecords : List<MedicalRecord>
 }
 
 entity PatientVisitHistory {
     visitId : UUID
+    patient : Patient
+    specialist : Specialist
     visitType : String
     patientCondition : String
     visitDateTime : LocalDateTime
     purpose : String
+
 }
 
 entity Roles {
     roleId : UUID
     roleName : RoleName
+    authorities : Set<Authority>
+    users : Set<User>
 }
 
 entity Schedule {
     id : Long
+    doctor : Specialist
+    workingDays : List<DayOfWeek>
     startTime : LocalTime
     endTime : LocalTime
 }
@@ -180,6 +197,9 @@ entity Specialist {
     contactInformation : String
     availability : boolean
     languagesSpoken : String
+    department : Department
+    appointments : List<Appointment>
+    patients : List<Patient>
 }
 
 entity SystemOwner {
@@ -197,6 +217,7 @@ entity User {
     userName : String
     email : String
     userType : UserType
+    roles : Set<Roles>
 }
 
 User --|> Specialist

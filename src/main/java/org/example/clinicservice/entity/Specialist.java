@@ -43,9 +43,10 @@ public class Specialist {
     private String languagesSpoken;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "department")
     private Department department;
 
-    @OneToMany
+    @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointments;
 
     @ManyToMany(mappedBy = "specialists")

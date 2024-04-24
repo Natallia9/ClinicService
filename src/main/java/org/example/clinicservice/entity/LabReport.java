@@ -39,7 +39,7 @@ public class LabReport {
     @Column(name = "result")
     private String results;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 

@@ -26,14 +26,14 @@ public class Appointment {
     @Column(name = "appointment_id")
     private UUID appointmentId;
 
-    @Column(name = "name_of_the_doctor's_appointment")
+    @Column(name = "name_of_the_doctor_appointment")
     private String nameAppointment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_id")
     private Specialist specialist;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
@@ -41,6 +41,7 @@ public class Appointment {
     private LocalDateTime dateTime;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private Status status;
     @Override
     public boolean equals(Object o) {

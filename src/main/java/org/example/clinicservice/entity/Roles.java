@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +33,11 @@ public class Roles {
     @Column(name = "role_name")
     private RoleName roleName;
 
+    @JsonManagedReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<Authority> authorities = new HashSet<>();
 
+    @JsonManagedReference
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 

@@ -1,103 +1,152 @@
 
 INSERT INTO users (user_id, last_name, first_name, user_name, password, email, user_type)
 VALUES
-    ('e7dc2086-af0f-4e8b-b314-7fa5a26c1c3z', 'Smith', 'John', 'johnsmith', 'password123', 'john.smith@example.com', 'PATIENT'),
-    ('5a9cbef5-fbe3-4872-9bb1-42b1ae64a4dd', 'Johnson', 'Emma', 'emma.johnson', 'pass123', 'emma.johnson@example.com', 'DOCTOR'),
-    ('2d522e2a-57e2-42b1-82f3-f8ae84d0b9c8', 'Williams', 'Michael', 'michael.williams', 'securepass', 'michael.williams@example.com', 'ADMINISTRATOR')
-    ON DUPLICATE KEY UPDATE user_id = user_id;
-INSERT INTO specialists (specialist_id, area_of_specialization, experience, contact_information, availability, languages, department)
-VALUES
-    ('b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', 'CARDIOLOGY', '10 years', 'Dr. John Doe, Cardiologist, Heart Clinic, 123 Main Street, City, Country', true, 'English, Spanish', 'CARDIOLOGY'),
-    ('abf05e65-b495-4e92-83ab-0433f3d69bd5', 'DERMATOLOGY', '8 years', 'Dr. Jane Smith, Dermatologist, Skin Care Clinic, 456 Oak Avenue, City, Country', true, 'English, French', 'DERMATOLOGY'),
-    ('03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', 'NEUROLOGY', '15 years', 'Dr. David Lee, Neurologist, Brain Center, 789 Elm Street, City, Country', true, 'English, Chinese', 'NEUROLOGY')
-    ON DUPLICATE KEY UPDATE specialist_id = specialist_id;
-INSERT INTO patients (patient_id, phone_number, age, sex, address, emergency_contact)
-VALUES
-    ('26d017dc-7eae-47e2-bad7-65bс6a91819q', '+1234567890', '35', 'Male', '123 Main Street, City, Country', 'Emergency Contact Name: Jane Doe, Phone: +9876543210'),
-    ('32b46e17-0f23-4e3f-8e3b-efif172ed3bx', '+1987654321', '28', 'Female', '456 Oak Avenue, City, Country', 'Emergency Contact Name: John Smith, Phone: +1234567890'),
-    ('14cd67fc-0873-424d-946f-f513d5efeeb8', '+3456789123', '42', 'Male', '789 Elm Street, City, Country', 'Emergency Contact Name: Sarah Johnson, Phone: +2345678912')
-    ON DUPLICATE KEY UPDATE phone_number = VALUES(phone_number), age = VALUES(age), sex = VALUES(sex), address = VALUES(address), emergency_contact = VALUES(emergency_contact);
+    (UNHEX('01'), 'Smith', 'John', 'jsmith', 'password123', 'jsmith@example.com', 'PATIENT'),
+    (UNHEX('02'), 'Johnson', 'Alice', 'ajohnson', 'secure456', 'ajohnson@example.com', 'DOCTOR'),
+    (UNHEX('03'), 'Williams', 'David', 'dwill', 'adm!nPwd', 'dwill@example.com', 'ADMINISTRATOR'),
+    (UNHEX('04'), 'Garcia', 'Maria', 'mgarcia', 'pass123', 'mgarcia@example.com', 'PATIENT');
 
-INSERT IGNORE INTO system_owner (owner_id, first_name, last_name, email, phone_number)
-VALUES
-    ('0d41e87e-8a9c-4b56-bd16-89c58349175a', 'John', 'Doe', 'john.doe@example.com', '+1234567890');
-
-INSERT INTO authorities (authority_id, authority)
-VALUES
-    ('8f8b1254-dcb9-4e91-b0d5-19e9151d0b3e', 'SPECIALIST'),
-    ('caeb2d32-eeb2-4c65-91a0-6273e7bb49a5', 'PATIENT'),
-    ('bd3b14bf-9496-4d81-9fc3-c8e61fb6ed58', 'SPECIALIST')
-ON DUPLICATE KEY UPDATE authority_id = authority_id;
-
-INSERT INTO roles (role_id, role_name)
-VALUES
-    ('ff35e180-819f-4b45-9b6b-0624e60ac208', 'SPECIALIST'),
-    ('c3d3c59f-0c5e-48b1-a5c7-1e72fc0d1b6a', 'PATIENT')
-    ON DUPLICATE KEY UPDATE role_id = role_id;
-
-INSERT INTO appointments (appointment_id, name_of_the_doctors_appointment, specialist, patient, date_time, status)
-VALUES
-    ('3d257a9a-132c-4263-8eb4-06f84a8622e9', 'Checkup', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', '26d017dc-7eae-47e2-bad7-65bb6a91819d', '2024-04-09 10:00:00', 'SCHEDULED'),
-    ('598d6e20-38d0-438f-9f0b-5a8c12fbf87e', 'Consultation', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '2024-04-10 14:30:00', 'CONFIRMED'),
-    ('5d4dbf61-72e5-44fb-95f7-027b39b8dd4d', 'Follow-up', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', '14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 11:00:00', 'COMPLETED')
-    ON DUPLICATE KEY UPDATE appointment_id = appointment_id;
-
-INSERT INTO lab_reports (report_id, report_name, report_content, report_date, results)
-VALUES
-    ('1f3d4a63-6f15-4a02-b6b6-7b17fc9b89cc', 'BLOOD_TEST', 'Hematology report for patient X.', '2024-04-09 09:00:00', 'Normal'),
-    ('ab68583f-6b0f-4f87-8a86-c3db19cbf20a', 'MRI', 'MRI imaging report for patient Y.', '2024-04-10 13:30:00', 'No abnormalities detected'),
-    ('7b75cfdf-6283-4b6f-982f-8a21dfab12bc', 'XRAY', 'X-ray report for patient Z.', '2024-04-11 10:45:00', 'Fracture detected')
-    ON DUPLICATE KEY UPDATE report_id = report_id;
-
-INSERT INTO financial_transactions (transaction_id, patient_id, transaction_date, amount, description, payment_method, transaction_type)
-VALUES
-    ('26d017dc-7eae-47e2-bad7-65bb6a91819d', '26d017dc-7eae-47e2-bad7-65bb6a91819d', '2024-04-09 10:15:00', 150.00, 'Consultation fee', 'CARD', 'SERVICE_PAYMENT'),
-    ('32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', '2024-04-10 15:00:00', 200.00, 'MRI Scan payment', 'CASH', 'SERVICE_PAYMENT'),
-    ('14cd67fc-0873-424d-946f-f513c5efeeb9', '14cd67fc-0873-424d-946f-f513c5efeeb9', '2024-04-11 12:30:00', 100.00, 'Blood Test payment', 'BANK_TRANSFER', 'SERVICE_PAYMENT')
-    ON DUPLICATE KEY UPDATE
-                         transaction_id = transaction_id;
-
-
-
-INSERT INTO medical_records (medical_record_id, patient_id, doctor_id, diagnoses, doctor_conclusion, prescription, medical_procedures)
-VALUES
-    ('3e1f1f59-24ff-4b53-a8dc-635f2ed1f7e9', '26d017dc-7eae-47e2-bad7-65bb6a91819d', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', 'Hypertension', 'Stable condition, continue medication and monitor blood pressure regularly.', 'Medication A, 1 tablet daily', 'Blood Pressure Measurement'),
-    ('89cbf2a2-c4d2-45de-859b-0b7e3df31769', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', 'Dermatitis', 'Improvement noted, continue treatment as prescribed.', 'Topical cream B, apply twice daily', 'Skin Examination'),
-    ('d3c34d89-1293-421d-b587-f5a7c2e0cf49', '14cd67fc-0873-424d-946f-f513c5efeeb9', '03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', 'Fractured Arm', 'Healing progressing well, follow up in 2 weeks for re-evaluation.', 'Rest and immobilization, pain medication as needed', 'X-ray Examination');
-
-INSERT INTO paid_services (service_id, service_name, price)
-VALUES
-    ('16a0ae15-ef94-434d-8a90-1566d7ed1ed8', 'Consultation', 100.00),
-    ('a5745b0a-6c08-4f7a-8947-9c0890380188', 'X-ray', 50.00),
-    ('1ef7618b-9399-4574-aac0-5b45027b0fb0', 'MRI Scan', 200.00);
-
-INSERT INTO patient_visits (visit_id, patient_id, specialist_id, visit_type, patient_condition, visit_date_time, purpose, medical_record_id)
-VALUES
-    ('2a5b5246-4f3f-47b3-ba02-92187f23e358', '26d017dc-7eae-47e2-bad7-65bb6a91819d', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', 'Follow-up', 'Stable', '2024-04-09 11:30:00', 'Medication adjustment', '3e1f1f59-24ff-4b53-a8dc-635f2ed1f7e9'),
-    ('f2f06b9d-ebbc-41d7-936a-83e0013d0f92', '32b46e17-0f23-4e3f-8e3b-efef172ed3bc', 'abf05e65-b495-4e92-83ab-0433f3d69bd5', 'Initial Consultation', 'Dermatitis symptoms', '2024-04-10 14:00:00', 'Diagnosis and treatment plan', '89cbf2a2-c4d2-45de-859b-0b7e3df31769');
-
-INSERT INTO schedules (doctor_id, working_days, start_time, end_time)
-VALUES
-    ('b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb', ARRAY['MONDAY', 'WEDNESDAY', 'FRIDAY'], '09:00:00', '17:00:00'),
-    ('abf05e65-b495-4e92-83ab-0433f3d69bd5', ARRAY['TUESDAY', 'THURSDAY'], '10:00:00', '18:00:00'),
-    ('03ecf5b3-6610-453e-8b4e-6d7b8edbb66d', ARRAY['MONDAY', 'WEDNESDAY', 'FRIDAY'], '08:30:00', '16:30:00');
-
-INSERT INTO patient_specialist (patient_id, specialist_id)
-VALUES
-    ('26d017dc-7eae-47e2-bad7-65bb6a91819d', 'b66b6df1-0641-4ff1-b0d4-6e1c8f7b95eb'),
-    ('32b46e17-0f23-4e3f-8e3b-efef172ed3bc', 'abf05e65-b495-4e92-83ab-0433f3d69bd5');
-
-INSERT INTO roles_authorities (role_id, authority_id)
-VALUES
-    ('ff35e180-819f-4b45-9b6b-0624e60ac208', '8f8b1254-dcb9-4e91-b0d5-19e9151d0b2e'),
-    ('c3d3c59f-0c5e-48b1-a5c7-1e72fc0d1b6a', 'caeb2d32-eeb2-4c65-91a0-6273e7bb47a5');
 
 INSERT INTO user_roles (user_id, role_id)
 VALUES
-    ('e7dc2086-af0f-4e8b-b314-7fa5a26c1c3r', 'ff35e180-819f-4b45-9b6b-0624e60ac208'),
-    ('5a9cbef5-fbe3-4872-9bb1-42b1ae64a4db', 'c3d3c59f-0c5e-48b1-a5c7-1e72fc0d1b6a');
+    (UNHEX('01'), UNHEX('101')),
+    (UNHEX('02'), UNHEX('102')),
+    (UNHEX('03'), UNHEX('103')),
+    (UNHEX('04'), UNHEX('101'));
 
-COMMIT;
+INSERT INTO specialists (specialist_id, area_of_specialization, experience, contact_information, availability, languages, department)
+VALUES
+    (UNHEX('101'), 'Cardiac Electrophysiology', '10 years', 'Dr. James Doe, Cardiology Center, 123 Main St, City', TRUE, 'English, Spanish', 'CARDIOLOGY'),
+    (UNHEX('102'), 'Pediatric Dermatology', '8 years', 'Dr. Sarah Johnson, Dermatology Clinic, 456 Oak St, Town', TRUE, 'English', 'DERMATOLOGY'),
+    (UNHEX('103'), 'Gastrointestinal Endoscopy', '15 years', 'Dr. Michael Williams, Gastroenterology Clinic, 789 Elm St, Village', TRUE, 'English, French', 'GASTROENTEROLOGY'),
+    (UNHEX('104'), 'Neurocritical Care', '12 years', 'Dr. Emily Brown, Neurology Center, 321 Pine St, City', TRUE, 'English', 'NEUROLOGY'),
+    (UNHEX('105'), 'Orthopedic Surgery', '20 years', 'Dr. David Garcia, Orthopedics Hospital, 567 Maple St, Town', TRUE, 'English, Spanish', 'ORTHOPEDICS');
+
+INSERT INTO patients (patient_id, phone_number, age, sex, address, emergency_contact)
+VALUES
+    (UNHEX('201'), '123-456-7890', '35', 'Male', '123 Main St, City', 'Jane Doe (sister) - 987-654-3210'),
+    (UNHEX('202'), '234-567-8901', '28', 'Female', '456 Oak St, Town', 'John Smith (friend) - 567-890-1234'),
+    (UNHEX('203'), '345-678-9012', '42', 'Male', '789 Elm St, Village', 'Mary Johnson (spouse) - 789-012-3456'),
+    (UNHEX('204'), '456-789-0123', '50', 'Female', '321 Pine St, City', 'David Williams (neighbor) - 890-123-4567'),
+    (UNHEX('205'), '567-890-1234', '20', 'Male', '567 Maple St, Town', 'Sarah Garcia (cousin) - 901-234-5678');
+
+INSERT INTO system_owner (owner_id, first_name, last_name, email, phone_number)
+VALUES
+    (UNHEX('301'), 'John', 'Doe', 'johndoe@example.com', '123-456-7890'),
+    (UNHEX('302'), 'Alice', 'Johnson', 'alicejohnson@example.com', '234-567-8901'),
+    (UNHEX('303'), 'Michael', 'Williams', 'michaelwilliams@example.com', '345-678-9012');
+
+INSERT INTO authorities (authority_id, authority)
+VALUES
+    (UNHEX('401'), 'ROLE_PATIENT'),
+    (UNHEX('402'), 'ROLE_DOCTOR'),
+    (UNHEX('403'), 'ROLE_ADMINISTRATOR');
+
+INSERT INTO roles_authorities (authority_id, role_id)
+VALUES
+    (UNHEX('401'), UNHEX('101')),  -- ROLE_PATIENT <-> Patient role
+    (UNHEX('402'), UNHEX('102')),  -- ROLE_DOCTOR <-> Doctor role
+    (UNHEX('403'), UNHEX('103'));  -- ROLE_ADMINISTRATOR <-> Administrator role
+
+INSERT INTO roles (role_id, role_name)
+VALUES
+    (UNHEX('101'), 'SPECIALIST'),
+    (UNHEX('102'), 'PATIENT');
+
+INSERT INTO appointments (appointment_id, name_of_the_doctor_appointment, specialist_id, patient_id, date_time, status)
+VALUES
+    (UNHEX('501'), 'Dr. James Doe', UNHEX('101'), UNHEX('201'), '2024-05-10 10:00:00', 'SCHEDULED'),
+    (UNHEX('502'), 'Dr. Sarah Johnson', UNHEX('102'), UNHEX('202'), '2024-05-12 15:30:00', 'CONFIRMED'),
+    (UNHEX('503'), 'Dr. Michael Williams', UNHEX('103'), UNHEX('203'), '2024-05-15 11:00:00', 'COMPLETED'),
+    (UNHEX('504'), 'Dr. Emily Brown', UNHEX('104'), UNHEX('204'), '2024-05-18 09:45:00', 'CANCELLED'),
+    (UNHEX('505'), 'Dr. David Garcia', UNHEX('105'), UNHEX('205'), '2024-05-20 14:00:00', 'SCHEDULED');
+
+INSERT INTO lab_reports (report_id, report_name, report_content, report_date, results, medical_record_id)
+VALUES
+    (UNHEX('601'), 'Blood Test', 'Complete blood count (CBC)', '2024-04-15 08:00:00', 'Normal', UNHEX('701')),
+    (UNHEX('602'), 'Urine Analysis', 'Urinalysis', '2024-04-20 10:30:00', 'Abnormal (presence of bacteria)', UNHEX('702')),
+    (UNHEX('603'), 'MRI Scan', 'Brain MRI scan', '2024-05-01 14:00:00', 'No abnormalities detected', UNHEX('703')),
+    (UNHEX('604'), 'X-ray', 'Chest X-ray', '2024-05-05 09:45:00', 'Fracture in left clavicle', UNHEX('704')),
+    (UNHEX('605'), 'Blood Chemistry Panel', 'Comprehensive metabolic panel (CMP)', '2024-05-10 11:30:00', 'Within normal limits', UNHEX('705'));
+
+INSERT INTO financial_transactions (patient_id, transaction_date, amount, description, payment_method, transaction_type)
+VALUES
+    (UNHEX('201'), '2024-04-15 12:30:00', 150.00, 'Payment for consultation', 'CARD', 'SERVICE_PAYMENT'),
+    (UNHEX('202'), '2024-04-20 09:00:00', 80.00, 'Payment for lab test', 'CASH', 'SERVICE_PAYMENT'),
+    (UNHEX('203'), '2024-05-01 14:45:00', 200.00, 'Refund for cancelled appointment', 'BANK_TRANSFER', 'REFUND'),
+    (UNHEX('204'), '2024-05-05 10:15:00', 50.00, 'Payment for prescription', 'CASH', 'SERVICE_PAYMENT'),
+    (UNHEX('205'), '2024-05-10 13:00:00', 120.00, 'Payment for physical therapy session', 'CARD', 'SERVICE_PAYMENT');
+
+INSERT INTO medical_records (medical_record_id, patient_id, doctor_id, diagnoses, doctor_conclusion, prescription)
+VALUES
+    (UNHEX('701'), UNHEX('201'), UNHEX('101'), 'Hypertension', 'Patient needs to monitor blood pressure regularly.', 'Prescription for blood pressure medication'),
+    (UNHEX('702'), UNHEX('202'), UNHEX('102'), 'Urinary Tract Infection', 'Course of antibiotics prescribed.', 'Prescription for antibiotic medication'),
+    (UNHEX('703'), UNHEX('203'), UNHEX('103'), 'Migraine', 'Patient advised to manage stress and sleep patterns.', 'Prescription for migraine medication'),
+    (UNHEX('704'), UNHEX('204'), UNHEX('104'), 'Clavicle Fracture', 'Patient referred to orthopedic specialist for further evaluation.', 'Referral for orthopedic consultation and pain management'),
+    (UNHEX('705'), UNHEX('205'), UNHEX('105'), 'General Health Checkup', 'No major concerns found during checkup.', 'General health recommendations provided');
+
+INSERT INTO medical_procedures (record_id, procedures)
+VALUES
+    (UNHEX('701'), 'EKG (Electrocardiogram)'),
+    (UNHEX('702'), 'Urine Culture'),
+    (UNHEX('703'), 'MRI (Magnetic Resonance Imaging)'),
+    (UNHEX('704'), 'X-ray'),
+    (UNHEX('705'), 'Blood Chemistry Analysis');
+
+
+INSERT INTO paid_services (service_id, service_name, price, patient_id)
+VALUES
+    (UNHEX('801'), 'CONSULTATION', 100.00, UNHEX('201')),
+    (UNHEX('802'), 'XRAY', 150.00, UNHEX('202')),
+    (UNHEX('803'), 'MRI', 300.00, UNHEX('203')),
+    (UNHEX('804'), 'BLOOD_TEST', 50.00, UNHEX('204')),
+    (UNHEX('805'), 'ULTRASOUND', 200.00, UNHEX('205')),
+    (UNHEX('806'), 'PHYSIOTHERAPY', 80.00, UNHEX('201')),
+    (UNHEX('807'), 'ECG', 80.00, UNHEX('202')),
+    (UNHEX('808'), 'VACCINATION', 50.00, UNHEX('203')),
+    (UNHEX('809'), 'MEDICAL_MASSAGE', 120.00, UNHEX('204')),
+    (UNHEX('810'), 'DIAGNOSTIC_COLONOSCOPY', 500.00, UNHEX('205'));
+
+INSERT INTO patient_visits (visit_id, patient_id, specialist_id, visit_type, patient_condition, visit_date_time, purpose, medical_record_id)
+VALUES
+    (UNHEX('901'), UNHEX('201'), UNHEX('101'), 'Regular Checkup', 'Stable', '2024-04-10 09:30:00', 'Routine follow-up', UNHEX('701')),
+    (UNHEX('902'), UNHEX('202'), UNHEX('102'), 'Diagnostic Consultation', 'Abdominal pain', '2024-04-15 11:00:00', 'Assessment of symptoms', UNHEX('702')),
+    (UNHEX('903'), UNHEX('203'), UNHEX('103'), 'Therapy Session', 'Anxiety', '2024-04-20 14:30:00', 'Anxiety management', UNHEX('703')),
+    (UNHEX('904'), UNHEX('204'), UNHEX('104'), 'Injury Evaluation', 'Fractured clavicle', '2024-05-01 10:00:00', 'Evaluation and treatment plan', UNHEX('704')),
+    (UNHEX('905'), UNHEX('205'), UNHEX('105'), 'Rehabilitation Session', 'Muscle weakness', '2024-05-05 12:00:00', 'Physical therapy session', UNHEX('705'));
+
+
+INSERT INTO schedules (schedule_id, doctor_id, start_time, end_time)
+VALUES
+    (UNHEX('1001'), UNHEX('101'), '09:00:00', '12:00:00'),
+    (UNHEX('1002'), UNHEX('102'), '13:00:00', '18:00:00'),
+    (UNHEX('1003'), UNHEX('103'), '10:00:00', '15:00:00'),
+    (UNHEX('1004'), UNHEX('104'), '08:00:00', '11:00:00'),
+    (UNHEX('1005'), UNHEX('105'), '14:00:00', '17:00:00');
+
+
+INSERT INTO working_days (schedule_id, day)
+VALUES
+    (UNHEX('1001'), 'MONDAY'),
+    (UNHEX('1001'), 'WEDNESDAY'),
+    (UNHEX('1001'), 'FRIDAY'),
+    (UNHEX('1002'), 'TUESDAY'),
+    (UNHEX('1002'), 'THURSDAY'),
+    (UNHEX('1003'), 'MONDAY'),
+    (UNHEX('1003'), 'WEDNESDAY'),
+    (UNHEX('1003'), 'FRIDAY'),
+    (UNHEX('1004'), 'TUESDAY'),
+    (UNHEX('1004'), 'THURSDAY'),
+    (UNHEX('1005'), 'SATURDAY');
+
+INSERT INTO patient_specialist (patient_id, specialist_id)
+VALUES
+    (UNHEX('201'), UNHEX('101')),
+    (UNHEX('202'), UNHEX('102')),)
+    (UNHEX('203'), UNHEX('103')),
+    (UNHEX('204'), UNHEX('104')),
+    (UNHEX('205'), UNHEX('105'));
+
 
 
 

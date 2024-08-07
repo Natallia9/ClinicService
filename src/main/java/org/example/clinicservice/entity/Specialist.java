@@ -1,5 +1,7 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.Setter;
 import org.example.clinicservice.entity.enums.Department;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,11 +49,13 @@ public class Specialist {
     @Column(name = "department")
     private Department department;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "doctor")
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "specialists")
-    private List<Patient> patients;
+    private List<Patient> patients = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

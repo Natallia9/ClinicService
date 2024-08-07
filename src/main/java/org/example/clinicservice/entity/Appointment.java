@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,12 @@ public class Appointment {
     @Column(name = "name_of_the_doctor_appointment")
     private String nameAppointment;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "specialist_id")
     private Specialist specialist;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;

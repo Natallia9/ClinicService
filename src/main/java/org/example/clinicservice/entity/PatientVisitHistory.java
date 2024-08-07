@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,7 @@ public class PatientVisitHistory {
     @Column(name = "purpose")
     private String purpose;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;

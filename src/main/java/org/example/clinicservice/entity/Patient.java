@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,8 @@ public class Patient {
     @Column(name = "emergency_contact")
     private String emerg;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "patient_specialist",
             joinColumns = @JoinColumn(name = "patient_id"),
@@ -49,6 +51,7 @@ public class Patient {
     )
     private List<Specialist> specialists;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             targetEntity = MedicalRecord.class)

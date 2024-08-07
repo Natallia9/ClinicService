@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class User {
     private String userName;
 
     @Column(name = "password")
-    private String password;
+    private char password;
 
     @Column(name = "email")
     private String email;
@@ -45,6 +46,7 @@ public class User {
     @Column(name = "user_type")
     private UserType userType;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "user_roles",

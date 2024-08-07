@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,7 @@ public class MedicalRecord {
     @Column(name = "procedures")
     private List<String> medicalProcedure;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     @Column(name = "lab_reports")
     private List<LabReport> labReports;

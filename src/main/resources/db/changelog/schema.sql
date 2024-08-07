@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS authorities (
     authority VARCHAR(255) NOT NULL
     );
 
-CREATE TABLE IF NOT EXISTS authoritie_role (
+CREATE TABLE IF NOT EXISTS roles_authorities (
     authority_id BINARY(16),
     role_id BINARY(16),
     PRIMARY KEY (authority_id, role_id),
@@ -117,9 +117,9 @@ CREATE TABLE IF NOT EXISTS medical_records (
 
 CREATE TABLE IF NOT EXISTS medical_procedures (
     record_id BINARY(16) PRIMARY KEY,
-    procedures VARCHAR(255),
-    FOREIGN KEY (record_id) REFERENCES medical_records (medical_record_id)
+    procedures VARCHAR(255)
     );
+
 
 CREATE TABLE IF NOT EXISTS paid_services (
     service_id BINARY(16) PRIMARY KEY,
@@ -132,19 +132,21 @@ CREATE TABLE IF NOT EXISTS paid_services (
     FOREIGN KEY (patient_id) REFERENCES patients (patient_id)
     );
 
-CREATE TABLE IF NOT EXISTS patient_visits_history (
+CREATE TABLE IF NOT EXISTS patient_visits (
     visit_id BINARY(16) PRIMARY KEY,
     patient_id BINARY(16) NOT NULL,
     specialist_id BINARY(16) NOT NULL,
     visit_type VARCHAR(255) NOT NULL,
     patient_condition VARCHAR(255) NOT NULL,
-    visit_date_time DATETIME,
+    visit_date_time TIMESTAMP,
     purpose VARCHAR(255) NOT NULL,
     medical_record_id BINARY(16),
-    FOREIGN KEY (patient_id) REFERENCES patients (patient_id) ON DELETE CASCADE,
-    FOREIGN KEY (specialist_id) REFERENCES specialists (specialist_id),
-    FOREIGN KEY (medical_record_id) REFERENCES medical_records (medical_record_id) ON DELETE CASCADE
+    CONSTRAINT fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients (patient_id) ON DELETE CASCADE,
+    CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists (specialist_id) ON DELETE CASCADE,
+    CONSTRAINT fk_medical_record_id FOREIGN KEY (medical_record_id) REFERENCES medical_records (medical_record_id) ON DELETE CASCADE
     );
+
+
 
 CREATE TABLE IF NOT EXISTS schedules (
     schedule_id BINARY(16) PRIMARY KEY,

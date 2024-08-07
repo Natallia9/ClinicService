@@ -1,5 +1,6 @@
 package org.example.clinicservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Authority {
     @Column(name = "authority")
     private String authority;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<Roles> roles;
     @Override

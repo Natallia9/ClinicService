@@ -1,17 +1,16 @@
 package org.example.clinicservice.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.clinicservice.dto.PatientAfterCreationDTO;
-import org.example.clinicservice.dto.PatientDTO;
 import org.example.clinicservice.entity.Patient;
-import org.example.clinicservice.exception.ErrorMessage;
-import org.example.clinicservice.exception.PatientNotExistException;
-import org.example.clinicservice.mapper.PatientMapper;
+import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.repository.PatientRepository;
+import org.example.clinicservice.repository.SpecialistRepository;
 import org.example.clinicservice.service.interfeces.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,55 +18,41 @@ import java.util.UUID;
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
-    private final PatientMapper patientMapper;
 
     @Override
-    public Patient getPatientById(UUID id) {
-        Patient patient = patientRepository.getPatientById(id);
-        if (patient == null) {
-            throw new PatientNotExistException(ErrorMessage.PATIENT_NOT_EXIST);
-        }
-        return patient;
-    }
+    public List<Patient> getAllPatients() {
 
-//    @Override
-//    @Transactional
-//    public PatientAfterCreationDto createPatient(PatientDTO patientDTO) {
-//        try {
-//            Patient patient = new Patient();
-//            patient.setPatientId(patientDTO.getPatientId());
-//            patient.setPhoneNumber(patientDTO.getPhoneNumber());
-//            patient.setAge(patientDTO.getAge());
-//            patient.setSex(patientDTO.getSex());
-//            patient.setAddress(patientDTO.getAddress());
-//            patient.setEmerg(patientDTO.getEmerg());
-//
-//            Patient savedPatient = patientRepository.save(patient);
-//            return savedPatient;
-//        } catch (Exception e) {
-//            throw new PatientNotCreationException(ErrorMessage.PATIENT_NOT_CREATION);
-//        }
-//    }
-
-    @Override
-    public PatientDTO createPatient(PatientAfterCreationDTO patientDTO) {
-        // Преобразование PatientAfterCreationDTO в сущность Patient
-        Patient patient = patientMapper.toEntity(patientDTO);
-
-        // Сохранение пациента в репозитории
-        Patient savedPatient = patientRepository.save(patient);
-
-        // Преобразование сущности Patient обратно в DTO
-        PatientDTO responseDTO = patientMapper.toPatientDTO(savedPatient);
-
-        return responseDTO;
+        return patientRepository.findAll();
     }
 
     @Override
-    @Transactional
-    public void deletePatient(UUID id) {
-        patientRepository.deleteById(id);
+    public List<Patient> getPatientsByDoctorId(UUID doctorId) {
+        return patientRepository.findByDoctorId(doctorId);
+    }
+
+
+    @Override
+    public Patient findByPhoneNumber(String phoneNumber) {
+
+        return patientRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public List<Patient> findByFirstNameAndLastName(String firstName, String lastName) {
+
+        return patientRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public List<Patient> findByMedicalRecordsIsNotEmpty() {
+
+        return patientRepository.findByMedicalRecordsIsNotEmpty();
+    }
+
+    @Override
+    public List<Patient> findBySpecialists(Specialist specialist) {
+
+        return patientRepository.findBySpecialists(specialist);
     }
 
 }
-

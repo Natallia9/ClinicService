@@ -1,19 +1,15 @@
 package org.example.clinicservice.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.Specialist;
-import org.example.clinicservice.exception.ErrorMessage;
-import org.example.clinicservice.exception.PatientNotCreationException;
-import org.example.clinicservice.exception.PatientNotExistException;
-import org.example.clinicservice.exception.SpecialistNotCreationException;
+import org.example.clinicservice.entity.enums.Department;
+import org.example.clinicservice.exceptions.ExceptionsService;
 import org.example.clinicservice.repository.SpecialistRepository;
 import org.example.clinicservice.service.interfeces.SpecialistService;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,34 +18,37 @@ public class SpecialistServiceImpl implements SpecialistService {
     private final SpecialistRepository specialistRepository;
 
     @Override
-    public Specialist getSpecialistById(UUID id) {
-        Specialist specialist = specialistRepository.getSpecialistById(id);
-        if (specialist == null) {
-            throw new PatientNotExistException(ErrorMessage.SPECIALIST_NOT_EXIST);
+    public List<Specialist> getAllSpecialists() {
+        List<Specialist> specialists = specialistRepository.findAll();
+        if (specialists.isEmpty()) {
+            throw new ExceptionsService.SpecialistNotFoundException("No specialists found.");
         }
-        return specialist;
+        return specialists;
     }
 
     @Override
-    @Transactional
-    public Specialist createSpecialist(SpecialistDTO specialistDTO) {
-        try {
-            Specialist specialistCreate = new Specialist();
-            specialistCreate.setSpecialistId(specialistDTO.getSpecialistId());
-            specialistCreate.setAreaOfSpecialization(specialistDTO.getAreaOfSpecialization());
-            specialistCreate.setExperience(specialistDTO.getExperience());
-            specialistCreate.setContactInformation(specialistDTO.getContactInformation());
-            specialistCreate.setAvailability(specialistDTO.isAvailability());
-
-            Specialist savedSpecialist = specialistRepository.save(specialistCreate);
-            return savedSpecialist;
-        } catch (Exception e) {
-            throw new SpecialistNotCreationException(ErrorMessage.SPECIALIST_NOT_CREATION);
-        }
+    public List<Specialist> findSpecialistsByAreaOfSpecialization(String areaOfSpecialization) {
+        return specialistRepository.findByAreaOfSpecialization(areaOfSpecialization);
     }
 
     @Override
-    public void deleteSpecialist(UUID id) {
-        specialistRepository.deleteById(id);
+    public List<Specialist> findSpecialistsByContactInformation(String contactInformation) {
+        return specialistRepository.findByContactInformation(contactInformation);
+    }
+
+    @Override
+    public List<Specialist> findSpecialistsByAvailability(boolean availability) {
+        return specialistRepository.findByAvailability(availability);
+    }
+
+    @Override
+    public List<Specialist> findSpecialistsByDepartment(Department department) {
+        return specialistRepository.findByDepartment(department);
+    }
+
+    @Override
+    public List<Specialist> findSpecialistsByPatient(Patient patient) {
+        return specialistRepository.findByPatients(patient);
     }
 }
+

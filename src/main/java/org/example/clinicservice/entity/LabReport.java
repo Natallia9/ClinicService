@@ -57,4 +57,16 @@ public class LabReport {
     public int hashCode() {
         return Objects.hash(reportId, reportName);
     }
+
+    @Override
+    public String toString() {
+        return "LabReport{" +
+                "reportId=" + reportId +
+                ", reportName='" + reportName + '\'' +
+                ", reportContent='" + reportContent + '\'' +
+                ", reportDate=" + reportDate +
+                ", results='" + results + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                '}';
+    }
 }

@@ -1,6 +1,5 @@
 package org.example.clinicservice.mapper;
 
-import org.example.clinicservice.dto.PatientAfterCreationDTO;
 import org.example.clinicservice.dto.PatientDTO;
 import org.example.clinicservice.entity.Patient;
 import org.mapstruct.Mapper;

@@ -1,4 +1,4 @@
-package org.example.clinicservice.exception;
+package org.example.clinicservice.exceptions;
 
 public class SpecialistNotCreationException extends RuntimeException{
 

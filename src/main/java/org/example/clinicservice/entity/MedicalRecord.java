@@ -65,4 +65,18 @@ public class MedicalRecord {
     public int hashCode() {
         return Objects.hash(recordId);
     }
+
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "recordId=" + recordId +
+                ", patient=" + patient +
+                ", doctor=" + doctor +
+                ", diagnose='" + diagnose + '\'' +
+                ", doctorConclusion='" + doctorConclusion + '\'' +
+                ", prescription='" + prescription + '\'' +
+                ", medicalProcedure=" + medicalProcedure +
+                ", labReports=" + labReports +
+                '}';
+    }
 }

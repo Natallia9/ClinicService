@@ -2,6 +2,9 @@ package org.example.clinicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +18,6 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class User {
 
     @Id
@@ -28,18 +30,23 @@ public class User {
     private UUID userId;
 
     @Column(name = "last_name")
+    @NotNull(message = "Last name must not be null")
     private String lastName;
 
     @Column(name = "first_name")
+    @NotNull(message = "First name must not be null")
     private String firstName;
 
     @Column(name = "user_name")
+    @NotNull(message = "User name must not be null")
     private String userName;
 
     @Column(name = "password")
+    @NotBlank(message = "Password cannot be blank")
     private char password;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -76,4 +83,5 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 '}';
     }
+
 }

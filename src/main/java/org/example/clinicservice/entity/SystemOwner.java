@@ -1,6 +1,8 @@
 package org.example.clinicservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,11 +32,20 @@ public class SystemOwner {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "email")
+    @Email
+    private String email;
+
+    @Column(name = "password")
+    @NotBlank(message = "Password cannot be blank")
+    private char password;
+
 
     @Override
     public boolean equals(Object o) {
@@ -47,5 +58,18 @@ public class SystemOwner {
     @Override
     public int hashCode() {
         return Objects.hash(ownerId, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "SystemOwner{" +
+                "ownerId=" + ownerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password=" + password +
+                '}';
     }
 }

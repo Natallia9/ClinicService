@@ -1,21 +1,22 @@
-package org.example.clinicservice.entity;
+package org.example.clinicservice.entity.finance;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.enums.ServiceName;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 import java.util.UUID;
 @Entity
-@Table(name = "paid_services")
+@Table(name = "payment_services")
 @Getter
 @Setter
 @NoArgsConstructor
-public class PaidService {
+public class Payment {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -41,7 +42,7 @@ public class PaidService {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PaidService that = (PaidService) o;
+        Payment that = (Payment) o;
         return Objects.equals(serviceId, that.serviceId) && serviceName == that.serviceName;
     }
     @Override

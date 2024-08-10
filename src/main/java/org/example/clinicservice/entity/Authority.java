@@ -43,4 +43,13 @@ public class Authority {
     public int hashCode() {
         return Objects.hash(authorityId, authority);
     }
+
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "authorityId=" + authorityId +
+                ", authority='" + authority + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

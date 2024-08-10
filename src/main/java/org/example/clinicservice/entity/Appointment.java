@@ -58,4 +58,16 @@ public class Appointment {
     public int hashCode() {
         return Objects.hash(appointmentId, nameAppointment);
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "appointmentId=" + appointmentId +
+                ", nameAppointment='" + nameAppointment + '\'' +
+                ", specialist=" + specialist +
+                ", patient=" + patient +
+                ", dateTime=" + dateTime +
+                ", status=" + status +
+                '}';
+    }
 }

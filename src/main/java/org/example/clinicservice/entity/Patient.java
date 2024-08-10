@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Patient {
+public class Patient extends User{
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -68,5 +68,19 @@ public class Patient {
     @Override
     public int hashCode() {
         return Objects.hash(patientId, phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "patientId=" + patientId +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", age='" + age + '\'' +
+                ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
+                ", emerg='" + emerg + '\'' +
+                ", specialists=" + specialists +
+                ", medicalRecords=" + medicalRecords +
+                '}';
     }
 }

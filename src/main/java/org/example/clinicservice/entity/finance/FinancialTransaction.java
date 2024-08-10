@@ -1,10 +1,11 @@
-package org.example.clinicservice.entity;
+package org.example.clinicservice.entity.finance;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.enums.PaymentMethod;
 import org.example.clinicservice.entity.enums.TransactionType;
 import org.hibernate.annotations.GenericGenerator;

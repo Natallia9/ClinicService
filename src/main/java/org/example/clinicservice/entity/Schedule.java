@@ -58,4 +58,15 @@ public class Schedule {
     public int hashCode() {
         return Objects.hash(scheduleId);
     }
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "scheduleId=" + scheduleId +
+                ", doctor=" + doctor +
+                ", workingDays=" + workingDays +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }

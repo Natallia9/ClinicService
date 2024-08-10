@@ -19,7 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Specialist {
+public class Specialist extends User {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -68,5 +68,20 @@ public class Specialist {
     @Override
     public int hashCode() {
         return Objects.hash(specialistId, areaOfSpecialization);
+    }
+
+    @Override
+    public String toString() {
+        return "Specialist{" +
+                "specialistId=" + specialistId +
+                ", areaOfSpecialization='" + areaOfSpecialization + '\'' +
+                ", experience='" + experience + '\'' +
+                ", contactInformation='" + contactInformation + '\'' +
+                ", availability=" + availability +
+                ", languagesSpoken='" + languagesSpoken + '\'' +
+                ", department=" + department +
+                ", appointments=" + appointments +
+                ", patients=" + patients +
+                '}';
     }
 }

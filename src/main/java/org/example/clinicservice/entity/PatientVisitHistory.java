@@ -65,4 +65,18 @@ public class PatientVisitHistory {
     public int hashCode() {
         return Objects.hash(visitId);
     }
+
+    @Override
+    public String toString() {
+        return "PatientVisitHistory{" +
+                "visitId=" + visitId +
+                ", patient=" + patient +
+                ", specialist=" + specialist +
+                ", visitType='" + visitType + '\'' +
+                ", patientCondition='" + patientCondition + '\'' +
+                ", visitDateTime=" + visitDateTime +
+                ", purpose='" + purpose + '\'' +
+                ", medicalRecord=" + medicalRecord +
+                '}';
+    }
 }

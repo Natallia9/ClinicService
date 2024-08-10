@@ -18,7 +18,8 @@ public class SpecialistController {
 
     @GetMapping("/get/{id}")
     public Specialist getSpecialistById(@PathVariable("id") UUID id){
-        return specialistService.getSpecialistById(id);
+        Specialist specialist = specialistService.getSpecialistById(id);
+        return specialist;
     }
     @PostMapping("/create")
     public Specialist createSpecialist(@RequestBody SpecialistDTO specialistDTO) {

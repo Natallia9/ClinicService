@@ -1,6 +1,7 @@
 package org.example.clinicservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class Patient extends User{
     @Column(name = "patient_id")
     private UUID patientId;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "age")
@@ -42,7 +43,7 @@ public class Patient extends User{
     @Column(name = "emergency_contact")
     private String emerg;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "patient_specialist",
@@ -51,10 +52,11 @@ public class Patient extends User{
     )
     private List<Specialist> specialists;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             targetEntity = MedicalRecord.class)
+    @JsonManagedReference
     private List<MedicalRecord> medicalRecords;
 
     @Override

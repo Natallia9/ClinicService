@@ -1,10 +1,12 @@
 package org.example.clinicservice.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
+@Schema(description = "DTO for a specialist with personal details, experience, availability, and spoken languages.")
 public class SpecialistDTO {
 
     private String lastName;

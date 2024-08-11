@@ -41,11 +41,11 @@ public class User {
     @NotNull(message = "User name must not be null")
     private String userName;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be blank")
     private char password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     @Email
     private String email;
 

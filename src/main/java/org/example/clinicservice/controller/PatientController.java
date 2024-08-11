@@ -44,4 +44,4 @@ public class PatientController {
 //    public void deletePatient(@PathVariable("id") UUID id) {
 //        patientService.deletePatient(id);
 //    }
-}
+

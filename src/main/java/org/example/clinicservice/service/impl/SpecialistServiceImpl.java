@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.entity.enums.Department;
-import org.example.clinicservice.exceptions.ExceptionsService;
+import org.example.clinicservice.exceptions.specialistExeptions.SpecialistNotFoundException;
 import org.example.clinicservice.repository.SpecialistRepository;
 import org.example.clinicservice.service.interfeces.SpecialistService;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class SpecialistServiceImpl implements SpecialistService {
     public List<Specialist> getAllSpecialists() {
         List<Specialist> specialists = specialistRepository.findAll();
         if (specialists.isEmpty()) {
-            throw new ExceptionsService.SpecialistNotFoundException("No specialists found.");
+            throw new SpecialistNotFoundException("No specialists found.");
         }
         return specialists;
     }

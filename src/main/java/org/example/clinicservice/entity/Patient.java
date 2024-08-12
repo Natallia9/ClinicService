@@ -41,7 +41,7 @@ public class Patient extends User{
     private String address;
 
     @Column(name = "emergency_contact")
-    private String emerg;
+    private String emergencyContact;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -80,7 +80,7 @@ public class Patient extends User{
                 ", age='" + age + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
-                ", emerg='" + emerg + '\'' +
+                ", emerg='" + emergencyContact + '\'' +
                 ", specialists=" + specialists +
                 ", medicalRecords=" + medicalRecords +
                 '}';

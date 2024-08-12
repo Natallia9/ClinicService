@@ -7,7 +7,6 @@ public class UserTransformer {
 
     public static User convertToUser(UserDTO userDTO) {
         User user = new User();
-        user.setUserId(userDTO.getUserId());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());

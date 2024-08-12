@@ -54,7 +54,12 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName) {
         List<User> users = userRepository.findByFirstNameAndLastName(firstName, lastName);
         if (users.isEmpty()) {
-            throw new UserNotFoundException("Users with this first and last name were not found");
+            if (userRepository.findByFirstName(firstName).isEmpty()) {
+                throw new UserNotFoundException("No users found with the first name: " + firstName);
+            }
+            if (userRepository.findByLastName(lastName).isEmpty()) {
+                throw new UserNotFoundException("No users found with the last name: " + lastName);
+            }
         }
         return users.stream()
                 .map(UserTransformer::convertToUserDTO)

@@ -28,9 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
-    public User addUser(UserDTO userDTO) {
+    public User addUser(User user) {
 
-        User user = UserTransformer.convertToUser(userDTO);
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new UserExistsException(ErrorMessage.USER_WITH_EMAIL_EXISTS);
         }
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName) {
+    public List<User> getUsersByFirstNameAndLastName(String firstName, String lastName) {
         List<User> users = userRepository.findByFirstNameAndLastName(firstName, lastName);
         if (users.isEmpty()) {
             if (userRepository.findByFirstName(firstName).isEmpty()) {
@@ -61,9 +60,7 @@ public class UserServiceImpl implements UserService {
                 throw new UserNotFoundException("No users found with the last name: " + lastName);
             }
         }
-        return users.stream()
-                .map(UserTransformer::convertToUserDTO)
-                .collect(Collectors.toList());
+        return users;
     }
 
     @Override

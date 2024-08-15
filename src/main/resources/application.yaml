@@ -1,25 +1,3 @@
-#spring:
-#  main:
-#    banner-mode: off
-#
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/clinic_service
-#    username: root
-#    password: Natka-19923
-#
-#  jpa:
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        ddl-auto: none
-#        temp:
-#          use_jdbc_metadata_defaults: false
-#
-#  sql:
-#    init:
-#      schema-locations: classpath:db/changelog/schema.sql
-#      mode: embedded
-
 spring:
   main:
     banner-mode: off
@@ -31,20 +9,24 @@ spring:
 
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQL5Dialect
     properties:
       hibernate:
-        ddl-auto: none
         temp:
           use_jdbc_metadata_defaults: false
-  sql:
-    init:
-      schema-locations: classpath:db/changelog/schema.sql
-      data-locations: classpath:db/changelog/data.sql
-      mode: always
+
+  springdoc:
+    api-docs:
+      path: /api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+      display-request-duration: true
+      doc-expansion: none
 
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml  # Путь к главному changelog файлу Liquibase
-
+    change-log: classpath:db/changelog/changelog.xml  # Путь к главному changelog файлу Liquibase
 
   logging:
     level:
@@ -53,32 +35,6 @@ spring:
   server:
     port: 8080
 
-
-
-#spring:
-#  main:
-#    banner-mode: off
-#
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/clinic_service
-#    username: root
-#    password: Natka-19923
-#
-#  jpa:
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        ddl-auto: none
-#        temp:
-#          use_jdbc_metadata_defaults: false
-#
-#  sql:
-#    init:
-#      data-locations:
-#        classpath: db/changelog/data.sql
-#      schema-locations:
-#        classpath: db/changelog/schema.sql
-#      mode: always
 
 
 

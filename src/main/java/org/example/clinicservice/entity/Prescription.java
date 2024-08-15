@@ -21,10 +21,10 @@ public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @GenericGenerator(
-            name = "UUID",
+            name = "prescription_Id",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    private UUID id;
+    private UUID prescriptionId;
 
     @Column(name = "medication_name")
     @NotNull
@@ -54,18 +54,18 @@ public class Prescription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prescription that = (Prescription) o;
-        return Objects.equals(id, that.id) && Objects.equals(prescriptionDate, that.prescriptionDate) && Objects.equals(medicationName, that.medicationName) && Objects.equals(dosage, that.dosage) && Objects.equals(instructions, that.instructions) && Objects.equals(doctor, that.doctor) && Objects.equals(patient, that.patient);
+        return Objects.equals(prescriptionId, that.prescriptionId) && Objects.equals(prescriptionDate, that.prescriptionDate) && Objects.equals(medicationName, that.medicationName) && Objects.equals(dosage, that.dosage) && Objects.equals(instructions, that.instructions) && Objects.equals(doctor, that.doctor) && Objects.equals(patient, that.patient);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, prescriptionDate, medicationName, dosage, instructions, doctor, patient);
+        return Objects.hash(prescriptionId, prescriptionDate, medicationName, dosage, instructions, doctor, patient);
     }
 
     @Override
     public String toString() {
         return "Prescription{" +
-                "id=" + id +
+                "id=" + prescriptionId +
                 ", prescriptionDate=" + prescriptionDate +
                 ", medicationName='" + medicationName + '\'' +
                 ", dosage='" + dosage + '\'' +

@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public interface UserService {
 
-    User addUser(UserDTO userDTO);
+    User addUser(User user);
     User getUserById(UUID userId);
-    List<UserDTO> getUsersByFirstNameAndLastName(String firstName, String lastName);
+    List<User> getUsersByFirstNameAndLastName(String firstName, String lastName);
     User getUserByEmail(String email);
     void deleteUser(UUID userId);
 }

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="nliakh">
+        <createTable tableName="users">
+            <column name="user_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="user_type" type="ENUM('PATIENT', 'DOCTOR', 'ADMINISTRATOR')"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="nliakh">
+        <createTable tableName="roles">
+            <column name="role_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="ENUM('SPECIALIST', 'PATIENT')"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="nliakh">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="user_id, role_id" constraintName="pk_user_roles" tableName="user_roles"/>
+
+        <addForeignKeyConstraint baseTableName="user_roles"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_user_roles_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+
+        <addForeignKeyConstraint baseTableName="user_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_user_roles_role_id"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="role_id"/>
+    </changeSet>
+
+    <changeSet id="4" author="nliakh">
+        <createTable tableName="specialists">
+            <column name="specialist_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="area_of_specialization" type="VARCHAR(255)"/>
+            <column name="experience" type="VARCHAR(255)"/>
+            <column name="contact_information" type="VARCHAR(255)"/>
+            <column name="availability" type="BOOLEAN"/>
+            <column name="languages" type="VARCHAR(255)"/>
+            <column name="department" type="ENUM('CARDIOLOGY', 'DERMATOLOGY', 'GASTROENTEROLOGY', 'NEUROLOGY', 'ORTHOPEDICS', 'PEDIATRICS', 'PSYCHIATRY', 'UROLOGY', 'ENDOCRINOLOGY', 'ONCOLOGY', 'RADIOLOGY', 'OPHTHALMOLOGY', 'OTOLARYNGOLOGY', 'INFECTIOUS_DISEASES', 'ALLERGY_AND_IMMUNOLOGY', 'HEMATOLOGY', 'PULMONOLOGY', 'RHEUMATOLOGY', 'GYNECOLOGY', 'NEPHROLOGY', 'GENERAL_SURGERY', 'PLASTIC_SURGERY', 'VASCULAR_SURGERY', 'NEUROSURGERY', 'DENTISTRY', 'ORAL_AND_MAXILLOFACIAL_SURGERY', 'PHYSICAL_THERAPY', 'OCCUPATIONAL_THERAPY', 'SPEECH_THERAPY', 'NUTRITION_AND_DIETETICS', 'PHARMACY', 'LABORATORY', 'IMAGING', 'EMERGENCY_MEDICINE', 'ANESTHESIOLOGY', 'PATHOLOGY', 'PSYCHOLOGY', 'PSYCHOTHERAPY', 'SOCIAL_WORK', 'PAIN_MANAGEMENT', 'REHABILITATION_MEDICINE', 'SPORTS_MEDICINE', 'TRAUMA_SURGERY', 'BARIATRIC_SURGERY', 'GERIATRICS', 'INTENSIVE_CARE', 'OBSTETRICS', 'FORENSIC_MEDICINE', 'REPRODUCTIVE_MEDICINE', 'RESEARCH_MEDICINE', 'COMMUNITY_HEALTH')"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="nliakh">
+        <createTable tableName="patients">
+            <column name="patient_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(20)">
+                <constraints unique="true"/>
+            </column>
+            <column name="age" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="emergency_contact" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="nliakh">
+        <createTable tableName="system_owner">
+            <column name="owner_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(20)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="7" author="nliakh">
+        <createTable tableName="authorities">
+            <column name="authority_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="authority" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="8" author="nliakh">
+        <createTable tableName="roles_authorities">
+            <column name="authority_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="authority_id, role_id" constraintName="pk_roles_authorities" tableName="roles_authorities"/>
+
+        <addForeignKeyConstraint baseTableName="roles_authorities"
+                                 baseColumnNames="authority_id"
+                                 constraintName="fk_roles_authorities_authority_id"
+                                 referencedTableName="authorities"
+                                 referencedColumnNames="authority_id"/>
+
+        <addForeignKeyConstraint baseTableName="roles_authorities"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_roles_authorities_role_id"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="role_id"/>
+    </changeSet>
+
+    <changeSet id="9" author="nliakh">
+        <createTable tableName="appointments">
+            <column name="appointment_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_of_the_doctor_appointment" type="VARCHAR(255)"/>
+            <column name="specialist_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="DATETIME"/>
+            <column name="status" type="ENUM('SCHEDULED', 'CONFIRMED', 'COMPLETED', 'CANCELLED')"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="appointments"
+                                 baseColumnNames="specialist_id"
+                                 constraintName="fk_appointments_specialist_id"
+                                 referencedTableName="specialists"
+                                 referencedColumnNames="specialist_id"/>
+
+        <addForeignKeyConstraint baseTableName="appointments"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_appointments_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"/>
+    </changeSet>
+
+    <changeSet id="10" author="nliakh">
+        <createTable tableName="medical_records">
+            <column name="medical_record_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctor_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="diagnoses" type="VARCHAR(255)"/>
+            <column name="doctor_conclusion" type="VARCHAR(255)"/>
+            <column name="prescription" type="VARCHAR(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="medical_records"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_medical_records_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"/>
+
+        <addForeignKeyConstraint baseTableName="medical_records"
+                                 baseColumnNames="doctor_id"
+                                 constraintName="fk_medical_records_doctor_id"
+                                 referencedTableName="specialists"
+                                 referencedColumnNames="specialist_id"/>
+    </changeSet>
+
+    <changeSet id="11" author="nliakh">
+        <createTable tableName="lab_reports">
+            <column name="report_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="report_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="report_content" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="report_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="results" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medical_record_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="lab_reports"
+                                 baseColumnNames="medical_record_id"
+                                 constraintName="fk_lab_reports_medical_record_id"
+                                 referencedTableName="medical_records"
+                                 referencedColumnNames="medical_record_id"/>
+    </changeSet>
+    <changeSet id="12" author="nliakh">
+        <createTable tableName="payment_services">
+            <column name="service_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="service_name" type="ENUM('CONSULTATION', 'XRAY', 'MRI', 'BLOOD_TEST', 'ULTRASOUND',
+            'PHYSIOTHERAPY', 'ECG', 'VACCINATION', 'MEDICAL_MASSAGE', 'DIAGNOSTIC_COLONOSCOPY', 'ECHOCARDIOGRAPHY',
+            'GASTROSCOPY', 'THERAPEUTIC_HYPNOTHERAPY', 'DIAGNOSTIC_MAMMOGRAPHY', 'JOINT_ASPIRATION', 'REHABILITATION_THERAPY')"/>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="payment_services"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_payment_services_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"/>
+    </changeSet>
+
+    <changeSet id="13" author="nliakh">
+        <createTable tableName="financial_transactions">
+            <column name="transaction_id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="DATETIME"/>
+            <column name="amount" type="DOUBLE"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="payment_method" type="ENUM('CASH', 'CARD', 'BANK_TRANSFER')"/>
+            <column name="transaction_type" type="ENUM('SERVICE_PAYMENT', 'REFUND')"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="financial_transactions"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_financial_transactions_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"/>
+    </changeSet>
+
+    <changeSet id="14" author="nliakh">
+        <createTable tableName="medical_procedures">
+            <column name="record_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="procedures" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="15" author="nliakh">
+        <createTable tableName="patient_visits">
+            <column name="visit_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialist_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visit_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patient_condition" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visit_date_time" type="TIMESTAMP"/>
+            <column name="purpose" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medical_record_id" type="BINARY(16)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="patient_visits"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_patient_visits_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="patient_visits"
+                                 baseColumnNames="specialist_id"
+                                 constraintName="fk_patient_visits_specialist_id"
+                                 referencedTableName="specialists"
+                                 referencedColumnNames="specialist_id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="patient_visits"
+                                 baseColumnNames="medical_record_id"
+                                 constraintName="fk_patient_visits_medical_record_id"
+                                 referencedTableName="medical_records"
+                                 referencedColumnNames="medical_record_id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="16" author="nliakh">
+        <createTable tableName="prescriptions">
+            <column name="prescription_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="medication_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prescription_date" type="TIMESTAMP"/>
+            <column name="dosage" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="instructions" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctor_id" type="BINARY(16)"/>
+            <column name="patient_id" type="BINARY(16)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="prescriptions"
+                                 baseColumnNames="doctor_id"
+                                 constraintName="fk_prescriptions_doctor_id"
+                                 referencedTableName="specialists"
+                                 referencedColumnNames="specialist_id"/>
+
+        <addForeignKeyConstraint baseTableName="prescriptions"
+                                 baseColumnNames="patient_id"
+                                 constraintName="fk_prescriptions_patient_id"
+                                 referencedTableName="patients"
+                                 referencedColumnNames="patient_id"/>
+    </changeSet>
+
+    <changeSet id="17" author="nliakh">
+        <createTable tableName="schedules">
+            <column name="schedule_id" type="BINARY(16)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="doctor_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIME"/>
+            <column name="end_time" type="TIME"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="schedules"
+                                 baseColumnNames="doctor_id"
+                                 constraintName="fk_schedules_doctor_id"
+                                 referencedTableName="specialists"
+                                 referencedColumnNames="specialist_id"/>
+    </changeSet>
+
+    <changeSet id="18" author="nliakh">
+        <createTable tableName="working_days">
+            <column name="schedule_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day" type="ENUM('MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY')">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="schedule_id, day"
+                       constraintName="pk_working_days"
+                       tableName="working_days"/>
+
+        <addForeignKeyConstraint baseTableName="working_days"
+                                 baseColumnNames="schedule_id"
+                                 constraintName="fk_working_days_schedule_id"
+                                 referencedTableName="schedules"
+                                 referencedColumnNames="schedule_id"/>
+    </changeSet>
+
+    <changeSet id="19" author="nliakh">
+        <createTable tableName="patient_specialist">
+            <column name="patient_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialist_id" type="BINARY(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey constraintName="pk_patient_specialist" tableName="patient_specialist"
+                       columnNames="patient_id, specialist_id"/>
+
+        <addForeignKeyConstraint baseColumnNames="patient_id"
+                                 baseTableName="patient_specialist"
+                                 constraintName="fk_patient_specialist_patient_id"
+                                 referencedColumnNames="patient_id"
+                                 referencedTableName="patients"/>
+
+        <addForeignKeyConstraint baseColumnNames="specialist_id"
+                                 baseTableName="patient_specialist"
+                                 constraintName="fk_patient_specialist_specialist_id"
+                                 referencedColumnNames="specialist_id"
+                                 referencedTableName="specialists"/>
+    </changeSet>
+
+
+</databaseChangeLog>

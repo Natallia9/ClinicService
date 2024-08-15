@@ -9,26 +9,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/specialist")
-@RequiredArgsConstructor
-public class SpecialistController {
-
-    private final SpecialistService specialistService;
-
-    @GetMapping("/get/{id}")
-    public Specialist getSpecialistById(@PathVariable("id") UUID id){
-        Specialist specialist = specialistService.getSpecialistById(id);
-        return specialist;
-    }
-    @PostMapping("/create")
-    public Specialist createSpecialist(@RequestBody SpecialistDTO specialistDTO) {
-        return specialistService.createSpecialist(specialistDTO);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteSpecialist(@PathVariable("id") UUID id) {
-        specialistService.deleteSpecialist(id);
-    }
-}
+//@RestController
+//@RequestMapping("/specialist")
+//@RequiredArgsConstructor
+//public class SpecialistController {
+//
+//    private final SpecialistService specialistService;
+//
+//    @GetMapping("/get/{id}")
+//    public Specialist getSpecialistById(@PathVariable("id") UUID id){
+//        Specialist specialist = specialistService.getSpecialistById(id);
+//        return specialist;
+//    }
+//    @PostMapping("/create")
+//    public Specialist createSpecialist(@RequestBody SpecialistDTO specialistDTO) {
+//        return specialistService.createSpecialist(specialistDTO);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void deleteSpecialist(@PathVariable("id") UUID id) {
+//        specialistService.deleteSpecialist(id);
+//    }
+//}

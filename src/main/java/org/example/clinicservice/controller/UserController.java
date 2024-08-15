@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,10 +27,10 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO addUser(@Valid @RequestBody UserDTO userDTO) {
+    public UserDTO addUser(@RequestBody User user) {
         try {
-            User user = userService.addUser(userDTO);
-            return UserTransformer.convertToUserDTO(user);
+            User savedUser = userService.addUser(user);
+            return UserTransformer.convertToUserDTO(savedUser);
         } catch (IllegalArgumentException e) {
             throw new UserExistsException(ErrorMessage.USER_WITH_EMAIL_EXISTS);
         }
@@ -38,8 +39,12 @@ public class UserController {
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserById(@PathVariable UUID userId) {
-        User user = userService.getUserById(userId);
-        return UserTransformer.convertToUserDTO(user);
+        try {
+            User user = userService.getUserById(userId);
+            return UserTransformer.convertToUserDTO(user);
+        } catch (UserNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping
@@ -48,8 +53,10 @@ public class UserController {
             @RequestParam String firstName,
             @RequestParam String lastName) {
         try {
-            List<UserDTO> users = userService.getUsersByFirstNameAndLastName(firstName, lastName);
-            return users;
+            List<User> users = userService.getUsersByFirstNameAndLastName(firstName, lastName);
+            return users.stream()
+                    .map(UserTransformer::convertToUserDTO)
+                    .collect(Collectors.toList());
         } catch (UserNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (IllegalArgumentException e) {

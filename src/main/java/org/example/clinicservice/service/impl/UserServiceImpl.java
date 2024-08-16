@@ -1,23 +1,20 @@
 package org.example.clinicservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.clinicservice.dto.UserDTO;
 import org.example.clinicservice.entity.User;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExaption;
+import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExсeption;
+import org.example.clinicservice.exceptions.userExeptions.InvalidIdException;
 import org.example.clinicservice.exceptions.userExeptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExeptions.UserNotFoundException;
 import org.example.clinicservice.repository.UserRepository;
 import org.example.clinicservice.service.interfeces.UserService;
-import org.example.clinicservice.transformers.UserTransformer;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -45,7 +42,7 @@ public class UserServiceImpl implements UserService {
             }
             return user;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid user ID provided: " + userId, e);
+            throw new IllegalArgumentException("Invalid user ID provided: " + userId);
         }
     }
 
@@ -68,7 +65,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRepository.findByEmail(email);
             if (user == null) {
-                throw new EmailNotFoundExaption(ErrorMessage.EMAIL_DOES_NOT_EXIST);
+                throw new EmailNotFoundExсeption(ErrorMessage.EMAIL_DOES_NOT_EXIST);
             }
             return user;
         } catch (Exception e) {
@@ -78,12 +75,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(UUID userId) {
+
         try {
+            if (!userRepository.existsById(userId)) {
+                throw new UserNotFoundException(ErrorMessage.USER_WITH_ID_NOT_EXIST);
+            }
             userRepository.deleteById(userId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new UserNotFoundException(ErrorMessage.ID_NOT_FOUND);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid user ID", e);
+            throw new InvalidIdException(ErrorMessage.INVALID_USER_ID);
         }
     }
 }

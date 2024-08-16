@@ -14,6 +14,5 @@ public interface SystemOwnerRepository extends JpaRepository<SystemOwner, UUID> 
     SystemOwner findByOwnerId(UUID ownerId);
     SystemOwner findByEmail(String email);
     SystemOwner findByPhoneNumber(String phoneNumber);
-    List<SystemOwner> findByFirstNameAndLastName(String firstName, String lastName);
-    List<SystemOwner> findByEmailContaining(String email);
+
 }

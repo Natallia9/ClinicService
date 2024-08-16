@@ -14,6 +14,7 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     List<Patient> findByDoctorId(UUID doctorId);
     Patient findByPhoneNumber(String phoneNumber);
+    Patient findByEmail(String email);
     List<Patient> findByFirstNameAndLastName(String firstName, String lastName);
     List<Patient> findByMedicalRecordsIsNotEmpty();
     List<Patient> findBySpecialists(Specialist specialist);

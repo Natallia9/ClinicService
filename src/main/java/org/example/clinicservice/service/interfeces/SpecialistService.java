@@ -11,7 +11,6 @@ public interface SpecialistService {
 
     List<Specialist> getAllSpecialists();
     List<Specialist> findSpecialistsByAreaOfSpecialization(String areaOfSpecialization);
-    List<Specialist> findSpecialistsByContactInformation(String contactInformation);
     List<Specialist> findSpecialistsByAvailability(boolean availability);
     List<Specialist> findSpecialistsByDepartment(Department department);
     List<Specialist> findSpecialistsByPatient(Patient patient);

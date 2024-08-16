@@ -8,11 +8,10 @@ import java.util.UUID;
 
 public interface SystemOwnerService {
 
+//    SystemOwner addSystemOwner(SystemOwner systemOwner);
     SystemOwner getSystemOwnerById(UUID ownerId);
     SystemOwner getSystemOwnerByEmail(String email);
-    SystemOwner getSystemOwnerByPhoneNumber(String phoneNumber);
-    List<SystemOwner> getSystemOwnerByFirstNameAndLastName(String firstName, String lastName);
-    List<SystemOwner> getSystemOwnersByEmailContaining(String email);
+    SystemOwner findByPhoneNumber(String phoneNumber);
     void saveSystemOwner(SystemOwner systemOwner);
     void deleteSystemOwner(UUID ownerId);
 }

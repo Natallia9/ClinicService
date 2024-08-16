@@ -1,6 +1,6 @@
 package org.example.clinicservice.controller.handler;
 
-import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExaption;
+import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.userExeptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExeptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -40,8 +40,8 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errorExtension, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailNotFoundExaption.class)
-    public ResponseEntity<ErrorExtension> handlerEmailNotFoundExaption(EmailNotFoundExaption ex){
+    @ExceptionHandler(EmailNotFoundExсeption.class)
+    public ResponseEntity<ErrorExtension> handlerEmailNotFoundExaption(EmailNotFoundExсeption ex){
         ErrorExtension errorExtension = new ErrorExtension(
                 ex.getMessage(),
                 "EMAIL_EXISTS",

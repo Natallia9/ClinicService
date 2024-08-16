@@ -1,11 +1,10 @@
 package org.example.clinicservice.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.dto.UserDTO;
 import org.example.clinicservice.entity.User;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExaption;
+import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.userExeptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExeptions.UserNotFoundException;
 import org.example.clinicservice.service.interfeces.UserService;
@@ -70,7 +69,7 @@ public class UserController {
         try {
             User user = userService.getUserByEmail(email);
             return UserTransformer.convertToUserDTO(user);
-        } catch (EmailNotFoundExaption ex) {
+        } catch (EmailNotFoundExсeption ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }

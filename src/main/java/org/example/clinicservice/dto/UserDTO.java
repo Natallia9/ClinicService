@@ -1,6 +1,7 @@
 package org.example.clinicservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,14 +21,18 @@ public class UserDTO {
     private String lastName;
 
     @NotEmpty(message = "The field cannot be empty")
-    @Size(min = 1, max = 50, message = "Last name must be between 1 and 50 characters")
+    @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
     private String firstName;
 
     @NotEmpty(message = "The field cannot be empty")
     @Email(message = "Email should be valid")
     private String email;
 
+    @NotNull(message = "This field cannot be empty")
+    @Valid
     private UserType userType;
 
+    @NotNull(message = "This field cannot be empty")
+    @Valid
     private Set<Roles> roles;
 }

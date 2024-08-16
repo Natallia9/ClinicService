@@ -1,7 +1,9 @@
 package org.example.clinicservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -16,27 +18,31 @@ import java.util.UUID;
 @Schema(description = "DTO for a specialist with personal details, experience, availability, and spoken languages.")
 public class SpecialistDTO {
 
-    @NotEmpty(message = "Area of specialization cannot be empty")
-    @Size(min = 1, max = 50, message = "Area of specialization cannot exceed 100 characters")
+    @NotEmpty(message = "The field cannot be empty")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String areaOfSpecialization;
 
-    @NotEmpty(message = "Experience cannot be empty")
-    @Size(min = 1, max = 50, message = "Experience cannot exceed 50 characters")
+    @NotEmpty(message = "This field cannot be empty")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String experience;
 
     @NotEmpty(message = "Contact information cannot be empty")
-    @Size(min = 1, max = 50, message = "Contact information cannot exceed 255 characters")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     @Pattern(regexp = "^\\+\\d{11,15}$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Emergency contact is invalid")
     private String contactInformation;
 
     private boolean availability;
 
-    @NotEmpty(message = "Languages spoken cannot be empty")
-    @Size(min = 1, max = 50, message = "Languages spoken cannot exceed 255 characters")
+    @NotEmpty(message = "Contact information cannot be empty")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String languagesSpoken;
 
+    @NotNull(message = "This field cannot be empty")
+    @Valid
     private Department department;
 
+    @NotNull(message = "This field cannot be empty")
+    @Valid
     private List<Appointment> appointments = new ArrayList<>();
 
 }

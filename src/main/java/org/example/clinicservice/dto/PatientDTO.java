@@ -12,22 +12,25 @@ import java.util.UUID;
 @Schema(description = "DTO for patient details")
 public class PatientDTO {
 
-
-    @NotEmpty(message = "Phone number cannot be empty")
+    @NotEmpty(message = "This field cannot be empty")
     @Pattern(regexp = "\\+\\d{11,15}", message = "Phone number is invalid")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String phoneNumber;
 
-    @NotEmpty(message = "Age cannot be empty")
+    @NotEmpty(message = "This field cannot be empty")
+    @Size(min = 1, max = 3, message = "The length of characters in the field must not exceed 3")
     private String age;
 
-    @NotEmpty(message = "Sex cannot be empty")
+    @NotEmpty(message = "This field cannot be empty")
+    @Size(min = 1, max = 10, message = "The length of characters in the field must not exceed 10")
     private String sex;
 
-    @NotEmpty(message = "Address cannot be empty")
+    @NotEmpty(message = "This field cannot be empty")
     @Size(max = 255, message = "Address cannot exceed 255 characters")
     private String address;
 
-    @NotEmpty(message = "Emergency contact cannot be empty")
+    @NotEmpty(message = "This field cannot be empty")
     @Pattern(regexp = "\\+\\d{11,15}", message = "Emergency contact is invalid")
+    @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String emergencyContact;
 }

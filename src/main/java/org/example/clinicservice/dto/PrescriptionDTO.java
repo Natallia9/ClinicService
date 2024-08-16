@@ -1,6 +1,9 @@
 package org.example.clinicservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.util.UUID;
 
@@ -8,9 +11,21 @@ import java.util.UUID;
 @Schema(description = "DTO for representing a prescription, including medication details, dosage, instructions, and related identifiers.")
 public class PrescriptionDTO {
 
+    @NotEmpty(message = "The field cannot be empty")
+    @Size(min = 1, max = 100, message = "Medication name cannot exceed 100 characters")
     private String medicationName;
+
+    @NotEmpty(message = "The field cannot be empty")
+    @Size(min = 1, max = 50, message = "Dosage cannot exceed 50 characters")
     private String dosage;
+
+    @NotEmpty(message = "The field cannot be empty")
+    @Size(min = 1, max = 255, message = "Instructions cannot exceed 255 characters")
     private String instructions;
+
+    @NotNull(message = "This field cannot be empty")
     private UUID doctorId;
+
+    @NotNull(message = "This field cannot be empty")
     private UUID patientId;
 }

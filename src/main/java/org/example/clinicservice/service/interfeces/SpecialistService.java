@@ -5,6 +5,7 @@ import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.entity.enums.Department;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface SpecialistService {
@@ -13,6 +14,6 @@ public interface SpecialistService {
     List<Specialist> findSpecialistsByAreaOfSpecialization(String areaOfSpecialization);
     List<Specialist> findSpecialistsByAvailability(boolean availability);
     List<Specialist> findSpecialistsByDepartment(Department department);
-    List<Specialist> findSpecialistsByPatient(Patient patient);
+    Map<Specialist, List<Patient>> findSpecialistsByPatient(UUID specialistId);
 
 }

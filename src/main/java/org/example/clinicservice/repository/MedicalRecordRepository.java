@@ -12,8 +12,5 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, UU
 
     MedicalRecord findByRecordId(UUID recordId);
     List<MedicalRecord> findByPatientId(UUID patientId);
-    List<MedicalRecord> findByDoctorId(UUID doctorId);
-    List<MedicalRecord> findByDiagnoseContaining(String diagnose);
-    List<MedicalRecord> findByDoctorConclusionContaining(String doctorConclusion);
-    List<MedicalRecord> findByPrescriptionContaining(String prescription);
+
 }

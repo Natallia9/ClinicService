@@ -9,10 +9,4 @@ import java.util.UUID;
 
 public interface AppointmentService {
 
-    List<Appointment> getAppointmentsBySpecialistId(UUID specialistId);
-    List<Appointment> getAppointmentsByPatientId(UUID patientId);
-    List<Appointment> getAppointmentsByStatus(Status status);
-    List<Appointment> getAppointmentsByDateTime(LocalDateTime dateTime);
-    void saveAppointment(Appointment appointment);
-    void deleteAppointment(UUID appointmentId);
 }

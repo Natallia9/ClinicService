@@ -1,8 +1,8 @@
 package org.example.clinicservice.controller.handler;
 
-import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExсeption;
-import org.example.clinicservice.exceptions.userExeptions.UserExistsException;
-import org.example.clinicservice.exceptions.userExeptions.UserNotFoundException;
+import org.example.clinicservice.exceptions.userExceptions.EmailNotFoundExсeption;
+import org.example.clinicservice.exceptions.userExceptions.UserExistsException;
+import org.example.clinicservice.exceptions.userExceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,7 +41,7 @@ public class ApplicationExceptionHandler {
     }
 
     @ExceptionHandler(EmailNotFoundExсeption.class)
-    public ResponseEntity<ErrorExtension> handlerEmailNotFoundExaption(EmailNotFoundExсeption ex){
+    public ResponseEntity<ErrorExtension> handlerEmailNotFoundException(EmailNotFoundExсeption ex){
         ErrorExtension errorExtension = new ErrorExtension(
                 ex.getMessage(),
                 "EMAIL_EXISTS",

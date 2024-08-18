@@ -14,9 +14,8 @@ import java.util.UUID;
 public interface SpecialistRepository extends JpaRepository<Specialist, UUID> {
 
     List<Specialist> findByAreaOfSpecialization(String areaOfSpecialization);
-    List<Specialist> findByPatientPhoneNumberOrPatientEmail(String phoneNumber, String email);
+    List<Specialist> findByPatientId(UUID patientId);
     List<Specialist> findByAvailability(boolean availability);
     List<Specialist> findByDepartment(Department department);
-    List<Specialist> findByPatients(Patient patient);
 
 }

@@ -17,36 +17,4 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
 
-    @Override
-    public List<Appointment> getAppointmentsBySpecialistId(UUID specialistId) {
-        return appointmentRepository.findBySpecialistId(specialistId);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByPatientId(UUID patientId) {
-
-        return appointmentRepository.findByPatientId(patientId);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByStatus(Status status) {
-
-        return appointmentRepository.findByStatus(status);
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByDateTime(LocalDateTime dateTime) {
-
-        return appointmentRepository.findByDateTime(dateTime);
-    }
-
-    @Override
-    public void saveAppointment(Appointment appointment) {
-        appointmentRepository.save(appointment);
-    }
-
-    @Override
-    public void deleteAppointment(UUID appointmentId) {
-        appointmentRepository.deleteById(appointmentId);
-    }
 }

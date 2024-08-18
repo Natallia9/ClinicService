@@ -13,6 +13,5 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
 
     Payment findByServiceId(UUID serviceId);
     List<Payment> findByServiceName(ServiceName serviceName);
-    List<Payment> findByPrice(double price);
     List<Payment> findByPatientId(UUID patientId);
 }

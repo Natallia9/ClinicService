@@ -2,13 +2,13 @@ package org.example.clinicservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.entity.SystemOwner;
-import org.example.clinicservice.exceptions.userExeptions.EmailNotFoundExсeption;
+import org.example.clinicservice.exceptions.userExceptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.userExeptions.InvalidIdException;
+import org.example.clinicservice.exceptions.userExceptions.InvalidIdException;
 import org.example.clinicservice.exceptions.systemOwnerExceptions.SystemOwnerExistsException;
 import org.example.clinicservice.exceptions.systemOwnerExceptions.SystemOwnerNotFoundException;
-import org.example.clinicservice.exceptions.userExeptions.InvalidPhoneNumberException;
-import org.example.clinicservice.exceptions.userExeptions.PhoneNumberNotFoundException;
+import org.example.clinicservice.exceptions.userExceptions.InvalidPhoneNumberException;
+import org.example.clinicservice.exceptions.userExceptions.PhoneNumberNotFoundException;
 import org.example.clinicservice.repository.SystemOwnerRepository;
 import org.example.clinicservice.service.interfeces.SystemOwnerService;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,6 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
 
     private final SystemOwnerRepository systemOwnerRepository;
 
-
     @Override
     public SystemOwner getSystemOwnerById(UUID ownerId) {
 
@@ -32,7 +31,7 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
             }
             return systemOwner;
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while retrieving SystemOwner with id " + ownerId, e);
+            throw new RuntimeException("An error occurred while retrieving System Owner with id " + ownerId, e);
         }
     }
 
@@ -66,10 +65,15 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
 
     @Override
     public void saveSystemOwner(SystemOwner systemOwner) {
+
         if (systemOwnerRepository.existsById(systemOwner.getOwnerId())) {
             throw new SystemOwnerExistsException(ErrorMessage.SYSTEM_OWNER_WITH_ID_EXIST);
         }
-        systemOwnerRepository.save(systemOwner);
+        try {
+            systemOwnerRepository.save(systemOwner);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to save system owner due to invalid argument: " + e.getMessage(), e);
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.example.clinicservice.exceptions.specialistExeptions;
+package org.example.clinicservice.exceptions.specialistExceptions;
 
 public class SpecializationNotFoundException extends RuntimeException {
     public SpecializationNotFoundException(String message) {

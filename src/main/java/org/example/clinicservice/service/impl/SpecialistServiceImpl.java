@@ -5,16 +5,20 @@ import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.entity.enums.Department;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.patientExeptions.InvalidPatientException;
-import org.example.clinicservice.exceptions.specialistExeptions.DepartmentNotFoundException;
-import org.example.clinicservice.exceptions.specialistExeptions.SpecialistsNotFoundException;
-import org.example.clinicservice.exceptions.specialistExeptions.SpecializationNotFoundException;
+import org.example.clinicservice.exceptions.patientExceptions.PatientsNotFoundException;
+import org.example.clinicservice.exceptions.specialistExceptions.DepartmentNotFoundException;
+import org.example.clinicservice.exceptions.specialistExceptions.SpecialistNotFoundException;
+import org.example.clinicservice.exceptions.specialistExceptions.SpecialistsNotFoundException;
+import org.example.clinicservice.exceptions.specialistExceptions.SpecializationNotFoundException;
 import org.example.clinicservice.repository.PatientRepository;
 import org.example.clinicservice.repository.SpecialistRepository;
 import org.example.clinicservice.service.interfeces.SpecialistService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -75,18 +79,34 @@ public class SpecialistServiceImpl implements SpecialistService {
     }
 
     @Override
-    public List<Specialist> findSpecialistsByPatient(Patient patient) {
+    public Map<Specialist, List<Patient>> findSpecialistsByPatient(UUID specialistId) {
 
-        List<Specialist> specialists = specialistRepository.findByPatientPhoneNumberOrPatientEmail(
-                patient.getPhoneNumber(),
-                patient.getEmail()
-        );
+        Specialist specialist = specialistRepository.findById(specialistId)
+                .orElseThrow(() -> new SpecialistNotFoundException(ErrorMessage.SPECIALIST_NOT_FOUND));
 
-        if (specialists.isEmpty()) {
-            throw new InvalidPatientException(ErrorMessage.INVALID_PATIENT);
+        List<Patient> patients = patientRepository.findByDoctorId(specialistId);
+
+        if (patients.isEmpty()) {
+            throw new PatientsNotFoundException(ErrorMessage.PATIENTS_NOT_FOUND);
+        }
+            return Collections.singletonMap(specialist, patients);
+
         }
 
-        return specialists;
+//        List<Specialist> specialists = specialistRepository.findByPatientPhoneNumberOrPatientEmail(
+//                patient.getPhoneNumber(),
+//                patient.getEmail()
+//        );
+//
+//        if (specialists.isEmpty()) {
+//            throw new InvalidPatientException(ErrorMessage.INVALID_PATIENT);
+//        }
+//
+//        try {
+//            return specialists;
+//        } catch (Exception e) {
+//            throw new RuntimeException("No specialists have been found" + e.getMessage(), e);
+//        }
 
 //        Patient foundPatientByPhoneNumber = patientRepository.findByPhoneNumber(patient.getPhoneNumber());
 //        Patient foundPatientByEmail = patientRepository.findByEmail(patient.getEmail());
@@ -105,4 +125,4 @@ public class SpecialistServiceImpl implements SpecialistService {
 //
 //        return specialists;
     }
-}
+

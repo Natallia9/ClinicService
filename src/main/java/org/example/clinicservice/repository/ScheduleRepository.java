@@ -1,6 +1,7 @@
 package org.example.clinicservice.repository;
 
 import org.example.clinicservice.entity.Schedule;
+import org.example.clinicservice.entity.Specialist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +14,9 @@ import java.util.UUID;
 public interface ScheduleRepository extends JpaRepository<Schedule, UUID> {
 
     Schedule findByScheduleId(UUID scheduleId);
-    List<Schedule> findByDoctorId(UUID doctorId);
+    List<Schedule> findBySpecialistId(UUID specialistId);
     List<Schedule> findByWorkingDaysContaining(DayOfWeek dayOfWeek);
-    List<Schedule> findByStartTimeBetweenAndEndTime(LocalTime startTime, LocalTime endTime);
+    boolean existsByDoctorAndWorkingDays(Specialist doctor, List<DayOfWeek> dayOfWeek);
     List<Schedule> findByDoctorIdAndWorkingDaysContaining(UUID doctorId, DayOfWeek dayOfWeek);
-    List<Schedule> findByDoctorIdAndStartTimeBetween(UUID doctorId, LocalTime startTime, LocalTime endTime);
+
 }

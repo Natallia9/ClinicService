@@ -11,9 +11,6 @@ import java.util.UUID;
 public interface LabReportRepository extends JpaRepository<LabReport, UUID> {
 
     LabReport findByReportId(UUID reportId);
-    List<LabReport> findByReportName(String reportName);
     List<LabReport> findByReportDate(LocalDateTime reportDate);
-    List<LabReport> findByReportDateBetween(LocalDateTime startDate, LocalDateTime endDate);
-    List<LabReport> findByMedicalRecordId(UUID medicalRecordId);
 }
 

@@ -1,4 +1,4 @@
-package org.example.clinicservice.exceptions.userExeptions;
+package org.example.clinicservice.exceptions.userExceptions;
 
 public class UserNotFoundException extends RuntimeException{
 

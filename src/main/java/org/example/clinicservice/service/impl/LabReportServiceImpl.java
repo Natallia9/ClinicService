@@ -34,7 +34,7 @@ public class LabReportServiceImpl implements LabReportService {
             }
             return labReport;
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while retrieving lab report with id " + recordId, e);
+            throw new RuntimeException("An error occurred while retrieving lab report with id " + reportId, e);
         }
     }
 

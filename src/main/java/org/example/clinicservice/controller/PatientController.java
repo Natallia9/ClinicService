@@ -1,47 +1,58 @@
 package org.example.clinicservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clinicservice.dto.PatientDTO;
+import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Patient;
+import org.example.clinicservice.entity.Specialist;
+import org.example.clinicservice.service.interfeces.PatientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/patients")
 @RequiredArgsConstructor
 public class PatientController {
 
+    private final PatientService patientService;
+    private final PatientTransformer transformer;
 
-
-//    @GetMapping("/get/{id}")
-//    public Patient getPatientById(@PathVariable("id") UUID id){
-//        Patient patient = patientService.
-//        return patient;
-//    }
-//    @PostMapping("/add")
-//    public Patient addNewPatient(@RequestBody Patient patient) {
-//        Patient addPatient = patientService.savePatient(patient);
-//        return addPatient;
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<PatientDTO> getAllPatients() {
+        List<Patient> patients = patientService.getAllPatients();
+        return patients.stream()
+                .map(transformer::convertToDTO)
+                .toList();
     }
 
+    @GetMapping("/phone/{phoneNumber}")
+    @ResponseStatus(HttpStatus.OK)
+    public PatientDTO findByPhoneNumber(@PathVariable String phoneNumber) {
+        Patient patient = patientService.findByPhoneNumber(phoneNumber);
+        return transformer.convertToDTO(patient);
+    }
 
-//
-//    @PostMapping("/create")
-//    public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientAfterCreationDTO patientDTO) {
-//        // Маппинг DTO в сущность Patient
-//        Patient patient = patientMapper.toEntity(patientDTO);
-//
-//        // Сохранение пациента
-//        Patient savedPatient = patientService.createPatient(patient);
-//
-//        // Маппинг сущности Patient обратно в DTO
-//        PatientDTO responseDTO = patientMapper.toDTO(savedPatient);
-//
-//        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-//    }
-//    @DeleteMapping("/delete/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void deletePatient(@PathVariable("id") UUID id) {
-//        patientService.deletePatient(id);
-//    }
+    @GetMapping("/{patientId}/specialists")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<PatientDTO, List<SpecialistDTO>> findBySpecialists(@PathVariable UUID patientId) {
+        Map<Patient, List<Specialist>> patientSpecialists = patientService.findBySpecialists(patientId);
+        return patientSpecialists.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> transformer.convertToDTO(entry.getKey()),
+                        entry -> entry.getValue().stream()
+                                .map(transformer::convertSpecialistToDTO)
+                                .collect(Collectors.toList())
+                ));
+    }
+}
+
 

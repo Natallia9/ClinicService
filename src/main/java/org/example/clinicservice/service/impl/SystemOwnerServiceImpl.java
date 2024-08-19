@@ -64,7 +64,7 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
     }
 
     @Override
-    public void saveSystemOwner(SystemOwner systemOwner) {
+    public SystemOwner saveSystemOwner(SystemOwner systemOwner) {
 
         if (systemOwnerRepository.existsById(systemOwner.getOwnerId())) {
             throw new SystemOwnerExistsException(ErrorMessage.SYSTEM_OWNER_WITH_ID_EXIST);
@@ -74,6 +74,7 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to save system owner due to invalid argument: " + e.getMessage(), e);
         }
+        return systemOwner;
     }
 
     @Override

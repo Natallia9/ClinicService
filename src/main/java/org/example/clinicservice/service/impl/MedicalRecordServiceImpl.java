@@ -76,5 +76,5 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             throw new RuntimeException("Failed to delete medical record with ID: " + recordId, e);
         }
     }
-    }
+}
 

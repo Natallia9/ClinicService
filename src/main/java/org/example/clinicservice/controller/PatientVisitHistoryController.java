@@ -7,6 +7,9 @@ import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.PatientVisitHistory;
 import org.example.clinicservice.entity.Specialist;
+import org.example.clinicservice.mapper.PatientMapper;
+import org.example.clinicservice.mapper.PatientVisitHistoryMapper;
+import org.example.clinicservice.mapper.SpecialistMapper;
 import org.example.clinicservice.service.interfeces.PatientVisitHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +25,15 @@ import java.util.stream.Collectors;
 public class PatientVisitHistoryController {
 
     private final PatientVisitHistoryService patientVisitHistoryService;
-    private final PatientVisitHistoryTransformer transformer;
+    private final PatientVisitHistoryMapper patientVisitHistoryMapper;
+    private final SpecialistMapper specialistMapper;
+    private final PatientMapper patientMapper;
 
     @GetMapping("/{visitId}")
     @ResponseStatus(HttpStatus.OK)
     public PatientVisitHistoryDTO getVisitHistoryById(@PathVariable UUID visitId) {
         PatientVisitHistory visitHistory = patientVisitHistoryService.getVisitHistoryById(visitId);
-        return transformer.convertToDTO(visitHistory);
+        return patientVisitHistoryMapper.toDto(visitHistory);
     }
 
     @GetMapping("/patient/{patientId}")
@@ -37,8 +42,8 @@ public class PatientVisitHistoryController {
         Map<Patient, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryByPatient(patientId);
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> transformer.convertPatientToDTO(entry.getKey()),
-                        entry -> entry.getValue().stream().map(transformer::convertToDTO).collect(Collectors.toList())
+                        entry -> patientMapper.toDto(entry.getKey()),
+                        entry -> entry.getValue().stream().map(patientVisitHistoryMapper::toDto).collect(Collectors.toList())
                 ));
     }
 
@@ -48,8 +53,8 @@ public class PatientVisitHistoryController {
         Map<Specialist, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryBySpecialist(specialistId);
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> transformer.convertSpecialistToDTO(entry.getKey()),
-                        entry -> entry.getValue().stream().map(transformer::convertToDTO).collect(Collectors.toList())
+                        entry -> specialistMapper.toDto(entry.getKey()),
+                        entry -> entry.getValue().stream().map(patientVisitHistoryMapper::toDto).collect(Collectors.toList())
                 ));
     }
 
@@ -59,15 +64,15 @@ public class PatientVisitHistoryController {
         Map<Patient, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryByVisitDateTime(visitDateTime);
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> transformer.convertPatientToDTO(entry.getKey()),
-                        entry -> entry.getValue().stream().map(transformer::convertToDTO).collect(Collectors.toList())
+                        entry -> patientMapper.toDto(entry.getKey()),
+                        entry -> entry.getValue().stream().map(patientVisitHistoryMapper::toDto).collect(Collectors.toList())
                 ));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveVisitHistory(@RequestBody PatientVisitHistoryDTO visitHistoryDTO) {
-        PatientVisitHistory visitHistory = transformer.convertFromDTO(visitHistoryDTO);
+        PatientVisitHistory visitHistory = patientVisitHistoryMapper.toEntity(visitHistoryDTO);
         patientVisitHistoryService.saveVisitHistory(visitHistory);
     }
 

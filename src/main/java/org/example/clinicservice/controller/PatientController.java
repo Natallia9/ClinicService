@@ -5,6 +5,8 @@ import org.example.clinicservice.dto.PatientDTO;
 import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.Specialist;
+import org.example.clinicservice.mapper.PatientMapper;
+import org.example.clinicservice.mapper.SpecialistMapper;
 import org.example.clinicservice.service.interfeces.PatientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +25,15 @@ import java.util.stream.Collectors;
 public class PatientController {
 
     private final PatientService patientService;
-    private final PatientTransformer transformer;
+    private final PatientMapper patientMapper;
+    private final SpecialistMapper specialistMapper;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<PatientDTO> getAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
         return patients.stream()
-                .map(transformer::convertToDTO)
+                .map(patientMapper::toDto)
                 .toList();
     }
 
@@ -38,7 +41,7 @@ public class PatientController {
     @ResponseStatus(HttpStatus.OK)
     public PatientDTO findByPhoneNumber(@PathVariable String phoneNumber) {
         Patient patient = patientService.findByPhoneNumber(phoneNumber);
-        return transformer.convertToDTO(patient);
+        return patientMapper.toDto(patient);
     }
 
     @GetMapping("/{patientId}/specialists")
@@ -47,9 +50,9 @@ public class PatientController {
         Map<Patient, List<Specialist>> patientSpecialists = patientService.findBySpecialists(patientId);
         return patientSpecialists.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> transformer.convertToDTO(entry.getKey()),
+                        entry -> patientMapper.toDto(entry.getKey()),
                         entry -> entry.getValue().stream()
-                                .map(transformer::convertSpecialistToDTO)
+                                .map(specialistMapper::toDto)
                                 .collect(Collectors.toList())
                 ));
     }

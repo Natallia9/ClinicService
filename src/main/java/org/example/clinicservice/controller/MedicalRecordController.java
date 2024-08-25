@@ -3,6 +3,7 @@ package org.example.clinicservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.dto.MedicalRecordDTO;
 import org.example.clinicservice.entity.MedicalRecord;
+import org.example.clinicservice.mapper.MedicalRecordMapper;
 import org.example.clinicservice.service.interfeces.MedicalRecordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,13 @@ import java.util.stream.Collectors;
 public class MedicalRecordController {
 
     private final MedicalRecordService medicalRecordService;
-    private final MedicalRecordTransformer transformer;
+    private final MedicalRecordMapper medicalRecordMapper;
 
     @GetMapping("/{recordId}")
     @ResponseStatus(HttpStatus.OK)
     public MedicalRecordDTO getMedicalRecordById(@PathVariable UUID recordId) {
         MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordById(recordId);
-        return transformer.convertToDTO(medicalRecord);
+        return medicalRecordMapper.toDto(medicalRecord);
     }
 
     @GetMapping("/patient/{patientId}")
@@ -31,16 +32,16 @@ public class MedicalRecordController {
     public List<MedicalRecordDTO> getMedicalRecordsByPatientId(@PathVariable UUID patientId) {
         List<MedicalRecord> medicalRecords = medicalRecordService.getMedicalRecordsByPatientId(patientId);
         return medicalRecords.stream()
-                .map(transformer::convertToDTO)
+                .map(medicalRecordMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MedicalRecordDTO saveMedicalRecord(@RequestBody MedicalRecordDTO medicalRecordDTO) {
-        MedicalRecord medicalRecord = transformer.convertToEntity(medicalRecordDTO);
+        MedicalRecord medicalRecord = medicalRecordMapper.toEntity(medicalRecordDTO);
         medicalRecordService.saveMedicalRecord(medicalRecord);
-        return transformer.convertToDTO(medicalRecord);
+        return medicalRecordMapper.toDto(medicalRecord);
     }
 
     @DeleteMapping("/{recordId}")

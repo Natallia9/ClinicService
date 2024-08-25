@@ -56,5 +56,5 @@ public interface PatientVisitHistoryMapper {
     }
 
     @Mapping(target = "visitId", ignore = true)
-    PatientVisitHistoryDTO toDTO(PatientVisitHistory patientVisitHistory);
+    PatientVisitHistoryDTO toDto(PatientVisitHistory patientVisitHistory);
 }

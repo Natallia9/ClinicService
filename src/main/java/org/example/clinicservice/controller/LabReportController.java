@@ -5,6 +5,8 @@ import org.example.clinicservice.dto.LabReportDTO;
 import org.example.clinicservice.dto.MedicalRecordDTO;
 import org.example.clinicservice.entity.LabReport;
 import org.example.clinicservice.entity.MedicalRecord;
+import org.example.clinicservice.mapper.LabReportMapper;
+import org.example.clinicservice.mapper.MedicalRecordMapper;
 import org.example.clinicservice.service.interfeces.LabReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +23,14 @@ import java.util.stream.Collectors;
 public class LabReportController {
 
     private final LabReportService labReportService;
-    private final LabReportTransformer transformer;
+    private final LabReportMapper labReportMapper;
+    private final MedicalRecordMapper medicalRecordMapper;
 
     @GetMapping("/{reportId}")
     @ResponseStatus(HttpStatus.OK)
     public LabReportDTO getLabReportById(@PathVariable UUID reportId) {
         LabReport labReport = labReportService.getLabReportById(reportId);
-        return transformer.convertToDTO(labReport);
+        return labReportMapper.toDto(labReport);
     }
 
     @GetMapping("/date/{reportDate}")
@@ -36,9 +39,9 @@ public class LabReportController {
         Map<MedicalRecord, List<LabReport>> labReportsByRecord = labReportService.getLabReportsByDate(reportDate);
         return labReportsByRecord.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> transformer.convertMedicalRecordToDTO(entry.getKey()),
+                        entry -> medicalRecordMapper.toDto(entry.getKey()),
                         entry -> entry.getValue().stream()
-                                .map(transformer::convertToDTO)
+                                .map(labReportMapper::toDto)
                                 .collect(Collectors.toList())
                 ));
     }
@@ -46,14 +49,15 @@ public class LabReportController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public LabReportDTO saveLabReport(@RequestBody LabReportDTO labReportDTO) {
-        LabReport labReport = transformer.convertToEntity(labReportDTO);
+        LabReport labReport = labReportMapper.toEntity(labReportDTO);
         labReportService.saveLabReport(labReport);
-        return transformer.convertToDTO(labReport);
+        return labReportMapper.toDto(labReport);
     }
 
     @DeleteMapping("/{reportId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLabReport(@PathVariable UUID reportId) {
+
         labReportService.deleteLabReport(reportId);
     }
 }

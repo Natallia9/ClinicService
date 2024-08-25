@@ -7,6 +7,7 @@ import org.example.clinicservice.exceptions.ErrorMessage;
 import org.example.clinicservice.exceptions.userExceptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.userExceptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExceptions.UserNotFoundException;
+import org.example.clinicservice.mapper.UserMapper;
 import org.example.clinicservice.service.interfeces.UserService;
 import org.example.clinicservice.transformers.UserTransformer;
 import org.springframework.http.HttpStatus;
@@ -23,19 +24,21 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO addUser(@RequestBody User user) {
+    public UserDTO addUser(@RequestBody UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
         User savedUser = userService.addUser(user);
-        return UserTransformer.convertToUserDTO(savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserById(@PathVariable UUID userId) {
         User user = userService.getUserById(userId);
-        return UserTransformer.convertToUserDTO(user);
+        return userMapper.toDto(user);
     }
 
     @GetMapping
@@ -45,7 +48,7 @@ public class UserController {
             @RequestParam String lastName) {
         List<User> users = userService.getUsersByFirstNameAndLastName(firstName, lastName);
         return users.stream()
-                .map(UserTransformer::convertToUserDTO)
+                .map(userMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +56,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserByEmail(@RequestParam String email) {
         User user = userService.getUserByEmail(email);
-        return UserTransformer.convertToUserDTO(user);
+        return userMapper.toDto(user);
     }
 
     @DeleteMapping("/{userId}")

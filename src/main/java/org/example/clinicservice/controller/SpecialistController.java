@@ -6,6 +6,8 @@ import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Patient;
 import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.entity.enums.Department;
+import org.example.clinicservice.mapper.PatientMapper;
+import org.example.clinicservice.mapper.SpecialistMapper;
 import org.example.clinicservice.service.interfeces.SpecialistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +23,15 @@ import java.util.stream.Collectors;
 public class SpecialistController {
 
     private final SpecialistService specialistService;
+    private final SpecialistMapper specialistMapper;
+    private final PatientMapper patientMapper;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<SpecialistDTO> getAllSpecialists() {
         List<Specialist> specialists = specialistService.getAllSpecialists();
         return specialists.stream()
-                .map(SpecialistTransformer::convertToSpecialistDTO)
+                .map(specialistMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -36,7 +40,7 @@ public class SpecialistController {
     public List<SpecialistDTO> findSpecialistsByAreaOfSpecialization(@RequestParam String areaOfSpecialization) {
         List<Specialist> specialists = specialistService.findSpecialistsByAreaOfSpecialization(areaOfSpecialization);
         return specialists.stream()
-                .map(SpecialistTransformer::convertToSpecialistDTO)
+                .map(specialistMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +49,7 @@ public class SpecialistController {
     public List<SpecialistDTO> findSpecialistsByAvailability(@RequestParam boolean availability) {
         List<Specialist> specialists = specialistService.findSpecialistsByAvailability(availability);
         return specialists.stream()
-                .map(SpecialistTransformer::convertToSpecialistDTO)
+                .map(specialistMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +58,7 @@ public class SpecialistController {
     public List<SpecialistDTO> findSpecialistsByDepartment(@RequestParam Department department) {
         List<Specialist> specialists = specialistService.findSpecialistsByDepartment(department);
         return specialists.stream()
-                .map(SpecialistTransformer::convertToSpecialistDTO)
+                .map(specialistMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -64,9 +68,9 @@ public class SpecialistController {
         Map<Specialist, List<Patient>> specialistsByPatient = specialistService.findSpecialistsByPatient(specialistId);
         return specialistsByPatient.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> SpecialistTransformer.convertToSpecialistDTO(entry.getKey()),
+                        entry -> specialistMapper.toDto(entry.getKey()),
                         entry -> entry.getValue().stream()
-                                .map(PatientTransformer::convertToPatientDTO)
+                                .map(patientMapper::toDto)
                                 .collect(Collectors.toList())
                 ));
     }

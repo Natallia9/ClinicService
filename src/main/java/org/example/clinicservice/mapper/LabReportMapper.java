@@ -7,7 +7,6 @@ import org.example.clinicservice.service.interfeces.MedicalRecordService;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)

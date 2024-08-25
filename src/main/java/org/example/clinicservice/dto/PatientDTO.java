@@ -1,7 +1,9 @@
 package org.example.clinicservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -11,6 +13,10 @@ import java.util.UUID;
 @Data
 @Schema(description = "DTO for patient details")
 public class PatientDTO {
+
+    @NotNull(message = "This field cannot be empty")
+    @Valid
+    private UserDTO user;
 
     @NotEmpty(message = "This field cannot be empty")
     @Pattern(regexp = "\\+\\d{11,15}", message = "Phone number is invalid")

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.clinicservice.entity.MedicalRecord;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

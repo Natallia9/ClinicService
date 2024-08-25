@@ -32,7 +32,7 @@ public class UserDTO {
 
     @NotEmpty(message = "The field cannot be empty")
     @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
-    private String password;
+    private char password;
 
     @NotEmpty(message = "The field cannot be empty")
     @Email(message = "Email should be valid")

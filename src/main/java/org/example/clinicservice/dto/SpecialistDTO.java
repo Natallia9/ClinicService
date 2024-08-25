@@ -18,6 +18,10 @@ import java.util.UUID;
 @Schema(description = "DTO for a specialist with personal details, experience, availability, and spoken languages.")
 public class SpecialistDTO {
 
+    @NotNull(message = "This field cannot be empty")
+    @Valid
+    private UserDTO user;
+
     @NotEmpty(message = "The field cannot be empty")
     @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")
     private String areaOfSpecialization;
@@ -44,5 +48,6 @@ public class SpecialistDTO {
     @NotNull(message = "This field cannot be empty")
     @Valid
     private List<Appointment> appointments = new ArrayList<>();
+
 
 }

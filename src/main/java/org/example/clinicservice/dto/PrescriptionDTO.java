@@ -11,6 +11,9 @@ import java.util.UUID;
 @Schema(description = "DTO for representing a prescription, including medication details, dosage, instructions, and related identifiers.")
 public class PrescriptionDTO {
 
+    @NotNull(message = "This field cannot be empty")
+    private UUID prescriptionId;
+
     @NotEmpty(message = "The field cannot be empty")
     @Size(min = 1, max = 100, message = "Medication name cannot exceed 100 characters")
     private String medicationName;

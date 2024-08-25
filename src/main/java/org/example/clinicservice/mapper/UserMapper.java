@@ -3,11 +3,16 @@ package org.example.clinicservice.mapper;
 import org.example.clinicservice.dto.UserDTO;
 import org.example.clinicservice.entity.User;
 import org.mapstruct.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @Component
 public interface UserMapper {
+
+    PasswordEncoder passwordEncoder =...;
 
 
     @Mappings({
@@ -24,11 +29,12 @@ public interface UserMapper {
 
     @AfterMapping
     default void createdUser(@MappingTarget User user, UserDTO userDTO) {
-        user.setUserId(user.getUserId());
+
+        user.setUserId(UUID.randomUUID());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUserName(userDTO.getUserName());
-        user.setPassword(setPassword(passwordEncoder.encode(userDTO.getPassword())));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
         user.setUserType(userDTO.getUserType());
         user.setRoles(userDTO.getRoles());

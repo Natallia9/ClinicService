@@ -8,6 +8,7 @@ import org.mapstruct.*;
 public interface PatientMapper {
 
     @Mappings({
+            @Mapping(target = "user", source = "user"),
             @Mapping(target = "phoneNumber", source = "phoneNumber"),
             @Mapping(target = "age", source = "age"),
             @Mapping(target = "sex", source = "sex"),
@@ -16,7 +17,17 @@ public interface PatientMapper {
     })
     Patient toEntity(PatientDTO patientDTO);
 
+    @AfterMapping
+    default void createdPatient(@MappingTarget Patient patient, PatientDTO patientDTO) {
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
+        patient.setAge(patientDTO.getAge());
+        patient.setSex(patientDTO.getSex());
+        patient.setAddress(patientDTO.getAddress());
+        patient.setEmergencyContact(patientDTO.getEmergencyContact());
+    }
+
     @Mappings({
+            @Mapping(target = "user", source = "user"),
             @Mapping(target = "phoneNumber", source = "phoneNumber"),
             @Mapping(target = "age", source = "age"),
             @Mapping(target = "sex", source = "sex"),

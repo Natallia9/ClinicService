@@ -26,7 +26,7 @@ spring:
       doc-expansion: none
 
   liquibase:
-    change-log: classpath:db/changelog/changelog.xml  # Путь к главному changelog файлу Liquibase
+    change-log: classpath:db/changelog/changelog-master.xml  # Путь к главному changelog файлу Liquibase
 
   logging:
     level:

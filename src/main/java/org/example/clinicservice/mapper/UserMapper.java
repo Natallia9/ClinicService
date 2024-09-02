@@ -3,6 +3,7 @@ package org.example.clinicservice.mapper;
 import org.example.clinicservice.dto.UserDTO;
 import org.example.clinicservice.entity.User;
 import org.mapstruct.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,7 @@ import java.util.UUID;
 @Component
 public interface UserMapper {
 
-    PasswordEncoder passwordEncoder =...;
-
+    BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
 
     @Mappings({
             @Mapping(target = "id", ignore = true),

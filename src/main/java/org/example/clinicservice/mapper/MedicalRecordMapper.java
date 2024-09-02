@@ -50,16 +50,9 @@ public interface MedicalRecordMapper {
         medicalRecord.setDoctorConclusion(medicalRecordDTO.getDoctorConclusion());
 
         Prescription prescription = prescriptionService.getPrescriptionById(medicalRecordDTO.getPrescription().getPrescriptionId());
-        prescription.getPrescriptionId();
+        medicalRecord.setPrescription(String.valueOf(prescription));
 
-        List<String> medicalProcedures = new ArrayList<>();
-        for (String medProcedure : medicalRecordDTO.getMedicalProcedure()){
-            if (medProcedure.isEmpty()){
-                medicalProcedures.add(medProcedure);
-
-            }
-        }
-        medicalRecord.setMedicalProcedure(medicalProcedures);
+        medicalRecord.setMedicalProcedure(new ArrayList<>(medicalRecordDTO.getMedicalProcedure()));
 
         List<LabReport> labReports = new ArrayList<>();
         for (LabReport labReport : medicalRecordDTO.getLabReports()) {
@@ -70,6 +63,7 @@ public interface MedicalRecordMapper {
         }
         medicalRecord.setLabReports(labReports);
     }
+
 
 
     @Mappings({

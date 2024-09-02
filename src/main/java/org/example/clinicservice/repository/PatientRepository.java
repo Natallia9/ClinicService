@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     List<Patient> findByDoctorId(UUID doctorId);
-    Patient findByPhoneNumber(String phoneNumber);
+    Optional<Patient> findByPhoneNumber(String phoneNumber);
     List<Patient> findByFirstNameAndLastName(String firstName, String lastName);
     List<Patient> findByMedicalRecordsIsNotEmpty();
     List<Patient> findBySpecialists(Specialist specialist);

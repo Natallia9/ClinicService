@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, UUID> {
 
-    Schedule findByScheduleId(UUID scheduleId);
+    Optional<Schedule> findByScheduleId(UUID scheduleId);
     List<Schedule> findBySpecialistId(UUID specialistId);
     List<Schedule> findByWorkingDaysContaining(DayOfWeek dayOfWeek);
     boolean existsByDoctorAndWorkingDays(Specialist doctor, List<DayOfWeek> dayOfWeek);

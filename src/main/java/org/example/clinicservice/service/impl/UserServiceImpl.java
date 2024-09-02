@@ -3,8 +3,7 @@ package org.example.clinicservice.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.entity.User;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.userExceptions.EmailNotFoundExсeption;
-import org.example.clinicservice.exceptions.userExceptions.InvalidIdException;
+import org.example.clinicservice.exceptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.userExceptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExceptions.UserNotFoundException;
 import org.example.clinicservice.repository.UserRepository;
@@ -35,16 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(UUID userId) {
-        try {
-            User user = userRepository.findByUserId(userId);
-            if (user == null) {
-                throw new UserNotFoundException("User with id " + userId + " not found");
-            }
-            return user;
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid user ID provided: " + userId);
+
+           return userRepository.findByUserId(userId)
+                   .orElseThrow(() ->
+                           new UserNotFoundException("User with id " + userId + " not found"));
         }
-    }
 
     @Override
     public List<User> getUsersByFirstNameAndLastName(String firstName, String lastName) {
@@ -62,27 +56,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        try {
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                throw new EmailNotFoundExсeption(ErrorMessage.EMAIL_DOES_NOT_EXIST);
-            }
-            return user;
-        } catch (Exception e) {
-            throw new RuntimeException("Error occurred while searching for user by email: " + email, e);
-        }
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new EmailNotFoundExсeption(ErrorMessage.EMAIL_DOES_NOT_EXIST));
     }
 
     @Override
     public void deleteUser(UUID userId) {
+        User userById = getUserById(userId);
+        userRepository.deleteById(userById.getUserId());
 
-        try {
-            if (!userRepository.existsById(userId)) {
-                throw new UserNotFoundException(ErrorMessage.USER_WITH_ID_NOT_EXIST);
-            }
-            userRepository.deleteById(userId);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidIdException(ErrorMessage.INVALID_USER_ID);
-        }
     }
 }
+

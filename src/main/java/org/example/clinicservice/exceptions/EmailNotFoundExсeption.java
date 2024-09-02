@@ -1,4 +1,4 @@
-package org.example.clinicservice.exceptions.userExceptions;
+package org.example.clinicservice.exceptions;
 
 public class EmailNotFoundExсeption extends RuntimeException{
 

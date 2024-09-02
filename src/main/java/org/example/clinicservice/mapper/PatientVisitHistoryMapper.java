@@ -17,7 +17,7 @@ public interface PatientVisitHistoryMapper {
             @Mapping(target = "visitId", ignore = true),
             @Mapping(target = "patientId", ignore = true),
             @Mapping(target = "specialistId", ignore = true),
-            @Mapping(target = "visitType", source = "visitType"),
+//            @Mapping(target = "visitType", source = "visitType"),
             @Mapping(target = "patientCondition", source = "patientCondition"),
             @Mapping(target = "visitDateTime", source = "visitDateTime"),
             @Mapping(target = "purpose", source = "purpose"),

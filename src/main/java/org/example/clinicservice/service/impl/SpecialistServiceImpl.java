@@ -6,7 +6,6 @@ import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.entity.enums.Department;
 import org.example.clinicservice.exceptions.ErrorMessage;
 import org.example.clinicservice.exceptions.patientExceptions.PatientsNotFoundException;
-import org.example.clinicservice.exceptions.specialistExceptions.DepartmentNotFoundException;
 import org.example.clinicservice.exceptions.specialistExceptions.SpecialistNotFoundException;
 import org.example.clinicservice.exceptions.specialistExceptions.SpecialistsNotFoundException;
 import org.example.clinicservice.exceptions.specialistExceptions.SpecializationNotFoundException;
@@ -29,28 +28,17 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public List<Specialist> getAllSpecialists() {
-        try {
-            List<Specialist> specialists = specialistRepository.findAll();
-            if (specialists.isEmpty()) {
-                throw new SpecialistsNotFoundException("No specialists found");
-            }
-            return specialists;
-        } catch (IllegalStateException e) {
-            throw new RuntimeException("An unexpected condition has occurred", e);
-        }
+       return specialistRepository.findAll();
+
     }
 
     @Override
     public List<Specialist> findSpecialistsByAreaOfSpecialization(String areaOfSpecialization) {
-        try {
-            List<Specialist> specialists = specialistRepository.findByAreaOfSpecialization(areaOfSpecialization);
-            if (specialists.isEmpty()) {
-                throw new SpecializationNotFoundException(ErrorMessage.SPECIALISTS_WITH_PROFILE_NOT_FOUND);
-            }
-            return specialists;
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Error with the conclusion of specialists in this specialization: " + e);
+        List<Specialist> specialists = specialistRepository.findByAreaOfSpecialization(areaOfSpecialization);
+        if (specialists.isEmpty()) {
+            throw new SpecializationNotFoundException(ErrorMessage.SPECIALISTS_WITH_PROFILE_NOT_FOUND);
         }
+        return specialists;
     }
 
     @Override
@@ -64,34 +52,27 @@ public class SpecialistServiceImpl implements SpecialistService {
 
     @Override
     public List<Specialist> findSpecialistsByDepartment(Department department) {
-        if (department == null) {
-            throw new DepartmentNotFoundException(ErrorMessage.DEPARTMENT_NOT_EXIST);
+
+        List<Specialist> specialists = specialistRepository.findByDepartment(department);
+        if (specialists.isEmpty()) {
+            throw new SpecialistsNotFoundException("There are no specialists in the department");
         }
-        try {
-            List<Specialist> specialists = specialistRepository.findByDepartment(department);
-            if (specialists.isEmpty()) {
-                throw new SpecialistsNotFoundException("There are no specialists in the department");
-            }
-            return specialists;
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("The problem with finding specialists " + e);
-        }
+        return specialists;
     }
 
     @Override
     public Map<Specialist, List<Patient>> findSpecialistsByPatient(UUID specialistId) {
-
         Specialist specialist = specialistRepository.findById(specialistId)
                 .orElseThrow(() -> new SpecialistNotFoundException(ErrorMessage.SPECIALIST_NOT_FOUND));
 
         List<Patient> patients = patientRepository.findByDoctorId(specialistId);
-
         if (patients.isEmpty()) {
             throw new PatientsNotFoundException(ErrorMessage.PATIENTS_NOT_FOUND);
         }
-            return Collections.singletonMap(specialist, patients);
 
-        }
+        return Collections.singletonMap(specialist, patients);
+    }
+}
 
 //        List<Specialist> specialists = specialistRepository.findByPatientPhoneNumberOrPatientEmail(
 //                patient.getPhoneNumber(),
@@ -124,5 +105,5 @@ public class SpecialistServiceImpl implements SpecialistService {
 //        }
 //
 //        return specialists;
-    }
+
 

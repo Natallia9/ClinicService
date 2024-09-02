@@ -11,8 +11,8 @@ import java.util.UUID;
 @Repository
 public interface SystemOwnerRepository extends JpaRepository<SystemOwner, UUID> {
 
-    SystemOwner findByOwnerId(UUID ownerId);
-    SystemOwner findByEmail(String email);
-    SystemOwner findByPhoneNumber(String phoneNumber);
+    Optional<SystemOwner> findByOwnerId(UUID ownerId);
+    Optional<SystemOwner> findByEmail(String email);
+    Optional<SystemOwner> findByPhoneNumber(String phoneNumber);
 
 }

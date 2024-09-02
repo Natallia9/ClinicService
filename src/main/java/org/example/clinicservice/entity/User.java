@@ -43,7 +43,7 @@ public class User {
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be blank")
-    private char password;
+    private String password;
 
     @Column(name = "email", unique = true, nullable = false)
     @Email

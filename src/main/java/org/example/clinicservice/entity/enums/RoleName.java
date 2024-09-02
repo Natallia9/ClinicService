@@ -1,6 +1,16 @@
 package org.example.clinicservice.entity.enums;
 
-public enum RoleName {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum RoleName implements GrantedAuthority {
     SPECIALIST,
-    PATIENT
+    PATIENT,
+    ADMIN;
+
+
+    @Override
+    public String getAuthority() {
+
+        return name();
+    }
 }

@@ -7,6 +7,7 @@ import org.example.clinicservice.entity.User;
 import org.example.clinicservice.mapper.UserMapper;
 import org.example.clinicservice.service.interfeces.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class UserController {
         return userMapper.toDto(user);
     }
 
-    @GetMapping
+    @GetMapping("/getUsers")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDTO> getUsersByFirstNameAndLastName(
             @RequestParam String firstName,

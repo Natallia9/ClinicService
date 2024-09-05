@@ -5,6 +5,7 @@ import org.example.clinicservice.entity.enums.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,4 +13,5 @@ import java.util.UUID;
 public interface RolesRepository extends JpaRepository<Roles, UUID> {
     Roles findByRoleId(UUID roleId);
     Set<Roles> findByUsersUserId(UUID userId);
+    Optional<Roles> findByRoleName(String roleName);
 }

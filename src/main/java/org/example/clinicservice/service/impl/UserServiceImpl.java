@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
                            new UserNotFoundException("User with id " + userId + " not found"));
         }
 
+
+
     @Override
     public List<User> getUsersByFirstNameAndLastName(String firstName, String lastName) {
         List<User> users = userRepository.findByFirstNameAndLastName(firstName, lastName);

@@ -28,7 +28,6 @@ public class UserDTO {
     private String userName;
 
     @NotEmpty(message = "The field cannot be empty")
-//    @NotBlank(groups = )
     @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
     private String password;
 

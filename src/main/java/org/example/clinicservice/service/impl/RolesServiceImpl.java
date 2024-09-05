@@ -33,6 +33,12 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
+    public Roles getRoleByName(String roleName) {
+        return rolesRepository.findByRoleName(roleName)
+                .orElseThrow(() -> new RolesNotFoundException("Role not found with name: " + roleName));
+    }
+
+    @Override
     public void saveRole(Roles role) {
         rolesRepository.save(role);
     }

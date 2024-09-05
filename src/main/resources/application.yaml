@@ -17,18 +17,33 @@ spring:
 
   springdoc:
     api-docs:
-      path: /api-docs
+      path: /v3/api-docs
     swagger-ui:
       path: /swagger-ui.html
-      display-request-duration: true
-      doc-expansion: none
+      operationsSorter: alpha
+      tagsSorter: alpha
 
   liquibase:
-    change-log: classpath:db/changelog/changelog-master.xml  # Путь к главному changelog файлу Liquibase
+    change-log: classpath:db/changelog/changelog-master.xml
 
   logging:
     level:
       root: WARN
 
+security:
+  oauth2:
+    client:
+      registration:
+        google:
+          clientId: 416844276902-qoiff4neb27mn2lanla59gos9863jrut.apps.googleusercontent.com
+          clientSecret: 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
+          redirectUri: http://localhost:8080/login/oauth2/code/google
+
 server:
   port: 8080
+
+  jwt:
+    secret: "S3cr3tK3yForJWTG3ner@tionW!thR@nd0mCh@racters2024!"
+    expiration: 86400000 # 1 day in milliseconds
+
+

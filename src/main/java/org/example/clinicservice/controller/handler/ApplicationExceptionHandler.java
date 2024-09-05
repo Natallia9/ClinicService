@@ -1,6 +1,6 @@
 package org.example.clinicservice.controller.handler;
 
-import org.example.clinicservice.exceptions.EmailNotFoundExсeption;
+import org.example.clinicservice.exceptions.EmailNotFoundException;
 import org.example.clinicservice.exceptions.PhoneNumberNotFoundException;
 import org.example.clinicservice.exceptions.financialTransactionExceptions.TransactionsNotFoundException;
 import org.example.clinicservice.exceptions.labReportExceptions.LabReportNotFoundException;
@@ -50,8 +50,8 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errorExtension, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(EmailNotFoundExсeption.class)
-    public ResponseEntity<ErrorExtension> handleEmailNotFoundException(EmailNotFoundExсeption ex){
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<ErrorExtension> handleEmailNotFoundException(EmailNotFoundException ex){
         ErrorExtension errorExtension = new ErrorExtension(
                 ex.getMessage(),
                 "EMAIL_EXISTS",

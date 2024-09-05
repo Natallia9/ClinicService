@@ -2,7 +2,7 @@ package org.example.clinicservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.entity.SystemOwner;
-import org.example.clinicservice.exceptions.EmailNotFoundExсeption;
+import org.example.clinicservice.exceptions.EmailNotFoundException;
 import org.example.clinicservice.exceptions.ErrorMessage;
 import org.example.clinicservice.exceptions.systemOwnerExceptions.SystemOwnerNotFoundException;
 import org.example.clinicservice.exceptions.PhoneNumberNotFoundException;
@@ -28,7 +28,7 @@ public class SystemOwnerServiceImpl implements SystemOwnerService {
     @Override
     public SystemOwner getSystemOwnerByEmail(String email) {
         return systemOwnerRepository.findByEmail(email)
-                .orElseThrow(() -> new EmailNotFoundExсeption(ErrorMessage.EMAIL_DOES_NOT_EXIST));
+                .orElseThrow(() -> new EmailNotFoundException(ErrorMessage.EMAIL_DOES_NOT_EXIST));
     }
 
     @Override

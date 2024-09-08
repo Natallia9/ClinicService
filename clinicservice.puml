@@ -63,6 +63,7 @@ enum PaymentMethod {
 enum RoleName {
     SPECIALIST
     PATIENT
+    ADMIN
 }
 
 enum ServiceName {
@@ -94,6 +95,7 @@ enum Status {
 enum TransactionType {
     SERVICE_PAYMENT
     REFUND
+    CANCELLED
 }
 
 enum UserType {
@@ -118,7 +120,7 @@ entity Authority {
 }
 
 entity FinancialTransaction {
-    transactionId : Long
+    transactionId : UUID
     patient: Patient
     transactionDate : LocalDateTime
     amount : double
@@ -147,7 +149,7 @@ entity MedicalRecord {
     labReports : List<LabReport>
 }
 
-entity PaidService {
+entity Payment {
     serviceId : UUID
     serviceName : ServiceName
     price : double
@@ -160,7 +162,7 @@ entity Patient {
     age : String
     sex : String
     address : String
-    emerg : String
+    emergencyContact : String
     specialists : List<Specialist>
     medicalRecords : List<MedicalRecord>
 }
@@ -173,7 +175,6 @@ entity PatientVisitHistory {
     patientCondition : String
     visitDateTime : LocalDateTime
     purpose : String
-
 }
 
 entity Roles {
@@ -184,7 +185,7 @@ entity Roles {
 }
 
 entity Schedule {
-    id : Long
+    scheduleId : UUID
     doctor : Specialist
     workingDays : List<DayOfWeek>
     startTime : LocalTime
@@ -207,8 +208,9 @@ entity SystemOwner {
     ownerId : UUID
     firstName : String
     lastName : String
-    email : String
     phoneNumber : String
+    login : String
+    email : String
 }
 
 entity User {
@@ -230,7 +232,7 @@ FinancialTransaction --|> Patient
 LabReport --|> MedicalRecord
 MedicalRecord --|> Patient
 MedicalRecord --|> Specialist
-PaidService --|> Patient
+Payment --|> Patient
 PatientVisitHistory --|> Patient
 PatientVisitHistory --|> Specialist
 Roles --|> Authority

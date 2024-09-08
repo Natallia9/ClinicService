@@ -1,0 +1,26 @@
+Project Description: ClinicService
+
+The ClinicService project is a robust healthcare management system developed using Java and Spring Boot, designed to enhance clinical operations. It efficiently manages patient information, doctor scheduling, appointments, prescriptions, and financial transactions. The system integrates user authentication and role-based access, supporting various user types such as doctors, administrators, and patients.
+Key Features:
+
+    Patient Management: Stores patient details, including medical records, contact information, age, and gender.
+    Specialist Management: Handles specialist information, such as area of specialization, experience, working hours, and contact details.
+    Appointment Management: Manages patient appointments with doctors, including date, time, specialist, and appointment status.
+    Medical Records: Stores patient medical histories, including diagnoses, doctor's conclusions, prescriptions, and medical procedures.
+    Financial Transactions: Records financial transactions related to healthcare services, including service payment, amount, and payment method.
+    Lab Reports: Maintains detailed laboratory results, linked to patients' medical records.
+    Patient Visit History: Tracks patient visits to specialists, including the patient's condition, the specialist, and the purpose of the visit.
+    Paid Services: Manages healthcare services, like specialist consultations, indicating their associated costs.
+    User and Role Management: Manages user authentication, roles, and associated authorities, ensuring secure access to data and functionality.
+    Doctor Scheduling: Manages specialists’ work schedules, including their availability and working hours.
+
+Technologies and Architecture:
+
+    Backend: Java, Spring Boot, MapStruct (for mapping between DTOs and entities).
+    Database: MySQL for data persistence.
+    Testing: Integrated with TestContainers for isolated testing environments.
+    API Documentation: OpenAPI (Swagger) for easy API access and external system integration.
+
+Benefits:
+
+This system provides an efficient platform for managing day-to-day clinical operations, ensuring improved patient care, better management of medical data, and streamlined communication between patients, specialists, and clinic administration. The scalable architecture ensures adaptability to growing clinical needs, making it a valuable tool in modern healthcare settings. The role-based access ensures that sensitive medical and financial information is securely managed, while the system's API documentation allows for smooth integration with other healthcare platforms.

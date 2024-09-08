@@ -10,6 +10,7 @@ import org.mapstruct.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MedicalRecordMapper {
@@ -33,6 +34,8 @@ public interface MedicalRecordMapper {
     @Mapping(source = "medicalProcedure", target = "medicalProcedure")
     @Mapping(source = "labReportIds", target = "labReports")
     MedicalRecord toEntity(MedicalRecordDTO medicalRecordDTO);
+
+
 //    @Mappings({
 //            @Mapping(target = "patient", source = "patientId"),
 //            @Mapping(target = "doctor", source = "doctorId"),

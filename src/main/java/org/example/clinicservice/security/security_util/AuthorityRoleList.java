@@ -1,9 +1,6 @@
 package org.example.clinicservice.security.security_util;
 
 public class AuthorityRoleList {
-    public static final String ADMIN = "ADMIN";
-    public static final String SPECIALIST = "SPECIALIST";
-    public static final String PATIENT = "PATIENT";
 
     public static final String[] SPECIALIST_LIST = {
 

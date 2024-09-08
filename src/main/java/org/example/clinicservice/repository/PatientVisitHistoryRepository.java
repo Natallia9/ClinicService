@@ -13,9 +13,5 @@ public interface PatientVisitHistoryRepository extends JpaRepository<PatientVisi
     PatientVisitHistory findByVisitId(UUID visitId);
     List<PatientVisitHistory> findByPatientId(UUID patientId);
     List<PatientVisitHistory> findBySpecialistId(UUID specialistId);
-    List<PatientVisitHistory> findByVisitType(String visitType);
     List<PatientVisitHistory> findByVisitDateTime(LocalDateTime visitDateTime);
-    List<PatientVisitHistory> findByVisitDateTimeBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
-    List<PatientVisitHistory> findByPurposeContaining(String purpose);
-    List<PatientVisitHistory> findByMedicalRecordId(UUID medicalRecordId);
 }

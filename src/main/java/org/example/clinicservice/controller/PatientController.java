@@ -10,13 +10,13 @@ import org.example.clinicservice.mapper.SpecialistMapper;
 import org.example.clinicservice.service.interfeces.PatientService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -52,7 +52,7 @@ public class PatientController {
                 .collect(Collectors.toMap(
                         entry -> patientMapper.toDto(entry.getKey()),
                         entry -> entry.getValue().stream()
-                                .map(specialistMapper::toDto)
+                                .map(specialist -> specialistMapper.toDto(Optional.of(specialist)))  // Используйте Optional, если нужно
                                 .collect(Collectors.toList())
                 ));
     }

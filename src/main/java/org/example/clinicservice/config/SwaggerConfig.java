@@ -24,7 +24,6 @@ import org.springframework.context.annotation.Configuration;
                 )
         )
 )
-
 @Configuration
 public class SwaggerConfig {
 
@@ -44,31 +43,18 @@ public class SwaggerConfig {
                     openApi.addTagsItem(new Tag().name("specialists").description("API for managing specialists"));
                     openApi.addTagsItem(new Tag().name("users").description("API for managing user information"));
                     openApi.addTagsItem(new Tag().name("vacancies").description("API for managing vacancies"));
-                    openApi.addTagsItem(new Tag().name("schedules").description("API for managing schedules"));
-                    openApi.addTagsItem(new Tag().name("users").description("API for managing users"));
                 })
                 .build();
     }
 
-
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes("basicAuth", new SecurityScheme()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
-                                .scheme("basic")));
-    }
-
-    @Bean
-    public SecurityScheme jwtSecurityScheme() {
-        return new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT");
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
     }
 }
-
-
-

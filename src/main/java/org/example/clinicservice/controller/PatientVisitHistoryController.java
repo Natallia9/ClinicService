@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,14 @@ public class PatientVisitHistoryController {
     @GetMapping("/patient/{patientId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<PatientDTO, List<PatientVisitHistoryDTO>> getVisitHistoryByPatient(@PathVariable UUID patientId) {
-        Map<Patient, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryByPatient(patientId);
+        Map<Patient, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryByPatient(patientId)
+                .entrySet().stream()
+                .filter(entry -> entry.getKey().isPresent())
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().get(),
+                        Map.Entry::getValue
+                ));
+
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> patientMapper.toDto(entry.getKey()),
@@ -50,10 +58,17 @@ public class PatientVisitHistoryController {
     @GetMapping("/specialist/{specialistId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<SpecialistDTO, List<PatientVisitHistoryDTO>> getVisitHistoryBySpecialist(@PathVariable UUID specialistId) {
-        Map<Specialist, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryBySpecialist(specialistId);
+        Map<Specialist, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryBySpecialist(specialistId)
+                .entrySet().stream()
+                .filter(entry -> entry.getKey().isPresent())
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().get(),
+                        Map.Entry::getValue
+                ));
+
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> specialistMapper.toDto(entry.getKey()),
+                        entry -> specialistMapper.toDto(Optional.of(entry.getKey())),
                         entry -> entry.getValue().stream().map(patientVisitHistoryMapper::toDto).collect(Collectors.toList())
                 ));
     }
@@ -62,6 +77,7 @@ public class PatientVisitHistoryController {
     @ResponseStatus(HttpStatus.OK)
     public Map<PatientDTO, List<PatientVisitHistoryDTO>> getVisitHistoryByVisitDateTime(@RequestParam LocalDateTime visitDateTime) {
         Map<Patient, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryByVisitDateTime(visitDateTime);
+
         return visitHistoryMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> patientMapper.toDto(entry.getKey()),
@@ -82,4 +98,3 @@ public class PatientVisitHistoryController {
         patientVisitHistoryService.deleteVisitHistory(visitId);
     }
 }
-

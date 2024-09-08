@@ -2,17 +2,11 @@ package org.example.clinicservice.mapper;
 
 import org.example.clinicservice.dto.SpecialistDTO;
 import org.example.clinicservice.entity.Specialist;
-import org.example.clinicservice.entity.User;
 import org.mapstruct.*;
-import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.UUID;
-
-import static org.example.clinicservice.mapper.UserMapper.passwordEncoder;
+import java.util.Optional;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-@Component
 public interface SpecialistMapper {
 
     @Mappings({
@@ -49,6 +43,5 @@ public interface SpecialistMapper {
             @Mapping(target = "department", source = "department"),
             @Mapping(target = "appointments", source = "appointments")
     })
-    SpecialistDTO toDto(Specialist specialist);
-
+    SpecialistDTO toDto(Optional<Specialist> specialist);
 }

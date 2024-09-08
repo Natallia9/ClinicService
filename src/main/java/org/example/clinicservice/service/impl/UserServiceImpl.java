@@ -2,8 +2,8 @@ package org.example.clinicservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clinicservice.entity.User;
+import org.example.clinicservice.exceptions.EmailNotFoundException;
 import org.example.clinicservice.exceptions.ErrorMessage;
-import org.example.clinicservice.exceptions.EmailNotFoundExсeption;
 import org.example.clinicservice.exceptions.userExceptions.UserExistsException;
 import org.example.clinicservice.exceptions.userExceptions.UserNotFoundException;
 import org.example.clinicservice.repository.UserRepository;
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new EmailNotFoundExсeption(ErrorMessage.EMAIL_DOES_NOT_EXIST));
+                        new EmailNotFoundException(ErrorMessage.EMAIL_DOES_NOT_EXIST));
     }
 
     @Override

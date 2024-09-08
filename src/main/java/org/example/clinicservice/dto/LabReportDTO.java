@@ -7,7 +7,7 @@ import lombok.Data;
 import org.example.clinicservice.entity.MedicalRecord;
 
 import java.time.LocalDateTime;
-@Data
+
 @Schema(description = "DTO for a laboratory report, including report details and associated medical record.")
 public class LabReportDTO {
 
@@ -30,4 +30,44 @@ public class LabReportDTO {
     @NotNull(message = "This field cannot be empty")
     @Valid
     private MedicalRecord medicalRecord;
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
+    }
+
+    public String getReportContent() {
+        return reportContent;
+    }
+
+    public void setReportContent(String reportContent) {
+        this.reportContent = reportContent;
+    }
+
+    public LocalDateTime getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(LocalDateTime reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public String getResults() {
+        return results;
+    }
+
+    public void setResults(String results) {
+        this.results = results;
+    }
+
+    public MedicalRecord getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    public void setMedicalRecord(MedicalRecord medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
 }

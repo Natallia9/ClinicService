@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="swagger-ui/swagger-ui.css">
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow-y: scroll;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+        #swagger-ui .topbar-wrapper .topbar .topbar-wrapper img {
+            content: url('/swagger-ui');
+
+        }
+        .clear-cookies {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .clear-cookies:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div id="swagger-ui"></div>
+
+<script src="swagger-ui/swagger-ui-bundle.js"></script>
+<script src="swagger-ui/swagger-ui-standalone-preset.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        if (typeof SwaggerUIBundle === 'undefined') {
+            console.error('SwaggerUIBundle is not defined. Please check if the script is loaded correctly.');
+            return;
+        }
+        const ui = SwaggerUIBundle({
+            url: "/v3/api-docs",
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            layout: "StandaloneLayout"
+        });
+
+        console.log('Swagger UI initialized with URL: ', ui.getSystem().get('url'));
+
+        const clearCookies = () => {
+            const cookies = document.cookie.split("; ");
+            for (let cookie of cookies) {
+                const eqPos = cookie.indexOf("=");
+                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+        };
+
+        const button = document.createElement('button');
+        button.innerText = 'Clear Cookies';
+        button.className = 'clear-cookies';
+        button.onclick = () => {
+            clearCookies();
+            alert('Cookies cleared. Please reload Swagger UI.');
+        };
+
+        document.body.appendChild(button);
+    });
+</script>
+</body>
+</html>

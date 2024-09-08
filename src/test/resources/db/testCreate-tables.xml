@@ -1,0 +1,137 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20230910-1" author="test">
+        <insert tableName="users">
+            <column name="user_id" value="1"/>
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="user_name" value="johndoe"/>
+            <column name="password" value="password"/>
+            <column name="email" value="john.doe@example.com"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-6" author="test">
+        <insert tableName="system_owner">
+            <column name="owner_id" value="1"/>
+            <column name="first_name" value="Alice"/>
+            <column name="last_name" value="Smith"/>
+            <column name="email" value="alice.smith@example.com"/>
+            <column name="phone_number" value="+123456789"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-7" author="test">
+        <insert tableName="authorities">
+            <column name="authority_id" value="1"/>
+            <column name="authority" value="READ_PRIVILEGE"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-8" author="test">
+        <insert tableName="roles_authorities">
+            <column name="authority_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-9" author="test">
+        <insert tableName="appointments">
+            <column name="appointment_id" value="1"/>
+            <column name="name_of_the_doctor_appointment" value="General Checkup"/>
+            <column name="specialist_id" value="1"/>
+            <column name="patient_id" value="1"/>
+            <column name="date_time" value="2024-09-10 10:00:00"/>
+            <column name="status" value="SCHEDULED"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-10" author="test">
+        <insert tableName="medical_records">
+            <column name="medical_record_id" value="1"/>
+            <column name="patient_id" value="1"/>
+            <column name="doctor_id" value="1"/>
+            <column name="diagnoses" value="Hypertension"/>
+            <column name="doctor_conclusion" value="Requires further tests"/>
+            <column name="prescription" value="Medication A"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-11" author="test">
+        <insert tableName="lab_reports">
+            <column name="report_id" value="1"/>
+            <column name="report_name" value="Blood Test"/>
+            <column name="report_content" value="Detailed blood test report"/>
+            <column name="report_date" value="2024-09-09 10:00:00"/>
+            <column name="results" value="Normal"/>
+            <column name="medical_record_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-12" author="test">
+        <insert tableName="payment_services">
+            <column name="service_id" value="1"/>
+            <column name="service_name" value="CONSULTATION"/>
+            <column name="price" value="50.00"/>
+            <column name="patient_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-13" author="test">
+        <insert tableName="financial_transactions">
+            <column name="transaction_id" value="1"/>
+            <column name="patient_id" value="1"/>
+            <column name="transaction_date" value="2024-09-10 12:00:00"/>
+            <column name="amount" value="50.00"/>
+            <column name="description" value="Consultation payment"/>
+            <column name="payment_method" value="CARD"/>
+            <column name="transaction_type" value="SERVICE_PAYMENT"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-14" author="test">
+        <insert tableName="medical_procedures">
+            <column name="record_id" value="1"/>
+            <column name="procedures" value="Physical examination"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-15" author="test">
+        <insert tableName="patient_visits">
+            <column name="visit_id" value="1"/>
+            <column name="patient_id" value="1"/>
+            <column name="specialist_id" value="1"/>
+            <column name="visit_type" value="Consultation"/>
+            <column name="patient_condition" value="Stable"/>
+            <column name="visit_date_time" value="2024-09-10 10:30:00"/>
+            <column name="purpose" value="General checkup"/>
+            <column name="medical_record_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-16" author="test">
+        <insert tableName="prescriptions">
+            <column name="prescription_id" value="1"/>
+            <column name="medication_name" value="Medication A"/>
+            <column name="prescription_date" value="2024-09-10 11:00:00"/>
+            <column name="dosage" value="Once daily"/>
+            <column name="instructions" value="Take after meals"/>
+            <column name="doctor_id" value="1"/>
+            <column name="patient_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-17" author="test">
+        <insert tableName="schedules">
+            <column name="schedule_id" value="1"/>
+            <column name="doctor_id" value="1"/>
+            <column name="start_time" value="08:00:00"/>
+            <column name="end_time" value="17:00:00"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-18" author="test">
+        <insert tableName="working_days">
+            <column name="schedule_id" value="1"/>
+            <column name="day" value="MONDAY"/>
+        </insert>
+    </changeSet>
+    <changeSet id="20230910-19" author="test">
+        <insert tableName="patient_specialist">
+            <column name="patient_id" value="1"/>
+            <column name="specialist_id" value="1"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

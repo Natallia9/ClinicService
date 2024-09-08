@@ -6,23 +6,22 @@ import org.example.clinicservice.service.interfeces.LabReportService;
 import org.example.clinicservice.service.interfeces.PrescriptionService;
 import org.example.clinicservice.service.interfeces.UserService;
 import org.mapstruct.*;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-@Component
 public interface MedicalRecordMapper {
+
     @Mappings({
-            @Mapping(target = "patient", source = "patient"),
-            @Mapping(target = "doctor", source = "doctor"),
+            @Mapping(target = "patient", source = "patientId"),
+            @Mapping(target = "doctor", source = "doctorId"),
             @Mapping(target = "diagnose", source = "diagnose"),
             @Mapping(target = "doctorConclusion", source = "doctorConclusion"),
-            @Mapping(target = "prescription", source = "prescription"),
+            @Mapping(target = "prescription", source = "prescriptionId"),
             @Mapping(target = "medicalProcedure", source = "medicalProcedure"),
-            @Mapping(target = "labReports", source = "labReports"),
+            @Mapping(target = "labReports", source = "labReportIds"),
     })
     MedicalRecord toEntity(MedicalRecordDTO medicalRecordDTO);
 
@@ -36,27 +35,24 @@ public interface MedicalRecordMapper {
 
         medicalRecord.setRecordId(UUID.randomUUID());
 
-        User patient = userService.getUserById(medicalRecordDTO.getPatient().getUserId());
+        User patient = userService.getUserById(medicalRecordDTO.getPatientId());
         if (patient instanceof Patient) {
             medicalRecord.setPatient((Patient) patient);
         }
 
-        User specialist = userService.getUserById(medicalRecordDTO.getDoctor().getUserId());
+        User specialist = userService.getUserById(medicalRecordDTO.getDoctorId());
         if (specialist instanceof Specialist) {
             medicalRecord.setDoctor((Specialist) specialist);
         }
 
-        medicalRecord.setDiagnose(medicalRecordDTO.getDiagnose());
-        medicalRecord.setDoctorConclusion(medicalRecordDTO.getDoctorConclusion());
-
-        Prescription prescription = prescriptionService.getPrescriptionById(medicalRecordDTO.getPrescription().getPrescriptionId());
+        Prescription prescription = prescriptionService.getPrescriptionById(medicalRecordDTO.getPrescriptionId());
         medicalRecord.setPrescription(String.valueOf(prescription));
 
         medicalRecord.setMedicalProcedure(new ArrayList<>(medicalRecordDTO.getMedicalProcedure()));
 
         List<LabReport> labReports = new ArrayList<>();
-        for (LabReport labReport : medicalRecordDTO.getLabReports()) {
-            LabReport report = labReportService.getLabReportById(labReport.getReportId());
+        for (UUID labReportId : medicalRecordDTO.getLabReportIds()) {
+            LabReport report = labReportService.getLabReportById(labReportId);
             if (report != null) {
                 labReports.add(report);
             }
@@ -64,16 +60,14 @@ public interface MedicalRecordMapper {
         medicalRecord.setLabReports(labReports);
     }
 
-
-
     @Mappings({
-            @Mapping(target = "patient", source = "patient"),
-            @Mapping(target = "doctor", source = "doctor"),
+            @Mapping(target = "patientId", source = "patient.id"),
+            @Mapping(target = "doctorId", source = "doctor.id"),
             @Mapping(target = "diagnose", source = "diagnose"),
             @Mapping(target = "doctorConclusion", source = "doctorConclusion"),
-            @Mapping(target = "prescription", source = "prescription"),
+            @Mapping(target = "prescriptionId", source = "prescription.id"),
             @Mapping(target = "medicalProcedure", source = "medicalProcedure"),
-            @Mapping(target = "labReports", source = "labReports"),
+            @Mapping(target = "labReportIds", source = "labReports.id"),
     })
     MedicalRecordDTO toDto(MedicalRecord medicalRecord);
 }

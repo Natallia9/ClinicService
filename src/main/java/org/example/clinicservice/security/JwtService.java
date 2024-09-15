@@ -20,8 +20,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
-    @Value("${token.signing.key}")
+    @Value("${jwt.secret}")
     private String jwtSigningKey;
+
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);

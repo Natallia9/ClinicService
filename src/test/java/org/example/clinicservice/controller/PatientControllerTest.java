@@ -79,11 +79,12 @@ class PatientControllerTest {
 
         when(patientService.findBySpecialists(patientId)).thenReturn(Map.of(patient, List.of(specialist)));
         when(patientMapper.toDto(patient)).thenReturn(patientDTO);
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional.of
 
         mockMvc.perform(get("/api/patients/" + patientId + "/specialists"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists());
     }
+
 }
 

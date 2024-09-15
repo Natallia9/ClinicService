@@ -3,211 +3,208 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="1-insert-into-users" author="nliakh">
+    <!-- Insert into authorities -->
+    <changeSet id="1-insert-into-authorities" author="nliakh">
+        <insert tableName="authorities">
+            <column name="authority_id" valueComputed="UNHEX(REPLACE('d50e8400-e29b-41d4-a716-446655440013', '-', ''))"/>
+            <column name="authority" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into roles -->
+    <changeSet id="2-insert-into-roles" author="nliakh">
+        <insert tableName="roles">
+            <column name="role_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440005', '-', ''))"/>
+            <column name="role_name" value="ADMIN"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="role_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440006', '-', ''))"/>
+            <column name="role_name" value="DOCTOR"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into users -->
+    <changeSet id="3-insert-into-users" author="nliakh">
         <insert tableName="users">
             <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', ''))"/>
-            <column name="last_name" value="Smith"/>
+            <column name="last_name" value="Doe"/>
             <column name="first_name" value="John"/>
-            <column name="user_name" value="jsmith"/>
+            <column name="user_name" value="jdoe"/>
             <column name="password" value="password123"/>
-            <column name="email" value="jsmith@example.com"/>
-            <column name="user_type" value="PATIENT"/>
+            <column name="email" value="jdoe@example.com"/>
+            <column name="user_type" value="ADMINISTRATOR"/>
         </insert>
         <insert tableName="users">
             <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
-            <column name="last_name" value="Johnson"/>
+            <column name="last_name" value="Smith"/>
             <column name="first_name" value="Alice"/>
-            <column name="user_name" value="ajohnson"/>
+            <column name="user_name" value="asmith"/>
             <column name="password" value="secure456"/>
-            <column name="email" value="ajohnson@example.com"/>
+            <column name="email" value="asmith@example.com"/>
             <column name="user_type" value="DOCTOR"/>
         </insert>
     </changeSet>
 
-    <changeSet id="2-insert-into-roles" author="nliakh">
-        <insert tableName="roles">
-            <column name="role_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-            <column name="role_name" value="SPECIALIST"/>
-        </insert>
-        <insert tableName="roles">
-            <column name="role_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
-            <column name="role_name" value="SPECIALIST"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="3-insert-into-user_roles" author="nliakh">
-        <insert tableName="user_roles">
-            <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', ''))"/>
-            <column name="role_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-        </insert>
-        <insert tableName="user_roles">
-            <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
-            <column name="role_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+    <!-- Insert into system_owner -->
+    <changeSet id="4-insert-into-system-owner" author="nliakh">
+        <insert tableName="system_owner">
+            <column name="owner_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="phone_number" value="123-456-7890"/>
+            <column name="login" value="johndoe"/>
+            <column name="email" value="johndoe@example.com"/>
+            <column name="password" value="ownerpass123"/>
         </insert>
     </changeSet>
 
-    <changeSet id="4-insert-into-specialists" author="nliakh">
+    <!-- Insert into patients -->
+    <changeSet id="5-insert-into-patients" author="nliakh">
+        <insert tableName="patients">
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="phone_number" value="123-456-7890"/>
+            <column name="age" value="35"/>
+            <column name="sex" value="Male"/>
+            <column name="address" value="123 Main St, City"/>
+            <column name="emergency_contact" value="Jane Doe - 987-654-3210"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into specialists -->
+    <changeSet id="6-insert-into-specialists" author="nliakh">
         <insert tableName="specialists">
-            <column name="specialist_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-            <column name="area_of_specialization" value="Cardiac Electrophysiology"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+            <column name="area_of_specialization" value="Cardiology"/>
             <column name="experience" value="10 years"/>
-            <column name="contact_information" value="Dr. James Doe, Cardiology Center, 123 Main St, City"/>
+            <column name="contact_information" value="Dr. Alice Smith, 123 Clinic St, City"/>
             <column name="availability" valueBoolean="true"/>
             <column name="languages" value="English, Spanish"/>
             <column name="department" value="CARDIOLOGY"/>
         </insert>
     </changeSet>
 
-    <changeSet id="5-insert-into-patients" author="nliakh">
-        <insert tableName="patients">
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="phone_number" value="123-456-7890"/>
-            <column name="age" value="35"/>
-            <column name="sex" value="Male"/>
-            <column name="address" value="123 Main St, City"/>
-            <column name="emergency_contact" value="Jane Doe (sister) - 987-654-3210"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="6-insert-into-system_owner" author="nliakh">
-        <insert tableName="system_owner">
-            <column name="owner_id" valueComputed="UNHEX(REPLACE('850e8400-e29b-41d4-a716-446655440005', '-', ''))"/>
-            <column name="first_name" value="John"/>
-            <column name="last_name" value="Doe"/>
-            <column name="email" value="johndoe@example.com"/>
-            <column name="phone_number" value="123-456-7890"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="7-insert-into-authorities" author="nliakh">
-        <insert tableName="authorities">
-            <column name="authority_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440006', '-', ''))"/>
-            <column name="authority" value="ROLE_PATIENT"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="8-insert-into-role_authorities" author="nliakh">
-        <insert tableName="roles_authorities">
-            <column name="authority_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440006', '-', ''))"/>
-            <column name="role_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="9-insert-into-appointments" author="nliakh">
-        <insert tableName="appointments">
-            <column name="appointment_id" valueComputed="UNHEX(REPLACE('a50e8400-e29b-41d4-a716-446655440007', '-', ''))"/>
-            <column name="name_of_the_doctor_appointment" value="Dr. James Doe"/>
-            <column name="specialist_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="date_time" value="2024-05-10 10:00:00"/>
-            <column name="status" value="SCHEDULED"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="10-insert-into-medical_records" author="nliakh">
-        <insert tableName="medical_records">
-            <column name="medical_record_id" valueComputed="UNHEX(REPLACE('b50e8400-e29b-41d4-a716-446655440008', '-', ''))"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="doctor_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-            <column name="diagnoses" value="Hypertension"/>
-            <column name="doctor_conclusion" value="Patient needs to monitor blood pressure regularly."/>
-            <column name="prescription" value="Prescription for blood pressure medication"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="11-insert-into-lab_reports" author="nliakh">
-        <insert tableName="lab_reports">
-            <column name="report_id" valueComputed="UNHEX(REPLACE('c50e8400-e29b-41d4-a716-446655440009', '-', ''))"/>
-            <column name="report_name" value="Blood Test"/>
-            <column name="report_content" value="Complete blood count (CBC)"/>
-            <column name="report_date" value="2024-04-15 08:00:00"/>
-            <column name="results" value="Normal"/>
-            <column name="medical_record_id" valueComputed="UNHEX(REPLACE('b50e8400-e29b-41d4-a716-446655440008', '-', ''))"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="12-insert-into-payment_services" author="nliakh">
-        <insert tableName="payment_services">
-            <column name="service_id" valueComputed="UNHEX(REPLACE('d50e8400-e29b-41d4-a716-446655440010', '-', ''))"/>
-            <column name="service_name" value="CONSULTATION"/>
-            <column name="price" value="150.00"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="13-insert-into-financial_transactions" author="nliakh">
-        <insert tableName="financial_transactions">
-            <column name="transaction_id" valueComputed="UNHEX(REPLACE('e50e8400-e29b-41d4-a716-446655440011', '-', ''))"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="transaction_date" value="2024-04-15 12:30:00"/>
-            <column name="amount" value="150.00"/>
-            <column name="description" value="Payment for consultation"/>
-            <column name="payment_method" value="CARD"/>
-            <column name="transaction_type" value="SERVICE_PAYMENT"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="14-insert-into-medical_procedures" author="nliakh">
-        <insert tableName="medical_procedures">
-            <column name="record_id" valueComputed="UNHEX(REPLACE('b50e8400-e29b-41d4-a716-446655440008', '-', ''))"/>
-            <column name="procedures" value="EKG (Electrocardiogram)"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="15-insert-into-patient_visits" author="nliakh">
-        <insert tableName="patient_visits">
-            <column name="visit_id" valueComputed="UNHEX(REPLACE('e50e8400-e29b-41d4-a716-446655440012', '-', ''))"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="date_of_visit" value="2024-05-01"/>
-            <column name="reason_for_visit" value="Routine check-up"/>
-            <column name="doctor_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="16-insert-into-prescriptions" author="nliakh">
-        <insert tableName="prescriptions">
-            <column name="prescription_id" valueComputed="UNHEX(REPLACE('f50e8400-e29b-41d4-a716-446655440013', '-', ''))"/>
-            <column name="medication_name" value="Lisinopril"/>
-            <column name="prescription_date" value="2024-04-15 10:30:00"/>
-            <column name="dosage" value="10 mg once daily"/>
-            <column name="instructions" value="Take one tablet daily in the morning with water"/>
-            <column name="doctor_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="17-insert-into-schedules" author="nliakh">
+    <!-- Insert into schedules -->
+    <changeSet id="7-insert-into-schedules" author="nliakh">
         <insert tableName="schedules">
-            <column name="schedule_id" valueComputed="UNHEX(REPLACE('20170100-e29b-41d4-a716-446655440014', '-', ''))"/>
-            <column name="doctor_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
+            <column name="schedule_id" valueComputed="UNHEX(REPLACE('850e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
             <column name="start_time" value="08:00:00"/>
             <column name="end_time" value="16:00:00"/>
         </insert>
     </changeSet>
 
-    <changeSet id="18-insert-into-working_days" author="nliakh">
-        <insert tableName="working_days">
-            <column name="schedule_id" valueComputed="UNHEX(REPLACE('20170100-e29b-41d4-a716-446655440014', '-', ''))"/>
-            <column name="day" value="MONDAY"/>
-        </insert>
-        <insert tableName="working_days">
-            <column name="schedule_id" valueComputed="UNHEX(REPLACE('20170100-e29b-41d4-a716-446655440014', '-', ''))"/>
-            <column name="day" value="WEDNESDAY"/>
+    <!-- Insert into medical_records -->
+    <changeSet id="8-insert-into-medical-records" author="nliakh">
+        <insert tableName="medical_records">
+            <column name="medical_record_id" valueComputed="UNHEX(REPLACE('c50e8400-e29b-41d4-a716-446655440009', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+            <column name="diagnoses" value="Hypertension"/>
+            <column name="doctor_conclusion" value="Regular monitoring of blood pressure needed"/>
         </insert>
     </changeSet>
 
-    <changeSet id="19-insert-into-patient_specialist" author="nliakh">
-        <insert tableName="patient_specialist">
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="specialist_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
+    <!-- Insert into lab_reports -->
+    <changeSet id="9-insert-into-lab-reports" author="nliakh">
+        <insert tableName="lab_reports">
+            <column name="report_id" valueComputed="UNHEX(REPLACE('d50e8400-e29b-41d4-a716-446655440010', '-', ''))"/>
+            <column name="report_name" value="Complete Blood Count"/>
+            <column name="report_content" value="CBC - Normal"/>
+            <column name="report_date" value="2024-09-05T08:00:00"/>
+            <column name="results" value="Normal"/>
+            <column name="medical_record_id" valueComputed="UNHEX(REPLACE('c50e8400-e29b-41d4-a716-446655440009', '-', ''))"/>
         </insert>
+    </changeSet>
+
+    <!-- Insert into patient_visits_history -->
+    <changeSet id="10-insert-into-patient_visits_history" author="nliakh">
+        <insert tableName="patient_visits_history">
+            <column name="visit_id" valueComputed="UNHEX(REPLACE('b50e8400-e29b-41d4-a716-446655440008', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+            <column name="visit_type" value="Routine Checkup"/>
+            <column name="patient_condition" value="Stable"/>
+            <column name="visit_date_time" value="2024-09-10T10:30:00"/>
+            <column name="purpose" value="Routine checkup"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into prescriptions -->
+    <changeSet id="11-insert-into-prescriptions" author="nliakh">
+        <insert tableName="prescriptions">
+            <column name="prescription_id" valueComputed="UNHEX(REPLACE('a50e8400-e29b-41d4-a716-446655440007', '-', ''))"/>
+            <column name="medication_name" value="Lisinopril"/>
+            <column name="prescription_date" value="2024-09-01T10:00:00"/>
+            <column name="dosage" value="10 mg daily"/>
+            <column name="instructions" value="Take once daily in the morning with water"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into appointments -->
+    <changeSet id="12-insert-into-appointments" author="nliakh">
+        <insert tableName="appointments">
+            <column name="appointment_id" valueComputed="UNHEX(REPLACE('e60e8400-e29b-41d4-a716-446655440011', '-', ''))"/>
+            <column name="name_of_the_doctor_appointment" value="Routine Appointment"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="date_time" value="2024-09-10T12:30:00"/>
+            <column name="status" value="Scheduled"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into payment_services -->
+    <changeSet id="13-insert-into-payment-services" author="nliakh">
+        <insert tableName="payment_services">
+            <column name="service_id" valueComputed="UNHEX(REPLACE('e50e8400-e29b-41d4-a716-446655440011', '-', ''))"/>
+            <column name="service_name" value="CONSULTATION"/>
+            <column name="price" value="200.00"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into financial_transactions -->
+    <changeSet id="14-insert-into-financial-transactions" author="nliakh">
+        <insert tableName="financial_transactions">
+            <column name="transaction_id" valueComputed="UNHEX(REPLACE('f50e8400-e29b-41d4-a716-446655440012', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="transaction_date" value="2024-09-10T12:30:00"/>
+            <column name="amount" value="200.00"/>
+            <column name="description" value="Consultation payment"/>
+            <column name="payment_method" value="CARD"/>
+            <column name="transaction_type" value="SERVICE_PAYMENT"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into user_roles -->
+    <changeSet id="15-insert-into-user_roles" author="nliakh">
+        <insert tableName="user_roles">
+            <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440000', '-', ''))"/>
+            <column name="role_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440005', '-', ''))"/>
+        </insert>
+        <insert tableName="user_roles">
+            <column name="user_id" valueComputed="UNHEX(REPLACE('550e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="role_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440006', '-', ''))"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into patient_specialist -->
+    <changeSet id="16-insert-into-patient_specialist" author="nliakh">
         <insert tableName="patient_specialist">
-            <column name="patient_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440004', '-', ''))"/>
-            <column name="specialist_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440002', '-', ''))"/>
+            <column name="patient_id" valueComputed="UNHEX(REPLACE('650e8400-e29b-41d4-a716-446655440001', '-', ''))"/>
+            <column name="specialist_id" valueComputed="UNHEX(REPLACE('750e8400-e29b-41d4-a716-446655440003', '-', ''))"/>
+        </insert>
+    </changeSet>
+
+    <!-- Insert into roles_authorities -->
+    <changeSet id="17-insert-into-roles_authorities" author="nliakh">
+        <insert tableName="roles_authorities">
+            <column name="role_id" valueComputed="UNHEX(REPLACE('950e8400-e29b-41d4-a716-446655440005', '-', ''))"/>
+            <column name="authority_id" valueComputed="UNHEX(REPLACE('d50e8400-e29b-41d4-a716-446655440013', '-', ''))"/>
         </insert>
     </changeSet>
 
 </databaseChangeLog>
-

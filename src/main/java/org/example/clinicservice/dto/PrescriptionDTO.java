@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.clinicservice.entity.Patient;
+import org.example.clinicservice.entity.Specialist;
+
 import java.util.UUID;
 
 @Data
@@ -27,8 +30,8 @@ public class PrescriptionDTO {
     private String instructions;
 
     @NotNull(message = "This field cannot be empty")
-    private UUID doctorId;
+    private Specialist doctor;
 
     @NotNull(message = "This field cannot be empty")
-    private UUID patientId;
+    private Patient patient;
 }

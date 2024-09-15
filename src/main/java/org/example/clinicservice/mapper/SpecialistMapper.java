@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface SpecialistMapper {
 
     @Mappings({
-            @Mapping(target = "user", source = "user"),
             @Mapping(target = "areaOfSpecialization", source = "areaOfSpecialization"),
             @Mapping(target = "experience", source = "experience"),
             @Mapping(target = "contactInformation", source = "contactInformation"),
@@ -22,8 +21,7 @@ public interface SpecialistMapper {
     Specialist toEntity(SpecialistDTO specialistDTO);
 
     @AfterMapping
-    default void createdSpecialist(@MappingTarget Specialist specialist, SpecialistDTO specialistDTO){
-
+    default void createdSpecialist(@MappingTarget Specialist specialist, SpecialistDTO specialistDTO) {
         specialist.setAreaOfSpecialization(specialistDTO.getAreaOfSpecialization());
         specialist.setExperience(specialistDTO.getExperience());
         specialist.setContactInformation(specialistDTO.getContactInformation());
@@ -34,7 +32,6 @@ public interface SpecialistMapper {
     }
 
     @Mappings({
-            @Mapping(target = "user", source = "user"),
             @Mapping(target = "areaOfSpecialization", source = "areaOfSpecialization"),
             @Mapping(target = "experience", source = "experience"),
             @Mapping(target = "contactInformation", source = "contactInformation"),
@@ -43,5 +40,5 @@ public interface SpecialistMapper {
             @Mapping(target = "department", source = "department"),
             @Mapping(target = "appointments", source = "appointments")
     })
-    SpecialistDTO toDto(Optional<Specialist> specialist);
+    SpecialistDTO toDto(Specialist specialist);  // Исправлено на работу с объектом Specialist напрямую
 }

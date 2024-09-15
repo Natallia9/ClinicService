@@ -39,9 +39,9 @@ public class LabReport {
     private String reportContent;
 
     @Column(name = "report_date")
-    @Temporal(TemporalType.TIMESTAMP)
     @Schema(description = "Date and time when the lab report was created.", example = "2024-09-07T10:30:00")
     private LocalDateTime reportDate;
+
 
     @Column(name = "result")
     @Schema(description = "Results or conclusions of the lab test.", example = "Normal")

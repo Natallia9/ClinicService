@@ -40,7 +40,7 @@ public class Schedule {
      */
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "specialist_id")
     @Schema(description = "The doctor associated with the schedule")
     private Specialist doctor;
 

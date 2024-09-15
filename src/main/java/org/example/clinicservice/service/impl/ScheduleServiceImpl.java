@@ -47,7 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         return schedules.stream()
                 .collect(Collectors.toMap(
-                        schedule -> schedule.getDoctor().getSpecialistId(),
+                        schedule -> schedule.getDoctor().getUserId(),
                         Schedule::getWorkingDays
                 ));
     }

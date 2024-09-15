@@ -13,7 +13,7 @@ public interface UserMapper {
     BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
 
     @Mappings({
-            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "userId", ignore = true),
             @Mapping(target = "firstName", source = "firstName"),
             @Mapping(target = "lastName", source = "lastName"),
             @Mapping(target = "userName", ignore = true),

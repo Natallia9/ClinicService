@@ -23,15 +23,14 @@ public interface PrescriptionMapper {
             @Mapping(target = "medicationName", source = "medicationName"),
             @Mapping(target = "dosage", source = "dosage"),
             @Mapping(target = "instructions", source = "instructions"),
-            @Mapping(target = "doctorId", ignore = true),
-            @Mapping(target = "patientId", ignore = true)
+            @Mapping(target = "doctor", source = "doctor"),
+            @Mapping(target = "patient", source = "patient")
     })
     Prescription toEntity(PrescriptionDTO dto);
 
     @AfterMapping
     default void createdPrescription(@MappingTarget Prescription prescription,
-                                     PrescriptionDTO prescriptionDTO,
-                                     @Context UserService userService){
+                                     PrescriptionDTO prescriptionDTO){
 
         prescription.setPrescriptionDate(LocalDateTime.now());
         prescription.setPrescriptionId(UUID.randomUUID());
@@ -39,15 +38,8 @@ public interface PrescriptionMapper {
         prescription.setDosage(prescriptionDTO.getDosage());
         prescription.setInstructions(prescriptionDTO.getInstructions());
 
-        User specialist = userService.getUserById(prescriptionDTO.getDoctorId());
-        if(specialist instanceof Specialist){
-            prescription.setDoctor((Specialist) specialist);
-        }
-
-        User patient = userService.getUserById(prescriptionDTO.getPatientId());
-        if (patient instanceof Patient) {
-            prescription.setPatient((Patient) patient);
-        }
+        prescription.setDoctor(prescriptionDTO.getDoctor());
+        prescription.setPatient(prescriptionDTO.getPatient());
 
     }
 

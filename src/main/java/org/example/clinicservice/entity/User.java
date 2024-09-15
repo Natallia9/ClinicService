@@ -15,6 +15,8 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "users")
 @Getter
 @Setter
@@ -22,9 +24,6 @@ import java.util.*;
 @Schema(description = "Represents a user in the system.")
 public class User {
 
-    /**
-     * Unique identifier of the user.
-     */
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -35,57 +34,36 @@ public class User {
     @Schema(description = "Unique identifier of the user")
     private UUID userId;
 
-    /**
-     * Last name of the user.
-     */
     @Column(name = "last_name")
     @NotNull(message = "Last name must not be null")
     @Schema(description = "Last name of the user", example = "Doe")
     private String lastName;
 
-    /**
-     * First name of the user.
-     */
     @Column(name = "first_name")
     @NotNull(message = "First name must not be null")
     @Schema(description = "First name of the user", example = "John")
     private String firstName;
 
-    /**
-     * Username for login purposes.
-     */
     @Column(name = "user_name")
     @NotNull(message = "User name must not be null")
     @Schema(description = "Username of the user", example = "johndoe")
     private String userName;
 
-    /**
-     * Password of the user (encrypted).
-     */
     @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be blank")
     @Schema(description = "Password of the user")
     private String password;
 
-    /**
-     * Email address of the user.
-     */
     @Column(name = "email", unique = true, nullable = false)
     @Email
     @Schema(description = "Email address of the user", example = "john.doe@example.com")
     private String email;
 
-    /**
-     * Type of the user (e.g., Patient, Doctor, Administrator).
-     */
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type")
+    @Column(name = "user_type", insertable = false, updatable = false)  // Поле дискриминатора
     @Schema(description = "Type of the user (e.g., PATIENT, DOCTOR, ADMINISTRATOR)")
     private UserType userType;
 
-    /**
-     * Roles associated with the user.
-     */
     @JsonBackReference
     @ManyToMany
     @JoinTable(
@@ -101,12 +79,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName);
+        return Objects.equals(userId, user.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, lastName, firstName);
+        return Objects.hash(userId);
     }
 
     @Override
@@ -117,5 +95,4 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 '}';
     }
-
 }

@@ -8,7 +8,6 @@ import org.mapstruct.*;
 public interface PatientMapper {
 
     @Mappings({
-            @Mapping(target = "user", source = "user"),
             @Mapping(target = "phoneNumber", source = "phoneNumber"),
             @Mapping(target = "age", source = "age"),
             @Mapping(target = "sex", source = "sex"),
@@ -27,7 +26,6 @@ public interface PatientMapper {
     }
 
     @Mappings({
-            @Mapping(target = "user", source = "user"),
             @Mapping(target = "phoneNumber", source = "phoneNumber"),
             @Mapping(target = "age", source = "age"),
             @Mapping(target = "sex", source = "sex"),

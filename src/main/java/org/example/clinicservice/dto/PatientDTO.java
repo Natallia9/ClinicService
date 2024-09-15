@@ -14,9 +14,6 @@ import java.util.UUID;
 @Schema(description = "DTO for patient details")
 public class PatientDTO {
 
-    @NotNull(message = "This field cannot be empty")
-    @Valid
-    private UserDTO user;
 
     @NotEmpty(message = "This field cannot be empty")
     @Pattern(regexp = "\\+\\d{11,15}", message = "Phone number is invalid")

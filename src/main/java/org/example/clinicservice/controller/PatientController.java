@@ -8,9 +8,9 @@ import org.example.clinicservice.entity.Specialist;
 import org.example.clinicservice.mapper.PatientMapper;
 import org.example.clinicservice.mapper.SpecialistMapper;
 import org.example.clinicservice.service.interfeces.PatientService;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class PatientController {
                 .collect(Collectors.toMap(
                         entry -> patientMapper.toDto(entry.getKey()),
                         entry -> entry.getValue().stream()
-                                .map(specialist -> specialistMapper.toDto(Optional.of(specialist)))  // Используйте Optional, если нужно
+                                .map(specialistMapper::toDto)
                                 .collect(Collectors.toList())
                 ));
     }

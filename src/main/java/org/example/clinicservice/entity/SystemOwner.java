@@ -71,10 +71,10 @@ public class SystemOwner {
     /**
      * Password of the system owner.
      */
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @NotBlank(message = "Password cannot be blank")
     @Schema(description = "Password of the system owner.")
-    private char password;
+    private String password;
 
     @Override
     public boolean equals(Object o) {

@@ -51,7 +51,7 @@ class SpecialistControllerTest {
         SpecialistDTO specialistDTO = new SpecialistDTO();
 
         when(specialistService.getAllSpecialists()).thenReturn(List.of(specialist));
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional
 
         mockMvc.perform(get("/api/specialists"))
                 .andExpect(status().isOk())
@@ -64,7 +64,7 @@ class SpecialistControllerTest {
         SpecialistDTO specialistDTO = new SpecialistDTO();
 
         when(specialistService.findSpecialistsByAreaOfSpecialization("Cardiology")).thenReturn(List.of(specialist));
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional
 
         mockMvc.perform(get("/api/specialists/specialization")
                         .param("areaOfSpecialization", "Cardiology"))
@@ -78,7 +78,7 @@ class SpecialistControllerTest {
         SpecialistDTO specialistDTO = new SpecialistDTO();
 
         when(specialistService.findSpecialistsByAvailability(true)).thenReturn(List.of(specialist));
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional
 
         mockMvc.perform(get("/api/specialists/availability")
                         .param("availability", "true"))
@@ -92,7 +92,7 @@ class SpecialistControllerTest {
         SpecialistDTO specialistDTO = new SpecialistDTO();
 
         when(specialistService.findSpecialistsByDepartment(Department.CARDIOLOGY)).thenReturn(List.of(specialist));
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional
 
         mockMvc.perform(get("/api/specialists/department")
                         .param("department", "CARDIOLOGY"))
@@ -108,7 +108,7 @@ class SpecialistControllerTest {
         PatientDTO patientDTO = new PatientDTO();
 
         when(specialistService.findSpecialistsByPatient(specialistId)).thenReturn(Map.of(specialist, List.of(patient)));
-        when(specialistMapper.toDto(Optional.of(specialist))).thenReturn(specialistDTO);
+        when(specialistMapper.toDto(specialist)).thenReturn(specialistDTO);  // Убрали Optional
         when(patientMapper.toDto(patient)).thenReturn(patientDTO);
 
         mockMvc.perform(get("/api/specialists/patient/" + specialistId))

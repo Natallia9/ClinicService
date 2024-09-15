@@ -24,13 +24,15 @@ public class Prescription {
      * Unique identifier for the prescription.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(
-            name = "prescription_Id",
+            name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
+    @Column(name = "prescription_id")
     @Schema(description = "Unique identifier for the prescription.")
     private UUID prescriptionId;
+
 
     /**
      * Name of the prescribed medication.
@@ -67,7 +69,7 @@ public class Prescription {
      * Doctor who issued the prescription.
      */
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
+    @JoinColumn(name = "specialist_id")
     @Schema(description = "Doctor who issued the prescription.")
     private Specialist doctor;
 

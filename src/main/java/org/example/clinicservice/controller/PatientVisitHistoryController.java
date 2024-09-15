@@ -58,20 +58,17 @@ public class PatientVisitHistoryController {
     @GetMapping("/specialist/{specialistId}")
     @ResponseStatus(HttpStatus.OK)
     public Map<SpecialistDTO, List<PatientVisitHistoryDTO>> getVisitHistoryBySpecialist(@PathVariable UUID specialistId) {
-        Map<Specialist, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryBySpecialist(specialistId)
-                .entrySet().stream()
-                .filter(entry -> entry.getKey().isPresent())
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey().get(),
-                        Map.Entry::getValue
-                ));
+        Map<Optional<Specialist>, List<PatientVisitHistory>> visitHistoryMap = patientVisitHistoryService.getVisitHistoryBySpecialist(specialistId);
 
         return visitHistoryMap.entrySet().stream()
+                .filter(entry -> entry.getKey().isPresent())  // Фильтруем записи с Optional.isPresent()
                 .collect(Collectors.toMap(
-                        entry -> specialistMapper.toDto(Optional.of(entry.getKey())),
+                        entry -> specialistMapper.toDto(entry.getKey().orElseThrow()),  // Извлекаем Specialist из Optional
                         entry -> entry.getValue().stream().map(patientVisitHistoryMapper::toDto).collect(Collectors.toList())
                 ));
     }
+
+
 
     @GetMapping("/date-time")
     @ResponseStatus(HttpStatus.OK)

@@ -28,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Testcontainers
 @WithMockUser(username = "testuser", roles = {"USER", "ADMIN"})
 class PrescriptionControllerTest {
 

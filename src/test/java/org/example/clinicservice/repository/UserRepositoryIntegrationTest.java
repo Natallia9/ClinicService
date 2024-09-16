@@ -16,7 +16,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Testcontainers
 @ActiveProfiles("itest")
 class UserRepositoryIntegrationTest {
 

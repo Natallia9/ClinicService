@@ -19,7 +19,7 @@ public interface MedicalRecordMapper {
             @Mapping(target = "recordId", ignore = true),
             @Mapping(target = "patient", ignore = true, qualifiedByName = "patientFromId"),
             @Mapping(target = "doctor", ignore = true, qualifiedByName = "doctorFromId"),
-            @Mapping(target = "prescription", ignore = true, qualifiedByName = "prescriptionFromId"),
+            @Mapping(target = "prescriptions", ignore = true, qualifiedByName = "prescriptionsFromIds"),
             @Mapping(target = "medicalProcedure", source = "medicalProcedure"),
             @Mapping(target = "labReports", ignore = true, qualifiedByName = "labReportsFromIds")
     })
@@ -29,7 +29,7 @@ public interface MedicalRecordMapper {
             @Mapping(target = "recordId", source = "recordId"),
             @Mapping(target = "patientId", source = "patient.userId"),
             @Mapping(target = "doctorId", source = "doctor.userId"),
-            @Mapping(target = "prescriptionId", source = "prescription.prescriptionId"),
+            @Mapping(target = "prescriptionIds", source = "prescriptions", qualifiedByName = "prescriptionIdsFromPrescriptions"),
             @Mapping(target = "medicalProcedure", source = "medicalProcedure"),
             @Mapping(target = "labReportIds", source = "labReports", qualifiedByName = "labReportIdsFromLabReports")
     })
@@ -55,9 +55,19 @@ public interface MedicalRecordMapper {
         }
     }
 
-    @Named("prescriptionFromId")
-    default Prescription prescriptionFromId(UUID prescriptionId, @Context PrescriptionService prescriptionService) {
-        return prescriptionService.getPrescriptionById(prescriptionId);
+    @Named("prescriptionsFromIds")
+    default List<Prescription> prescriptionsFromIds(List<UUID> prescriptionIds, @Context PrescriptionService prescriptionService) {
+        return prescriptionIds.stream()
+                .map(prescriptionService::getPrescriptionById)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    @Named("prescriptionIdsFromPrescriptions")
+    default List<UUID> prescriptionIdsFromPrescriptions(List<Prescription> prescriptions) {
+        return prescriptions.stream()
+                .map(Prescription::getPrescriptionId)
+                .collect(Collectors.toList());
     }
 
     @Named("labReportsFromIds")

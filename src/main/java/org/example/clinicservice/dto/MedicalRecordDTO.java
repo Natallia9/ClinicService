@@ -36,7 +36,7 @@ public class MedicalRecordDTO {
     private String doctorConclusion;
 
     @NotNull(message = "This field cannot be empty")
-    private UUID prescriptionId;
+    private List<UUID> prescriptionIds;
 
     @NotEmpty(message = "This field cannot be empty")
     @Size(min = 1, max = 50, message = "The length of characters in the field must not exceed 50")

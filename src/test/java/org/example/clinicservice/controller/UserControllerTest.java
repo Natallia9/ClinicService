@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.UUID;
 
@@ -25,13 +24,13 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
-@WithMockUser(username = "testuser", roles = {"USER", "ADMIN"})
+@WithMockUser(username = "testUser", roles = {"USER", "ADMIN"})
 class UserControllerTest {
 
     @Autowired
@@ -72,8 +71,7 @@ class UserControllerTest {
         mockMvc.perform(get("/api/users/" + nonExistentID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("USER_ID_NOT_FOUND_EXCEPTION"));
-
+                .andExpect(content().json(expectedErrorMessage));
     }
 
     @Test
